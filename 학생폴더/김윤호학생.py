@@ -5,8 +5,7 @@ class bank():   #입금,출금,잔액
         self.deposit = 0 
         self.withdraw = 0
         self.number = n
-        #self.balance = bank.bal()   #값이 초기화 되면 안된다
-
+        
 
     def dep(self,de):   #입금
         if de > 0:
