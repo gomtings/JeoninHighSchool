@@ -64,6 +64,7 @@ while(True):
             if value >= 0 and value <= 9: 
                 run.dep(value)
             else:
+                print("올바른 숫자를 입력하세요")
                 pass    
         except:
             pass
