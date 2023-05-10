@@ -125,10 +125,13 @@ class Translator:
             self.target_len = "error"
         #print(self.target_len)
         if (self.source_len !="" and self.target_len != "") or (self.source_len !="error" and self.target_len != "error"):
-            if self.Message !="" and self.Message !=None:
-                self.translation(self.source_len,self.target_len,self.Message)
+            if self.source_len != self.target_len:
+                if self.Message !="" and self.Message !=None and self.Message !="여기에 번역할 문자열을 입력해 주세요.":
+                    self.translation(self.source_len,self.target_len,self.Message)
+                else:
+                    messagebox.showinfo("Null String"," 번역할 문자열을 입력해 주세요!!")
             else:
-                messagebox.showinfo("Null String"," 번역할 문자열을 입력해 주세요!!")    
+                 messagebox.showinfo("Language error","source 언어 와 target 언어 를 다르게 설정해 주세요!")        
         else:
             messagebox.showinfo("!!!!!!","잘못된 언어 입력입니다.")          
 if __name__ == "__main__":    
