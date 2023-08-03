@@ -18,6 +18,7 @@ class suffle:
         self.currentPos = 0
         self.currentname = ''
         #self.playlist()
+    
     def playlist(self):
         for i in range(0,self.suffle_size):
             print("{} , {}".format(self.randIndex[i],self.music_list[i]))
@@ -35,8 +36,8 @@ class suffle:
             self.music_list[randValue] = self.music_list[self.suffle_size-1]; #8 { 0, 1, 2, 3, 9, 5, 6, 7, 8, 9 };
             self.music_list[self.suffle_size-1] = self.currentname; #{ 0, 1, 2, 3, 9, 5, 6, 7, 8, 4 };
             self.suffle_size-= 1;
-            
         return self.music_list;
+    
 if __name__ == "__main__":
     play_list = 'C:/Users/LSW/Desktop/전인고/play_list.csv'
     mix = suffle(play_list)

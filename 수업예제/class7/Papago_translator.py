@@ -19,8 +19,8 @@ from tkinter.ttk import Button, Style
 from datetime import datetime
 class Translator:
     def __init__(self):
-        self.client_id = "" # 개발자센터에서 발급받은 Client ID 값
-        self.client_secret = "" # 개발자센터에서 발급받은 Client Secret 값
+        self.client_id = "YBKWCxwIWv4VQ90B5prJ" # 개발자센터에서 발급받은 Client ID 값
+        self.client_secret = "avOQpzb0yR" # 개발자센터에서 발급받은 Client Secret 값
         self.srcLang = None
         self.tarLang = None
         self.translated = None
