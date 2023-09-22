@@ -23,8 +23,10 @@ class Ui_MainWindow(QWidget):
         
     def edit_text(self,text):
         self.text_label.setText(f"{text}번 테이블로 서빙중입니다") # label에 text 설정하기
+        self.table_num = text
     def next_window(self,event):
         self.arrive = arrive_window()
+        self.arrive.backup_table_num(self.table_num)
         self.arrive.show()
 
 if __name__=="__main__":

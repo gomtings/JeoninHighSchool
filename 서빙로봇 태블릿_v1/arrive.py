@@ -48,7 +48,10 @@ class arrive_window(QMainWindow,form_class):
             self.label_2.setText("거기는 꺼내는 곳이 아니얏❤")
     def bell(self):
         self.bell = bell_window()
+        self.bell.edit_text(self.n)
         self.bell.show()
+    def backup_table_num(self,n):
+        self.n = n
 if __name__=="__main__":
     app = QApplication(sys.argv)
     ui = arrive_window()
