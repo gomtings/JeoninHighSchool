@@ -8,8 +8,9 @@ uint16_t space,strength;
 int32_t sandTime = 0;
 bool IssandeTime = false;
 
-double distance = 0.00;
-double Lidar = 0.00;
+double distance = 0.00; // 초음파 값...
+double Lidar = 0.00; // 라이다 값
+int x,y,z; // 가속도 센서 XYZ축을 설정합니다.
 void mainTimer(void);
 void mainTimer(void){
   if(IssandeTime == false)
@@ -33,11 +34,11 @@ void loop() {
   }
 }
 void ReadData(){
+  serial2.listen(); //
   serial2.write('g'); // 'g' 라는 문자를 보내서 상대측에게 데이터 요청.
   if (serial2.available()) {  // 소프트웨어 시리얼 포트에 데이터가 있는지 확인
-    StaticJsonDocument<200> doc;
+    StaticJsonDocument<256> doc;
     DeserializationError error = deserializeJson(doc, serial2);
-
     if (error) {
       Serial.println("Failed to read from serial port");
       IssandeTime = false;
@@ -46,7 +47,13 @@ void ReadData(){
     
     distance = doc["distance"];
     Lidar = doc["Lidar"];
+    x = doc["Accel_x"];
+    y = doc["Accel_y"];
+    z = doc["Accel_z"];
     Serial.println(distance);
     Serial.println(Lidar);
+    Serial.println(x);
+    Serial.println(y);
+    Serial.println(z);
   }
 }
