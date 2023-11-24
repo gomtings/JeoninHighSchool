@@ -1,14 +1,15 @@
 #include <ArduinoJson.h> //ArduinoJson 라이브러리
 #include <TimerOne.h> // TimerOne 라이브러리
 #include <SoftwareSerial.h>
-SoftwareSerial serial2(5, 6);  // 5번을 RX, 6번을 TX 처럼 사용할 수 있게 핀지정
+SoftwareSerial serial2(11, 12);  // 5번을 RX, 6번을 TX 처럼 사용할 수 있게 핀지정
 uint16_t space,strength;
 
 #define SAND_TIME 100
 int32_t sandTime = 0;
 bool IssandeTime = false;
 
-double distance = 0.00; // 초음파 값...
+double distance1 = 0.00; // 2번 초음파 값
+double distance2 = 0.00; // 2번 초음파 값
 double Lidar = 0.00; // 라이다 값
 int x,y,z; // 가속도 센서 XYZ축을 설정합니다.
 void mainTimer(void);
@@ -40,7 +41,7 @@ void ReadData(){
 
   unsigned long startTime = millis(); // 현재 시간을 저장합니다.
   while(!serial2.available()) {  // 소프트웨어 시리얼 포트에 데이터가 있는지 확인
-    if (millis() - startTime > 1000) { // 1초 동안 데이터가 도착하지 않으면 루프를 종료 오류가 발생할 경우 시간을 늘려야 함. (아두이노간 통신 타이밍 문제 해결)
+    if (millis() - startTime > 3000) { // 1초 동안 데이터가 도착하지 않으면 루프를 종료 오류가 발생할 경우 시간을 늘려야 함. (아두이노간 통신 타이밍 문제 해결)
       Serial.println("Timeout waiting for data");
       return;
     }
@@ -53,12 +54,14 @@ void ReadData(){
     IssandeTime = false;
     return;
   }
-  distance = doc["distance"];
+  distance1 = doc["distance1"];
+  distance2 = doc["distance2"];
   Lidar = doc["Lidar"];
   x = doc["Accel_x"];
   y = doc["Accel_y"];
   z = doc["Accel_z"];
-  Serial.println(distance);
+  Serial.println(distance1);
+  Serial.println(distance2);
   Serial.println(Lidar);
   Serial.println(x);
   Serial.println(y);
