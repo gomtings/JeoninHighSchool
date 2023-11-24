@@ -20,10 +20,14 @@ bool IsradaringTime = false;
 int32_t AccelingTime = 0;
 bool IsAccelingTime = false; 
 // 초음파 센서
-int echo = 2;
-int trig = 3;
-unsigned long duration = 0;
-double distance= 0;
+int echoPin1 = 2;
+int trigPin1 = 3;
+int echoPin2 = 4;
+int trigPin2 = 5;
+unsigned long duration1 = 0;
+unsigned long duration2 = 0;
+double distance1= 0;
+double distance2= 0;
 // 라이다 센서
 double space,strength;
 // ADXL345 
@@ -57,10 +61,14 @@ void setup() {
   Serial.begin(9600);  //PC와 통신할 하드웨어 시리얼 시작
   Serial1.begin(9600);  //아두이노와 통신할 소프트웨어 시리얼 시작
   delay(1);
-  pinMode(trig,OUTPUT);
-  pinMode(echo,INPUT);
-  digitalWrite(trig,LOW);
-  digitalWrite(echo,LOW);
+  pinMode(trigPin1,OUTPUT);
+  pinMode(echoPin1,INPUT);
+  pinMode(trigPin2,OUTPUT);
+  pinMode(echoPin2,INPUT);
+  digitalWrite(trigPin1,LOW);
+  digitalWrite(echoPin1,LOW);
+  digitalWrite(trigPin2,LOW);
+  digitalWrite(echoPin2,LOW);
   adxl.powerOn();              // ADXL345을 켭니다.
   adxl.setRangeSetting(4);     // 2g는 가장높은 감도이고, 4g, 8g,16g는 낮은 감도입니다. 감도를 자유롭게 설정하세요.
   Timer1.initialize(1000); // 1ms마다 인터럽트 발생
@@ -92,12 +100,20 @@ void loop() {
 }
 
 void ultrasonic(){
+  //1번 초음파
   delay(1);
-  digitalWrite(trig,HIGH);
+  digitalWrite(trigPin1,HIGH);
   delay(1);
-  digitalWrite(trig,LOW);
-  duration = pulseIn(echo,HIGH);
-  distance =  (duration/29.0)/2.0;
+  digitalWrite(trigPin1,LOW);
+  duration1 = pulseIn(echoPin1,HIGH);
+  distance1 =  (duration1/29.0)/2.0;
+  //2번 초음파
+  delay(1);
+  digitalWrite(trigPin2,HIGH);
+  delay(1);
+  digitalWrite(trigPin2,LOW);
+  duration2 = pulseIn(echoPin2,HIGH);
+  distance2 =  (duration2/29.0)/2.0;
 }
 void GetRader(){
   if(TFmini.measure()){ // 거리와 신호의 강도를 측정합니다. 성공하면 을 반환하여 if문이 작동합니다.
@@ -113,7 +129,8 @@ void ReadData(){
     char ch = Serial1.read();  // 데이터를 읽음
     if (ch == 'g') { // 읽은 데이터가 'g'인지 확인 맞다면 센서 데이터를 전송한다.
       StaticJsonDocument<256> doc;
-      doc["distance"] = distance; // 초음파 센서 
+      doc["distance1"] = distance1; // 1번 초음파 센서 
+      doc["distance2"] = distance2; //2번 초음파 센서
       doc["Lidar"] = space; // 라이다 센서 
       doc["Accel_x"] = x; // 여기서 부터 가속도 센서.
       doc["Accel_y"] = y;
