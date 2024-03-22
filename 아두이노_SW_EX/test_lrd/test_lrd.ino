@@ -32,6 +32,7 @@ void loop() {
     ReadData();
     sandTime = 0;
     IssandeTime = false;
+    delay(1000);
   }
 }
 void ReadData(){
