@@ -24,7 +24,7 @@ bool IsradaringTime = false;
 int32_t nine_axisTime = 0;
 bool Isnine_axisTime = false; 
 // 초음파 센서
-int echoPin1 = 2;
+int echoPin1 = 7;
 int trigPin1 = 3;
 int echoPin2 = 4;
 int trigPin2 = 5;
@@ -109,13 +109,13 @@ void setup() {
   digitalWrite(echoPin1,LOW);
   digitalWrite(trigPin2,LOW);
   digitalWrite(echoPin2,LOW);
-  adxl.powerOn();              // ADXL345을 켭니다.
-  adxl.setRangeSetting(4);     // 2g는 가장높은 감도이고, 4g, 8g,16g는 낮은 감도입니다. 감도를 자유롭게 설정하세요.
-  Timer1.initialize(1000); // 1ms마다 인터럽트 발생
-  Timer1.attachInterrupt(mainTimer);x // 인터럽트 함수 지정
-  delay(1);
+  //adxl.powerOn();              // ADXL345을 켭니다.
+  //adxl.setRangeSetting(4);     // 2g는 가장높은 감도이고, 4g, 8g,16g는 낮은 감도입니다. 감도를 자유롭게 설정하세요.
+  //Timer1.initialize(1000); // 1ms마다 인터럽트 발생
+  //Timer1.attachInterrupt(mainTimer);x // 인터럽트 함수 지정
+  //delay(1);
   TFmini.begin(mySerial); // 라이다 센서와 통신할 하드웨어 시리얼 시작 이걸 주석처리 하면.. 동작..???
-  delay(1);
+  //delay(1);
 
 //여기부터 9축 지자기
   Wire.begin();
@@ -172,11 +172,11 @@ void GetRader(){
   }
 }
 void geomagnetism(){
-  //getAccel_Data();
-  //getGyro_Data();
-  //getCompassDate_calibrated(); 
-  heading = getHeading();               
-  //getTiltHeading();
+  getAccel_Data();
+  getGyro_Data();
+  getCompassDate_calibrated(); 
+  getHeading();               
+  tiltheading = getTiltHeading();
 
   //Serial.println("calibration parameter: ");
   //Serial.print(mx_centre);
@@ -209,7 +209,7 @@ void geomagnetism(){
   //Serial.print(heading);
   //Serial.println(" ");
   //Serial.println("The clockwise angle between the magnetic north and the projection of the positive X-Axis in the horizontal plane:");
-  //Serial.println(tiltheading);
+  Serial.println(tiltheading);
   //Serial.println("   ");
   //Serial.println();
 }
@@ -218,10 +218,9 @@ void getHeading(void)
 {
     heading = 180 * atan2(Mxyz[1], Mxyz[0]) / PI;
     if (heading < 0) heading += 360;
-    return heading;
 }
 
-void getTiltHeading(void)
+float getTiltHeading(void)
 {
     float pitch = asin(-Axyz[0]);
     float roll = asin(Axyz[1] / cos(pitch));
@@ -231,6 +230,7 @@ void getTiltHeading(void)
     float zh = -Mxyz[0] * cos(roll) * sin(pitch) + Mxyz[1] * sin(roll) + Mxyz[2] * cos(roll) * cos(pitch);
     tiltheading = 180 * atan2(yh, xh) / PI;
     if (yh < 0)    tiltheading += 360;
+    return tiltheading;
 }
 
 void Mxyz_init_calibrated ()
@@ -347,7 +347,9 @@ void ReadData(){
       doc["distance1"] = distance1; // 1번 초음파 센서 
       doc["distance2"] = distance2; //2번 초음파 센서
       doc["Lidar"] = space; // 라이다 센서 
-      doc["heading"] = heading; // 여기서 부터 가속도 센서.
+      doc["heading"] = tiltheading; // 여기서 부터 가속도 센서.
       serializeJson(doc, Serial1);
     }
+  }
+}
 

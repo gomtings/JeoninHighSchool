@@ -11,7 +11,7 @@ bool IssandeTime = false;
 double distance1 = 0.00; // 2번 초음파 값
 double distance2 = 0.00; // 2번 초음파 값
 double Lidar = 0.00; // 라이다 값
-int x,y,z; // 가속도 센서 XYZ축을 설정합니다.
+float heading = 0.0f; //float 값에는 f가 붙음, 9축 지자기 센서 값
 void mainTimer(void);
 void mainTimer(void){
   if(IssandeTime == false)
@@ -58,15 +58,12 @@ void ReadData(){
   distance1 = doc["distance1"];
   distance2 = doc["distance2"];
   Lidar = doc["Lidar"];
-  x = doc["Accel_x"];
-  y = doc["Accel_y"];
-  z = doc["Accel_z"];
+  heading = doc["heading"];
+
   Serial.println(distance1);
   Serial.println(distance2);
   Serial.println(Lidar);
-  Serial.println(x);
-  Serial.println(y);
-  Serial.println(z);
+  Serial.println(heading);
 }
 /*
 void ReadData(){
