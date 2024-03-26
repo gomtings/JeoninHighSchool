@@ -50,26 +50,22 @@ void ReadData(){
   StaticJsonDocument<256> doc;
   DeserializationError error = deserializeJson(doc, serial2);
   if (error) {
-    Serial.print("error : ");
-    Serial.println(error.c_str());
+    Serial.println("Failed to read from serial port");
     IssandeTime = false;
     return;
   }
-  String jsonString;
-  serializeJson(doc, jsonString);
-  Serial.println(jsonString);
-  // distance1 = doc["distance1"];
-  // distance2 = doc["distance2"];
-  // Lidar = doc["Lidar"];
-  // x = doc["Accel_x"];
-  // y = doc["Accel_y"];
-  // z = doc["Accel_z"];
-  // Serial.println(distance1);
-  // Serial.println(distance2);
-  // Serial.println(Lidar);
-  // Serial.println(x);
-  // Serial.println(y);
-  // Serial.println(z);
+  distance1 = doc["distance1"];
+  distance2 = doc["distance2"];
+  Lidar = doc["Lidar"];
+  x = doc["Accel_x"];
+  y = doc["Accel_y"];
+  z = doc["Accel_z"];
+  Serial.println(distance1);
+  Serial.println(distance2);
+  Serial.println(Lidar);
+  Serial.println(x);
+  Serial.println(y);
+  Serial.println(z);
 }
 /*
 void ReadData(){

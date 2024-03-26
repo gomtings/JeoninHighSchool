@@ -82,6 +82,13 @@ class Map:
                 continue
 
             self.map[x][y].set_state("#")
+    def goal(self, point_list):
+        for x, y in point_list:
+            if x < 0 or x >= self.row or y < 0 or y >= self.col:
+                continue
+
+            self.map[x][y].set_state(".")
+
 
 
 class Dstar:
@@ -161,12 +168,16 @@ class Dstar:
         ry = []
 
         self.insert(end, 0.0)
-
+        t = 0
         while True:
+            t += 1
             self.process_state()
             if start.t == "close":
+                print(t)
+                print("find path")
                 break
-
+            if t % 10000 == 0 : 
+                print(t)
         start.set_state("s")
         s = start
         s = s.parent
@@ -196,46 +207,46 @@ class Dstar:
                 break
 
 
-def main():
-    m = Map(100, 100)
-    ox, oy = [], []
-    for i in range(-10, 60):
-        ox.append(i)
-        oy.append(-10)
-    for i in range(-10, 60):
-        ox.append(60)
-        oy.append(i)
-    for i in range(-10, 61):
-        ox.append(i)
-        oy.append(60)
-    for i in range(-10, 61):
-        ox.append(-10)
-        oy.append(i)
-    for i in range(-10, 40):
-        ox.append(20)
-        oy.append(i)
-    for i in range(0, 40):
-        ox.append(40)
-        oy.append(60 - i)
-    m.set_obstacle([(i, j) for i, j in zip(ox, oy)])
+def dstar(map, start, goal):
+    start, goal = list(start), list(goal)
+    start[0], start[1] = start[1], start[0]
+    goal[0], goal[1] = goal[1], goal[0]
 
-    start = [10, 10]
-    goal = [50, 50]
+    m = Map(len(map), len(map[0]))
+    ox, oy = [], []
+    for y, row in enumerate(map) : 
+        for x, value in enumerate(row) : 
+            if value == 1 or value == 2 : # 0 : 이동 가능, 2 : 경계 
+                ox.append(x)
+                oy.append(y)
+    # oy = [20 - i for i in oy]
+    obstacle_map = [(i, j) for i, j in zip(ox, oy)]
+    m.set_obstacle(obstacle_map)
+    
     if show_animation:
         plt.plot(ox, oy, ".k")
         plt.plot(start[0], start[1], "og")
         plt.plot(goal[0], goal[1], "xb")
+        plt.gca().invert_yaxis()
         plt.axis("equal")
 
-    start = m.map[start[0]][start[1]]
-    end = m.map[goal[0]][goal[1]]
-    dstar = Dstar(m)
-    rx, ry = dstar.run(start, end)
+    print(goal)
+    start_pos = m.map[start[0]][start[1]]
+    goal_pos = m.map[goal[0]][goal[1]]
+    # m.goal([goal_pos])
 
+    dstar = Dstar(m)
+    rx, ry = dstar.run(start_pos, goal_pos)
+
+    if rx[-1] != goal[0] or ry[-1] != goal[1]:
+        print('test')
+        rx.append(goal[0])
+        ry.append(goal[1])
+    
     if show_animation:
         plt.plot(rx, ry, "-r")
         plt.show()
 
 
 if __name__ == '__main__':
-    main()
+    dstar()
