@@ -6,6 +6,9 @@
 #include "Wire.h"
 #include "I2Cdev.h"
 #include "MPU9250.h"
+#define slave_addr 0x01
+
+const char *p = "Data Transfer to Slave\n";
 
 SoftwareSerial mySerial(10,11); // RX, TX
 DFRobot_TFmini  TFmini;
@@ -99,7 +102,8 @@ void mainTimer(void){
 }
 void setup() {
   Serial.begin(9600);  //PC와 통신할 하드웨어 시리얼 시작
-  Serial1.begin(9600);  //아두이노와 통신할 소프트웨어 시리얼 시작
+  //Serial1.begin(9600);  //아두이노와 통신할 소프트웨어 시리얼 시작
+  Wire.begin();
   delay(1);
   pinMode(trigPin1,OUTPUT);
   pinMode(echoPin1,INPUT);
@@ -343,17 +347,16 @@ void getCompassDate_calibrated ()
 
 
 void ReadData(){
-  if (Serial1.available()) {  // 소프트웨어 시리얼 포트에 데이터가 있는지 확인 serial2.available()
-    char ch = Serial1.read();  // 데이터를 읽음
-    if (ch == 'g') { // 읽은 데이터가 'g'인지 확인 맞다면 센서 데이터를 전송한다.
-      StaticJsonDocument<256> doc;
-      doc["distance1"] = distance1; // 1번 초음파 센서 
-      doc["distance2"] = distance2; //2번 초음파 센서
-      doc["Lidar"] = space; // 라이다 센서 
-      doc["tiltheading"] = tiltheading; // 여기서 부터 가속도 센서.
-      doc["heading"] = heading;
-      serializeJson(doc, Serial1);
-    }
-  }
+  StaticJsonDocument<256> doc;
+  Wire.beginTransmission(slave_addr); // 인자로 전달한 주소의 Slave로 데이터 전송을 시작합니다.
+  doc["distance1"] = distance1; // 1번 초음파 센서 
+  doc["distance2"] = distance2; //2번 초음파 센서
+  doc["Lidar"] = space; // 라이다 센서 
+  doc["tiltheading"] = tiltheading; // 여기서 부터 가속도 센서.
+  doc["heading"] = heading;
+  serializeJson(doc, Wire);
+
+  Wire.endTransmission(); //write함수에 의해 버퍼에 기록된 데이터를 전송하고 통신을 마칩니다.
+  delay(1000);
 }
 
