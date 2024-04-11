@@ -101,10 +101,11 @@ void mainTimer(void){
   }
 }
 void setup() {
+  // 통신 초기화...
   Serial.begin(9600);  //PC와 통신할 하드웨어 시리얼 시작
-  //Serial1.begin(9600);  //아두이노와 통신할 소프트웨어 시리얼 시작
   Wire.begin();
   delay(1);
+  //각종 핀 설정...
   pinMode(trigPin1,OUTPUT);
   pinMode(echoPin1,INPUT);
   pinMode(trigPin2,OUTPUT);
@@ -113,22 +114,19 @@ void setup() {
   digitalWrite(echoPin1,LOW);
   digitalWrite(trigPin2,LOW);
   digitalWrite(echoPin2,LOW);
-  //adxl.powerOn();              // ADXL345을 켭니다.
-  //adxl.setRangeSetting(4);     // 2g는 가장높은 감도이고, 4g, 8g,16g는 낮은 감도입니다. 감도를 자유롭게 설정하세요.
-  Timer1.initialize(1000); // 1ms마다 인터럽트 발생
-  Timer1.attachInterrupt(mainTimer); // 인터럽트 함수 지정
-  //delay(1);
+  // 라이다 초기화....
   TFmini.begin(mySerial); // 라이다 센서와 통신할 하드웨어 시리얼 시작 이걸 주석처리 하면.. 동작..???
-  //delay(1);
 
 //여기부터 9축 지자기
-  Wire.begin();
   Serial.println("Initializing I2C devices...");
   accelgyro.initialize();
   Serial.println("Testing device connections..."); 
   Serial.println(accelgyro.testConnection() ? "MPU9250 connection successful" : "MPU9250 connection failed");
   delay(100);
   Serial.println("     ");
+  // 타이머 인터럽트 선언...
+  Timer1.initialize(1000); // 1ms마다 인터럽트 발생
+  Timer1.attachInterrupt(mainTimer); // 인터럽트 함수 지정
 }
 
 //write() 함수가 바이트 또는 바이트의 시퀀스를 그대로 보내는 반면, print() 함수는 데이터를 사람이 읽을 수 있는 ASCII 텍스트로 변환하여 보낸다
@@ -183,41 +181,6 @@ void geomagnetism(){
   getCompassDate_calibrated(); 
   heading = getHeading();               
   tiltheading = getTiltHeading();
-/*
-  Serial.println("calibration parameter: ");
-  Serial.print(mx_centre);
-  Serial.print("         ");
-  Serial.print(my_centre);
-  Serial.print("         ");
-  Serial.println(mz_centre);
-  Serial.println("     ");*/
-
-/*
-  Serial.println("Acceleration(g) of X,Y,Z:");
-  Serial.print(Axyz[0]);
-  Serial.print(",");
-  Serial.print(Axyz[1]);
-  Serial.print(",");
-  Serial.println(Axyz[2]);
-  Serial.println("Gyro(degress/s) of X,Y,Z:");
-  Serial.print(Gxyz[0]);
-  Serial.print(",");
-  Serial.print(Gxyz[1]);
-  Serial.print(",");
-  Serial.println(Gxyz[2]);
-  Serial.println("Compass Value of X,Y,Z:");
-  Serial.print(Mxyz[0]);
-  Serial.print(",");
-  Serial.print(Mxyz[1]);
-  Serial.print(",");
-  Serial.println(Mxyz[2]);
-  Serial.println("The clockwise angle between the magnetic north and X-Axis:");*/
-  //Serial.print(heading);
-  //Serial.println(" ");
-  //Serial.println("The clockwise angle between the magnetic north and the projection of the positive X-Axis in the horizontal plane:");
-  //Serial.println(tiltheading);
-  //Serial.println("   ");
-  //Serial.println();
 }
 
 float getHeading(void)
@@ -348,14 +311,16 @@ void getCompassDate_calibrated ()
 
 void ReadData(){
   StaticJsonDocument<256> doc;
-  Wire.beginTransmission(slave_addr); // 인자로 전달한 주소의 Slave로 데이터 전송을 시작합니다.
   doc["distance1"] = distance1; // 1번 초음파 센서 
   doc["distance2"] = distance2; //2번 초음파 센서
   doc["Lidar"] = space; // 라이다 센서 
   doc["tiltheading"] = tiltheading; // 여기서 부터 가속도 센서.
   doc["heading"] = heading;
-  serializeJson(doc, Wire);
 
+  Wire.beginTransmission(slave_addr); // 인자로 전달한 주소의 Slave로 데이터 전송을 시작합니다.
+  String output;
+  serializeJson(doc, output);
+  Wire.write(output.c_str(), output.length());
   Wire.endTransmission(); //write함수에 의해 버퍼에 기록된 데이터를 전송하고 통신을 마칩니다.
   delay(1000);
 }

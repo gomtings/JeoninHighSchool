@@ -6,7 +6,7 @@
 
 char MsgBuf[100]; //Master로 부터 전송받은 데이터를 저장할 버퍼
 volatile byte pos;
-volatile boolean Print_Int = false;
+volatile boolean Check_Data = false;
 
 // Create the motor shield object with the default I2C address
 QGPMaker_MotorShield AFMS = QGPMaker_MotorShield();
@@ -68,8 +68,8 @@ void Receive_Int() { //Master에서 보낸 데이터가 수신되면 호출되�
     if(pos < sizeof(MsgBuf)){
       MsgBuf[pos++] = m; //데이터를 버퍼에 저장합니다.
     }
-    if(m =='\n'){ //'\n'문자를 만나면 
-      Print_Int = true; //Print_Int를 true로 바꿔주고 loop()문에서 데이터를 출력합니다. 
+    if(m =='\n'){ // 개행 문자 인식 -> 데이터 정상 수신 확인.
+      Check_Data = true; 
     }
   } 
 }
@@ -91,7 +91,7 @@ void ReadData(){
     IssandeTime = false;
     return;
   }*/
-  if(Print_Int == true){
+  if(Check_Data == true){
     StaticJsonDocument<256> doc;
     DeserializationError error = deserializeJson(doc, MsgBuf);
     //Serial.print(MsgBuf);
@@ -113,7 +113,7 @@ void ReadData(){
     Serial.println(tiltheading);
     MsgBuf[pos] = 0;
     pos =0 ;
-    Print_Int = false;
+    Check_Data = false;
   }
 }
 /*
