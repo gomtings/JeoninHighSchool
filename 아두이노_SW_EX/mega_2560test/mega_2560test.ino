@@ -6,7 +6,7 @@
 #include "Wire.h"
 #include "I2Cdev.h"
 #include "MPU9250.h"
-#define slave_addr 0x01
+#define slave_addr 0x02
 
 const char *p = "Data Transfer to Slave\n";
 

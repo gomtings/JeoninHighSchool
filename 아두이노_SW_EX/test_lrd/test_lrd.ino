@@ -2,7 +2,7 @@
 #include <TimerOne.h> // TimerOne 라이브러리
 #include "QGPMaker_MotorShield.h"
 #include <Wire.h>
-#define slave_addr 0x01
+#define slave_addr 0x02
 
 char MsgBuf[100]; //Master로 부터 전송받은 데이터를 저장할 버퍼
 volatile byte pos;
@@ -27,7 +27,7 @@ uint16_t space,strength;
 int32_t sandTime = 0;
 bool IssandeTime = false;
 
-double distance1 = 0.00; // 2번 초음파 값
+double distance1 = 0.00; // 1번 초음파 값
 double distance2 = 0.00; // 2번 초음파 값
 double Lidar = 0.00; // 라이다 값
 float heading = 0.0f; //float 값에는 f가 붙음, 9축 지자기 센서 값
