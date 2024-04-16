@@ -3,10 +3,10 @@
 #include <SoftwareSerial.h>
 #include <DFRobot_TFmini.h>
 #include <SparkFun_ADXL345.h>  // https://github.com/sparkfun/SparkFun_ADXL345_Arduino_Library
-#include "Wire.h"
+#include <Wire.h>
 #include "I2Cdev.h"
 #include "MPU9250.h"
-#define slave_addr 0x02
+#define slave_addr 0x01
 
 const char *p = "Data Transfer to Slave\n";
 
@@ -103,6 +103,7 @@ void mainTimer(void){
 void setup() {
   // 통신 초기화...
   Serial.begin(9600);  //PC와 통신할 하드웨어 시리얼 시작
+  Wire.setClock(400000); // 클럭 속도를 400kHz로 설정
   Wire.begin();
   delay(1);
   //각종 핀 설정...
@@ -311,17 +312,25 @@ void getCompassDate_calibrated ()
 
 void ReadData(){
   StaticJsonDocument<256> doc;
-  doc["distance1"] = distance1; // 1번 초음파 센서 
-  doc["distance2"] = distance2; //2번 초음파 센서
-  doc["Lidar"] = space; // 라이다 센서 
-  doc["tiltheading"] = tiltheading; // 여기서 부터 가속도 센서.
-  doc["heading"] = heading;
+    doc["distance1"] = distance1; // 1번 초음파 센서 
+    doc["distance2"] = distance2; //2번 초음파 센서
+    doc["Lidar"] = space; // 라이다 센서 
+    doc["tiltheading"] = tiltheading; // 여기서 부터 가속도 센서.
+    doc["heading"] = heading;
+    char output[256]; // 문자 배열 선언
+    serializeJson(doc, output); // JSON 문자열을 문자 배열에 저장
+    strcat(output, "\n"); // 문자열 끝에 개행 문자 추가
 
-  Wire.beginTransmission(slave_addr); // 인자로 전달한 주소의 Slave로 데이터 전송을 시작합니다.
-  String output;
-  serializeJson(doc, output);
-  Wire.write(output.c_str(), output.length());
-  Wire.endTransmission(); //write함수에 의해 버퍼에 기록된 데이터를 전송하고 통신을 마칩니다.
-  delay(1000);
+    const int maxChunkSize = 32; // 한 번에 전송할 수 있는 최대 바이트 수
+    int outputLength = strlen(output); // 전체 문자열의 길이
+    int sentBytes = 0; // 지금까지 전송한 바이트 수
+
+    while (sentBytes < outputLength) {
+        Wire.beginTransmission(slave_addr); // 인자로 전달한 주소의 Slave로 데이터 전송을 시작합니다.
+        for (int i = 0; i < maxChunkSize && sentBytes < outputLength; i++) {
+            Wire.write(output[sentBytes++]); // 문자열의 일부를 버퍼에 기록합니다.
+        }
+        Wire.endTransmission(); // write 함수에 의해 버퍼에 기록된 데이터를 전송하고 통신을 마칩니다.
+    }
 }
 

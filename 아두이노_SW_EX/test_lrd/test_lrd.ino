@@ -2,7 +2,7 @@
 #include <TimerOne.h> // TimerOne 라이브러리
 #include "QGPMaker_MotorShield.h"
 #include <Wire.h>
-#define slave_addr 0x02
+#define slave_addr 0x01
 
 char MsgBuf[100]; //Master로 부터 전송받은 데이터를 저장할 버퍼
 volatile byte pos;
@@ -44,7 +44,6 @@ void mainTimer(void){
 void setup() {
   Wire.begin(slave_addr); //slave_addr의 주소값을 갖는 slave로 동작
   Wire.onReceive(Receive_Int); //Master에서 보낸 데이터를 수신했을때 호출할 함수를 등록
-
   Serial.begin(9600);  //아두이노와 통신할 소프트웨어 시리얼 시작
   Timer1.initialize(1000); // 1ms마다 인터럽트 발생
   Timer1.attachInterrupt(mainTimer); // 인터럽트 함수 지정
