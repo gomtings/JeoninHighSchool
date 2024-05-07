@@ -83,7 +83,7 @@ void ReadData(){
       return;
     }
   }
-  StaticJsonDocument<256> doc;
+  StaticJsonDocument<256> doc
   DeserializationError error = deserializeJson(doc, Serial);
   if (error) {
     Serial.println("Failed to read from serial port");
@@ -93,13 +93,22 @@ void ReadData(){
   if(Check_Data == true){
     StaticJsonDocument<256> doc;
     DeserializationError error = deserializeJson(doc, MsgBuf);
-    //Serial.print(MsgBuf);
-    distance1 = doc["distance1"];
+    // 파싱 성공한 경우에만 직렬화하고 출력합니다.
+    if (!error) {
+      // JSON 객체를 직렬화하여 문자열로 변환합니다.
+      String jsonString;
+      serializeJson(doc, jsonString);
+      // 시리얼 포트를 통해 JSON 문자열 출력합니다.
+      Serial.println(jsonString);
+    } else {
+      //Serial.print("Failed to parse JSON: ");
+      //Serial.println(error.c_str());
+    }
+    /*distance1 = doc["distance1"];
     distance2 = doc["distance2"];
     Lidar = doc["Lidar"];
     heading = doc["heading"];
     tiltheading = doc["tiltheading"];
-
     Serial.println("초음파1:");
     Serial.println(distance1);
     Serial.println("초음파2:");
@@ -109,7 +118,7 @@ void ReadData(){
     Serial.println("heading:");
     Serial.println(heading);
     Serial.println("tiltheading:");
-    Serial.println(tiltheading);
+    Serial.println(tiltheading);*/
     MsgBuf[pos] = 0;
     pos =0 ;
     Check_Data = false;
