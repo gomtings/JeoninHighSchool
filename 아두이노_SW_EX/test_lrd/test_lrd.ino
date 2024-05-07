@@ -27,7 +27,7 @@ uint16_t space,strength;
 int32_t sandTime = 0;
 bool IssandeTime = false;
 
-double distance1 = 0.00; // 2번 초음파 값
+double distance1 = 0.00; // 1번 초음파 값
 double distance2 = 0.00; // 2번 초음파 값
 double Lidar = 0.00; // 라이다 값
 float heading = 0.0f; //float 값에는 f가 붙음, 9축 지자기 센서 값
@@ -44,7 +44,6 @@ void mainTimer(void){
 void setup() {
   Wire.begin(slave_addr); //slave_addr의 주소값을 갖는 slave로 동작
   Wire.onReceive(Receive_Int); //Master에서 보낸 데이터를 수신했을때 호출할 함수를 등록
-
   Serial.begin(9600);  //아두이노와 통신할 소프트웨어 시리얼 시작
   Timer1.initialize(1000); // 1ms마다 인터럽트 발생
   Timer1.attachInterrupt(mainTimer); // 인터럽트 함수 지정
@@ -84,7 +83,7 @@ void ReadData(){
       return;
     }
   }
-  StaticJsonDocument<256> doc;
+  StaticJsonDocument<256> doc
   DeserializationError error = deserializeJson(doc, Serial);
   if (error) {
     Serial.println("Failed to read from serial port");
@@ -94,13 +93,22 @@ void ReadData(){
   if(Check_Data == true){
     StaticJsonDocument<256> doc;
     DeserializationError error = deserializeJson(doc, MsgBuf);
-    //Serial.print(MsgBuf);
-    distance1 = doc["distance1"];
+    // 파싱 성공한 경우에만 직렬화하고 출력합니다.
+    if (!error) {
+      // JSON 객체를 직렬화하여 문자열로 변환합니다.
+      String jsonString;
+      serializeJson(doc, jsonString);
+      // 시리얼 포트를 통해 JSON 문자열 출력합니다.
+      Serial.println(jsonString);
+    } else {
+      //Serial.print("Failed to parse JSON: ");
+      //Serial.println(error.c_str());
+    }
+    /*distance1 = doc["distance1"];
     distance2 = doc["distance2"];
     Lidar = doc["Lidar"];
     heading = doc["heading"];
     tiltheading = doc["tiltheading"];
-
     Serial.println("초음파1:");
     Serial.println(distance1);
     Serial.println("초음파2:");
@@ -110,7 +118,7 @@ void ReadData(){
     Serial.println("heading:");
     Serial.println(heading);
     Serial.println("tiltheading:");
-    Serial.println(tiltheading);
+    Serial.println(tiltheading);*/
     MsgBuf[pos] = 0;
     pos =0 ;
     Check_Data = false;
