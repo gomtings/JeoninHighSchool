@@ -1,5 +1,3 @@
-# 정면 막히면 회전
-
 import threading
 import time
 import math
@@ -16,7 +14,6 @@ ser = None
 state = "ready"
 
 sensor_stop = True
-
 is_print = True
 
 def get_lidar_data(rplidar) :
@@ -95,8 +92,10 @@ def main():
     right = 30  # 오른쪽 거리
     
     previous_state = None  # 이전 상태를 저장하는 변수
+    
+    last_print_time = time.time()
+    temp_time = time.time()
 
-    time.sleep(1)
     try:
         while True:
             try : 
@@ -112,10 +111,21 @@ def main():
 
                 # heading과 tiltheading은 동일한 값을 가짐. 입맛따라 사용
                 # print(f"dist1 : {dist1:<10}, dist2 : {dist2:<10},lidar : {lidar:<10}, heading : {heading:<10}, tiltheading : {tiltheading:<10}", end="")
-                if is_print : 
+                
+                # if (is_print) and (time.time() - last_print_time >= 0.2) :
+                if is_print :
                     print(f"dist1 : {dist1 if dist1 is not None else 0:<10}, dist2 : {dist2 if dist2 is not None else 0:<10}, lidar : {lidar if lidar is not None else 0:<10}, heading : {heading if heading is not None else 0:<10}, tiltheading : {tiltheading if tiltheading is not None else 0:<10}", end="")
                     print(f"rplidar : {round(angle[0], 4):<10}", end="")
                     print(f"state : {state:<10}")
+                    last_print_time = time.time()
+
+                # 센서값 동결 에러 해결. 실제로 작동하는지 확인 필요
+                if not ser : 
+                    # COM7 나중에 수정해야 할지도
+                    ser = serial.Serial('COM7', 9600, timeout=1)
+                    print("test")
+                    break
+
 
                 if (dist1, dist2, lidar) == (0, 0, 0): 
                     state = 'ready'
@@ -161,7 +171,10 @@ def main():
 
                     print(state)
 
-                # 여기에 계속 코드 작성
+                # 처음에 ready 없이 바로 forward 입력 시 전송이 안 되는 오류 수정
+                if time.time() - temp_time >= 1 and state == 'go_forward' : 
+                    ser.write(b"forward\n")
+                    temp_time = time.time()
 
             except TypeError as e : 
                 if is_print: 
@@ -208,3 +221,6 @@ if __name__ == "__main__":
 
 
 """
+
+# 20240618 주행 어느 정도 완성되었고, 반응속도 높이기 위해 arduino sendtime을 500에서 100으로 수정
+# 모터 연결 부분에 문제가 있어서 실행은 못해봄. 이후에 해봐야 함.
