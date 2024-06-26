@@ -109,6 +109,22 @@ void Sand_Search(void){ // 주변 AP 검색..
   Serial.println("AT+CWLAP");
 }
 
+void Disconnect(void){ // AP 연결 해제
+  sendCommand("AT+CWQAP");
+}
+
+void GetVersion(void){ // ESP01 의 FW 버전을 조회함.
+  sendCommand("AT+GMR");
+}
+
+void GetVersion(void){ // AP 연결 해제
+  sendCommand("AT+GMR");
+}
+
+void Reboot(void){ // AP 연결 해제
+  sendCommand("AT+RST");
+}
+
 double calculateDistance(int rssi) {
   int txPower = -30; //1미터 거리에서 RSSI 값
   double n = 2.0; // 이것은 경로 손실 지수이며, 일반적으로 2.7에서 4.3 사이의 범위
