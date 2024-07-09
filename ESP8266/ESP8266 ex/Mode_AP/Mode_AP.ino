@@ -65,7 +65,7 @@ void handleResponse(char* response) {
       IsChangemodeTime = false;
     }
     if(!IsSetAP) {
-      SET_AP(ssids[0],"00000000");
+      SET_AP(ssids[3],"00000000");
       IsSetAP = true;
     }
     Serial.println("AP 모드로 전환 완료");
