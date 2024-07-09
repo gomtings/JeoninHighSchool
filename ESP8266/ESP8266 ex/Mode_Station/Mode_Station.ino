@@ -154,10 +154,6 @@ void GetVersion(void){ // ESP01 의 FW 버전을 조회함.
   sendCommand("AT+GMR");
 }
 
-void GetVersion(void){ // AP 연결 해제
-  sendCommand("AT+GMR");
-}
-
 void Reboot(void){ // AP 연결 해제
   sendCommand("AT+RST");
 }
