@@ -14,18 +14,18 @@ import numpy as np
 
 EXTEND_AREA = 1.0
 
+
 def file_read(f):
+    """
+    Reading LIDAR laser beams (angles and corresponding distance data)
+    """
     with open(f) as data:
-        measures = [line.split() for line in data]
+        measures = [line.split(",") for line in data]
     angles = []
     distances = []
     for measure in measures:
-        try : 
-            angles.append(math.radians(float(measure[0])))
-            distances.append(float(measure[1])/1000)
-        except : 
-            print(measure)
-            break
+        angles.append(float(measure[0]))
+        distances.append(float(measure[1]))
     angles = np.array(angles)
     distances = np.array(distances)
     return angles, distances
@@ -47,7 +47,7 @@ def bresenham(start, end):
     dx = x2 - x1
     dy = y2 - y1
     is_steep = abs(dy) > abs(dx)  # determine how steep the line is
-    if is_steep: # rotate line
+    if is_steep:  # rotate line
         x1, y1 = y1, x1
         x2, y2 = y2, x2
     # swap start and end points if necessary and store swap state
@@ -87,7 +87,7 @@ def calc_grid_map_config(ox, oy, xy_resolution):
     max_y = round(max(oy) + EXTEND_AREA / 2.0)
     xw = int(round((max_x - min_x) / xy_resolution))
     yw = int(round((max_y - min_y) / xy_resolution))
-    print("The grid map is ", xw, "x", yw, ".")
+    # print("The grid map is ", xw, "x", yw, ".")
     return min_x, min_y, max_x, max_y, xw, yw
 
 
@@ -166,7 +166,6 @@ def generate_ray_casting_grid_map(ox, oy, xy_resolution, breshen=True):
     min_x, min_y, max_x, max_y, x_w, y_w = calc_grid_map_config(
         ox, oy, xy_resolution)
     # default 0.5 -- [[0.5 for i in range(y_w)] for i in range(x_w)]
-
     occupancy_map = np.ones((x_w, y_w)) / 2
     center_x = int(
         round(-min_x / xy_resolution))  # center x coordinate of the grid map
@@ -185,10 +184,9 @@ def generate_ray_casting_grid_map(ox, oy, xy_resolution, breshen=True):
                 occupancy_map[laser_beam[0]][
                     laser_beam[1]] = 0.0  # free area 0.0
             occupancy_map[ix][iy] = 1.0  # occupied area 1.0
-            if ix + 1 < x_w and iy + 1 < y_w:
-                occupancy_map[ix + 1][iy] = 1.0  # extend the occupied area
-                occupancy_map[ix][iy + 1] = 1.0  # extend the occupied area
-                occupancy_map[ix + 1][iy + 1] = 1.0  # extend the occupied area
+            occupancy_map[ix + 1][iy] = 1.0  # extend the occupied area
+            occupancy_map[ix][iy + 1] = 1.0  # extend the occupied area
+            occupancy_map[ix + 1][iy + 1] = 1.0  # extend the occupied area
     # occupancy grid computed with with flood fill
     else:
         occupancy_map = init_flood_fill((center_x, center_y), (ox, oy),
@@ -200,73 +198,32 @@ def generate_ray_casting_grid_map(ox, oy, xy_resolution, breshen=True):
             ix = int(round((x - min_x) / xy_resolution))
             iy = int(round((y - min_y) / xy_resolution))
             occupancy_map[ix][iy] = 1.0  # occupied area 1.0
-            if ix + 1 < x_w and iy + 1 < y_w:
-                occupancy_map[ix + 1][iy] = 1.0  # extend the occupied area
-                occupancy_map[ix][iy + 1] = 1.0  # extend the occupied area
-                occupancy_map[ix + 1][iy + 1] = 1.0  # extend the occupied area
+            occupancy_map[ix + 1][iy] = 1.0  # extend the occupied area
+            occupancy_map[ix][iy + 1] = 1.0  # extend the occupied area
+            occupancy_map[ix + 1][iy + 1] = 1.0  # extend the occupied area
+    return occupancy_map, min_x, max_x, min_y, max_y, xy_resolution
 
-    return occupancy_map, min_x, max_x, min_y, max_y, xy_resolution, center_x, center_y
-
-def change_center_value(matrix, new_value):
-    rows = len(matrix)
-    cols = len(matrix[0])
-    center_row = rows // 2
-    center_col = cols // 2
-    
-    if rows % 2 == 1 and cols % 2 == 1:
-        matrix[center_row][center_col] = new_value
-    elif rows % 2 == 0 and cols % 2 == 1:
-        matrix[center_row - 1][center_col] = new_value
-        matrix[center_row][center_col] = new_value
-    elif rows % 2 == 1 and cols % 2 == 0:
-        matrix[center_row][center_col - 1] = new_value
-        matrix[center_row][center_col] = new_value
-    elif rows % 2 == 0 and cols % 2 == 0:
-        matrix[center_row - 1][center_col - 1] = new_value
-        matrix[center_row - 1][center_col] = new_value
-        matrix[center_row][center_col - 1] = new_value
-        matrix[center_row][center_col] = new_value
-    return matrix
-
-
-def mapping(xy_resolution, ang, dist, is_show = False):
+# call at main : lidar_to_grid_map(angle, dist) 
+def lidar_to_grid_map(ang, dist, is_show):
     xy_resolution = 0.02  # x-y grid resolution
-    ang, dist = ang, dist
+    # ang, dist = file_read("lidar01.csv")
     ox = np.sin(ang) * dist
     oy = np.cos(ang) * dist
-    occupancy_map, min_x, max_x, min_y, max_y, xy_resolution, center_x, center_y = \
+    occupancy_map, min_x, max_x, min_y, max_y, xy_resolution = \
         generate_ray_casting_grid_map(ox, oy, xy_resolution, True)
-    
-    temp = occupancy_map[center_x][center_y]
-    occupancy_map[center_x][center_y] = 9 # temp
-    num_rows, num_cols = len(occupancy_map), len(occupancy_map[0])
-    rotated_map = [[0] * num_rows for _ in range(num_cols)]
-
-    for i in range(num_rows) : 
-        for j in range(num_cols) : 
-            rotated_map[num_cols - 1 - j][i] = occupancy_map[i][j]
-    for i in range(len(rotated_map)) : 
-        for j in range(len(rotated_map[i])) :
-            if rotated_map[i][j] == 9 : 
-                rotated_map[i][j] = temp
-                center_x = i
-                center_y = j
-
-    if is_show : 
-        # xy_res = np.array(occupancy_map).shape
-        # plt.figure(1, figsize=(10, 4))
-        # plt.subplot(122)
-        # plt.imshow(occupancy_map, cmap="PiYG_r")
-        # # cmap = "binary" "PiYG_r" "PiYG_r" "bone" "bone_r" "RdYlGn_r"
-        # plt.clim(-0.4, 1.4)
-        # plt.gca().set_xticks(np.arange(-.5, xy_res[1], 1), minor=True)
-        # plt.gca().set_yticks(np.arange(-.5, xy_res[0], 1), minor=True)
-        # plt.grid(True, which="minor", color="w", linewidth=0.6, alpha=0.5)
-        # plt.colorbar()
-        # plt.subplot(121)
+    if is_show :
+        xy_res = np.array(occupancy_map).shape
+        plt.figure(1, figsize=(10, 4))
+        plt.subplot(122)
+        plt.imshow(occupancy_map, cmap="PiYG_r")
+        # cmap = "binary" "PiYG_r" "PiYG_r" "bone" "bone_r" "RdYlGn_r"
+        plt.clim(-0.4, 1.4)
+        plt.gca().set_xticks(np.arange(-.5, xy_res[1], 1), minor=True)
+        plt.gca().set_yticks(np.arange(-.5, xy_res[0], 1), minor=True)
+        plt.grid(True, which="minor", color="w", linewidth=0.6, alpha=0.5)
+        plt.colorbar()
+        plt.subplot(121)
         plt.plot([oy, np.zeros(np.size(oy))], [ox, np.zeros(np.size(oy))], "ro-")
-        # print(ox)
-        # print(oy)
         plt.axis("equal")
         plt.plot(0.0, 0.0, "ob")
         plt.gca().set_aspect("equal", "box")
@@ -275,21 +232,8 @@ def mapping(xy_resolution, ang, dist, is_show = False):
         plt.grid(True)
         plt.show()
 
-    # occupancy_map = change_center_value(occupancy_map, 5)
+    return occupancy_map
 
-    # print(type(occupancy_map))
-    # print(occupancy_map[50][50])
-    
-    # occupancy_map[50][50] = 5
-    np.savetxt('c:/Users/User/OneDrive/바탕 화면/coding/AutoServingRobot/Software/main/mapping.txt', rotated_map, fmt='%g', delimiter='\t')
-
-    return rotated_map, center_x, center_y
-            # 매핑 결과, lidar 사용 위치(x, y)
 
 if __name__ == '__main__':
-    ang, dist = file_read('c:/Users/User/OneDrive/바탕 화면/coding/AutoServingRobot/Software/main/lidar.csv')
-    grid_map, x, y = mapping(0.2, ang, dist, True)
-    # grid_map[x][y] = 2
-    # plt.imshow(grid_map, cmap='viridis', interpolation='nearest')
-    # plt.colorbar()
-    # plt.show()
+    lidar_to_grid_map()
