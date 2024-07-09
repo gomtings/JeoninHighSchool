@@ -65,7 +65,7 @@ void handleResponse(char* response) {
       IsChangemodeTime = false;
     }
     if(!IsSetAP) {
-      SET_AP(ssids[0],"00000000");
+      SET_AP(ssids[3],"00000000");
       IsSetAP = true;
     }
     Serial.println("AP 모드로 전환 완료");
@@ -88,8 +88,24 @@ void Sand_Change_Mode(int mode){ // Station or AP 모드 전환.
   }
 }
 
-void Sand_Search(void){ // 주변 AP 검색..
+void Sand_Search(void){ // 주변 AP 검색.. AT+CWQAP
   sendCommand("AT+CWLAP");
+}
+
+void Disconnect(void){ // AP 연결 해제
+  sendCommand("AT+CWQAP");
+}
+
+void GetVersion(void){ // ESP01 의 FW 버전을 조회함.
+  sendCommand("AT+GMR");
+}
+
+void GetVersion(void){ // AP 연결 해제
+  sendCommand("AT+GMR");
+}
+
+void Reboot(void){ // AP 연결 해제
+  sendCommand("AT+RST");
 }
 
 void SET_AP(char* ssid, char* password) { // AP 설정
