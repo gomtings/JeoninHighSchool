@@ -11,7 +11,7 @@
 """
 import os
 import sys
-import urllib.request
+import requests
 import json
 import tkinter as tk
 from tkinter import ttk ,Toplevel ,Text
@@ -20,18 +20,18 @@ from tkinter.ttk import Button, Style
 from datetime import datetime
 class Translator:
     def __init__(self):
-        self.client_id = "YBKWCxwIWv4VQ90B5prJ" # 개발자센터에서 발급받은 Client ID 값
-        self.client_secret = "avOQpzb0yR" # 개발자센터에서 발급받은 Client Secret 값
+        self.auth_key = "ba59a929-40d2-4d1b-99ed-170c538568d9:fx" # 개발자센터에서 발급받은 Client Secret 값
         self.srcLang = None
         self.tarLang = None
         self.translated = None
         self.source_len = ""
         self.target_len = ""
         self.Message = ""
-        self.path = "E:/GitHub/JeoninHighSchool/수업예제/24-1방과후수업(python)/Papago_translator"
+        self.path = "C:/GitHub/JeoninHighSchool/수업예제/24-1방과후수업(python)/Papago_translator"
         self.file = None
         self.error_flag = False
         self.new_window = None
+        
         try: 
             if not os.path.exists(self.path): # 번역 결과 저장을 위한 폴더 및 파일 생성..
                 os.mkdir(self.path)
@@ -43,35 +43,34 @@ class Translator:
         except Exception as e:
             messagebox.showinfo("!!!!!!","오류가 발생하였습니다."+str(e))
             self.error_flag = True
+    
     def Get_object(self,obj1,obj2,obj3):
         self.srcLang = obj1
         self.tarLang = obj2
         self.translated = obj3
         self.srcLang.insert(0, "None")
         self.tarLang.insert(0, "None")
-        self.translated.insert(0, "파파고 번역기를 시작합니다.")
+        self.translated.insert(0, "DeepL 번역기를 시작합니다.")
+    
     def translation(self,source_len,target_len,String):
-        encText = urllib.parse.quote(String)
-        data = "source={}&target={}&text=".format(source_len,target_len) + encText
-        url = "https://openapi.naver.com/v1/papago/n2mt"
-        request = urllib.request.Request(url)
-        request.add_header("X-Naver-Client-Id",self.client_id)
-        request.add_header("X-Naver-Client-Secret",self.client_secret)
-        response = urllib.request.urlopen(request, data=data.encode("utf-8"))
-        rescode = response.getcode()
-        
-        if(rescode==200):
-            response_body = response.read()
-            self.parse(response_body.decode('utf-8'))
+        url = 'https://api-free.deepl.com/v2/translate'
+        params = {'auth_key' : 'ba59a929-40d2-4d1b-99ed-170c538568d9:fx', 'text' : String, 'source_lang' : source_len, "target_lang": target_len}
+        response = requests.post(url, data=params, verify=True)
+        if response.status_code == 200:
+            result = json.loads(response.text)
+            self.parse(source_len,target_len,result)
         else:
-            self.parse()
+            pass
+    
     def on_close(self):
         self.new_window.destroy()
         self.new_window = None
+    
     def road_list(self):
         if self.new_window == None :
             self.new_window = Toplevel(root)
             self.new_window.geometry("380x200+800+200")
+            self.new_window.title("번역 결과")
             self.new_window.protocol("WM_DELETE_WINDOW",self.on_close)
             try:
                 self.file = open(self.path+"/translator_list.txt", 'r')
@@ -82,6 +81,7 @@ class Translator:
                 self.file.close()
             except Exception as e:
                 messagebox.showinfo("!!!!!!","오류가 발생하였습니다."+str(e))
+    
     def save_results(self,source_len,target_len,Message,srcLangType,tarLangType,translatedText):
         self.file = open(self.path+"/translator_list.txt", 'a')
         self.file.write("====="+self.get_date()+"=====\n")
@@ -91,20 +91,26 @@ class Translator:
         self.file.write(tarLangType+" -> "+srcLangType+"\n")
         self.file.write(translatedText+"\n\n")
         self.file.close()
-    def parse(self,result =None):
-        jsonObject = json.loads(result)
-        jsonObject = jsonObject.get("message")
-        jsonObject = jsonObject.get("result")
+    
+    def parse(self,source,target,result = None):
+        detected = result['translations'][0]['detected_source_language'] # 감지된 언어.
+        text = result['translations'][0]['text'] # 번역 결과
         self.srcLang.delete(0,len(self.srcLang.get()))
-        self.srcLang.insert(0, jsonObject.get("srcLangType"))
+        if source == '':
+            self.srcLang.insert(0, detected)
+        else:
+            self.srcLang.insert(0, source)
         self.tarLang.delete(0,len(self.tarLang.get()))
-        self.tarLang.insert(0, jsonObject.get("tarLangType"))
+        self.tarLang.insert(0, target)
         self.translated.delete(0,len(self.translated.get()))
-        self.translated.insert(0, jsonObject.get("translatedText"))
-        self.save_results(self.source_len,self.target_len,self.Message,jsonObject.get("srcLangType"),jsonObject.get("tarLangType"),jsonObject.get("translatedText"))
+        self.translated.insert(0, text)
+        self.save_results(self.source_len,self.target_len,self.Message,source,target,text)
+    
     def Choice(self):
         self.Message = input_text.get()
-        if source.get() == "한국어":
+        if source.get() == "자동":
+            self.source_len = ""
+        elif source.get() == "한국어":
             self.source_len = "ko"
         elif source.get() == "영어":
             self.source_len = "en"
@@ -161,6 +167,7 @@ class Translator:
             self.target_len = "fr"
         else:
             self.target_len = "error"
+        
         if (self.source_len !="" and self.target_len != "") or (self.source_len !="error" and self.target_len != "error"):
             if self.source_len != self.target_len:
                 if self.Message !="" and self.Message !=None and self.Message !="여기에 번역할 문자열을 입력해 주세요.":
@@ -171,6 +178,7 @@ class Translator:
                  messagebox.showinfo("Language error","source 언어 와 target 언어 를 다르게 설정해 주세요!")        
         else:
             messagebox.showinfo("!!!!!!","잘못된 언어 입력입니다.")          
+    
     def get_date(self):
         now = datetime.now()
         formatted_now = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -189,18 +197,22 @@ if __name__ == "__main__":
     button.place(x=95, y=180, width=290, height=25)
     txt =ttk.Label(root,text = "source : ")
     txt.place(x=0,y=2)
+    
     source = ttk.Combobox(root, width=12)
-    source['values'] = ("한국어","영어","일본어","중국어 간체","중국어 번체","베트남어","인도네시아어","태국어","독일어","러시아어","스페인어","이탈리아어","프랑스어")
+    source['values'] = ("자동","한국어","영어","일본어","중국어 간체","중국어 번체","베트남어","인도네시아어","태국어","독일어","러시아어","스페인어","이탈리아어","프랑스어")
     source.grid(column=1, row=1)
     source.place(x=50,y=2)
     source.current(0)
+    
     txt =ttk.Label(root,text = "target : ")
     txt.place(x=170,y=2)
+    
     target = ttk.Combobox(root, width=12)
     target['values'] = ("한국어","영어","일본어","중국어 간체","중국어 번체","베트남어","인도네시아어","태국어","독일어","러시아어","스페인어","이탈리아어","프랑스어")
     target.grid(column=1, row=1)
     target.place(x=220,y=2)
     target.current(1)
+    
     # 입력창..
     input_text = tk.Entry(root, width=52)
     input_text.grid(column=5, row=1000)
