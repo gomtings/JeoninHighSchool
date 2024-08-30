@@ -27,7 +27,8 @@ class Translator:
         self.source_len = ""
         self.target_len = ""
         self.Message = ""
-        self.path = "C:/GitHub/JeoninHighSchool/수업예제/24-1방과후수업(python)/Papago_translator"
+        #self.path = "C:/GitHub/JeoninHighSchool/수업예제/24-1방과후수업(python)/Papago_translator"
+        self.path = "C:/Users/LSW/OneDrive/문서/GitHub/JeoninHighSchool/수업예제/24-1방과후수업(python)/Papago_translator"
         self.file = None
         self.error_flag = False
         self.new_window = None
