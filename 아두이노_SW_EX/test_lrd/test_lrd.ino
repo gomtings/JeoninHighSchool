@@ -133,7 +133,7 @@ void ReadData(){
         }
 
     // 새로운 정수 데이터 추가
-    doc["TD"] = 42;
+    doc["TD"] = td;
 
     // JSON 데이터를 문자열로 변환하여 출력
     serializeJson(doc, jsonString);
