@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Day1</class>
+ <widget class="QDialog" name="Day1">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>423</width>
+    <height>357</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>10</y>
+     <width>401</width>
+     <height>331</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>1.</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>2.</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>3.</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>4.</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>5.</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>6.</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>7.</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>8.</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>9.</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>10.</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>단어</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>뜻</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string>Apple</string>
+    </property>
+   </item>
+   <item row="0" column="1">
+    <property name="text">
+     <string>사과</string>
+    </property>
+   </item>
+   <item row="1" column="0">
+    <property name="text">
+     <string>pineapple</string>
+    </property>
+   </item>
+   <item row="1" column="1">
+    <property name="text">
+     <string>파인애플</string>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string>kiwi</string>
+    </property>
+   </item>
+   <item row="2" column="1">
+    <property name="text">
+     <string>키위</string>
+    </property>
+   </item>
+   <item row="3" column="0">
+    <property name="text">
+     <string>orange</string>
+    </property>
+   </item>
+   <item row="3" column="1">
+    <property name="text">
+     <string>오렌지</string>
+    </property>
+   </item>
+   <item row="4" column="0">
+    <property name="text">
+     <string>egg</string>
+    </property>
+   </item>
+   <item row="4" column="1">
+    <property name="text">
+     <string>계란</string>
+    </property>
+   </item>
+   <item row="5" column="0">
+    <property name="text">
+     <string>sangchu</string>
+    </property>
+   </item>
+   <item row="5" column="1">
+    <property name="text">
+     <string>상추</string>
+    </property>
+   </item>
+   <item row="6" column="0">
+    <property name="text">
+     <string>robot</string>
+    </property>
+   </item>
+   <item row="6" column="1">
+    <property name="text">
+     <string>로봇</string>
+    </property>
+   </item>
+   <item row="7" column="0">
+    <property name="text">
+     <string>ticks</string>
+    </property>
+   </item>
+   <item row="7" column="1">
+    <property name="text">
+     <string>틱스</string>
+    </property>
+   </item>
+   <item row="8" column="0">
+    <property name="text">
+     <string>table</string>
+    </property>
+   </item>
+   <item row="8" column="1">
+    <property name="text">
+     <string>책상</string>
+    </property>
+   </item>
+   <item row="9" column="0">
+    <property name="text">
+     <string>chair</string>
+    </property>
+   </item>
+   <item row="9" column="1">
+    <property name="text">
+     <string>의자</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>40</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>나가기</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
