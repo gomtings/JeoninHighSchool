@@ -20,8 +20,17 @@ class Main_Windows(QMainWindow, Ui_Form):
         self.strat = self.findChild(QPushButton, "pushButton")
         self.strat.clicked.connect(self.strat_connect)
 
+        self.Select_test_range = self.findChild(QPushButton, "pushButton_2")
+        self.Select_test_range.clicked.connect(self.closed)
+
         self.end = self.findChild(QPushButton, "pushButton_3")
         self.end.clicked.connect(self.closed)
+
+        self.Add_test_scope = self.findChild(QPushButton, "pushButton_4")
+        self.Add_test_scope.clicked.connect(self.closed)
+    
+        self.vocabulary_book = self.findChild(QPushButton, "pushButton_5")
+        self.vocabulary_book.clicked.connect(self.closed)
     def strat_connect(self):
         if not hasattr(self, "login_window") or not self.login_window.isVisible():
             self.test_Window = test.test_Window()

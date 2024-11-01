@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QListWidget" name="listWidget">
+  <widget class="QListWidget" name="listWidget_2">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QListWidget" name="listWidget_2">
+  <widget class="QListWidget" name="listWidget_4">
    <property name="geometry">
     <rect>
      <x>340</x>
@@ -43,7 +43,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QListWidget" name="listWidget_4">
+  <widget class="QListWidget" name="listWidget_1">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -53,7 +53,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit">
+  <widget class="QTextEdit" name="Korean_answer_1">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -63,7 +63,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_2">
+  <widget class="QTextEdit" name="Korean_answer_4">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -73,7 +73,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_3">
+  <widget class="QTextEdit" name="Korean_answer_5">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -83,7 +83,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_4">
+  <widget class="QTextEdit" name="Korean_answer_2">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -93,7 +93,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_5">
+  <widget class="QTextEdit" name="Korean_answer_7">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -103,7 +103,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_6">
+  <widget class="QTextEdit" name="Korean_answer_6">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -113,7 +113,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_7">
+  <widget class="QTextEdit" name="Korean_answer_3">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -123,7 +123,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_8">
+  <widget class="QTextEdit" name="Korean_answer_8">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -133,7 +133,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_9">
+  <widget class="QTextEdit" name="Korean_answer_9">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -143,7 +143,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_10">
+  <widget class="QTextEdit" name="Korean_answer_11">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -153,7 +153,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_11">
+  <widget class="QTextEdit" name="Korean_answer_10">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -163,7 +163,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_12">
+  <widget class="QTextEdit" name="Korean_answer_14">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -173,7 +173,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_13">
+  <widget class="QTextEdit" name="Korean_answer_13">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -183,7 +183,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_14">
+  <widget class="QTextEdit" name="Korean_answer_12">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -193,7 +193,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_15">
+  <widget class="QTextEdit" name="Korean_answer_16">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -203,7 +203,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_16">
+  <widget class="QTextEdit" name="Korean_answer_15">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -213,7 +213,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_17">
+  <widget class="QTextEdit" name="Korean_answer_17">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -223,7 +223,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_18">
+  <widget class="QTextEdit" name="Korean_answer_19">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -233,7 +233,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_19">
+  <widget class="QTextEdit" name="Korean_answer_18">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -243,7 +243,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_20">
+  <widget class="QTextEdit" name="Korean_answer_20">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -253,7 +253,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_21">
+  <widget class="QTextEdit" name="Korean_answer_32">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -263,7 +263,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_22">
+  <widget class="QTextEdit" name="Korean_answer_30">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -273,7 +273,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_23">
+  <widget class="QTextEdit" name="Korean_answer_28">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -283,7 +283,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_24">
+  <widget class="QTextEdit" name="Korean_answer_33">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -293,7 +293,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_25">
+  <widget class="QTextEdit" name="Korean_answer_40">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -303,7 +303,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_26">
+  <widget class="QTextEdit" name="Korean_answer_39">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -313,7 +313,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_27">
+  <widget class="QTextEdit" name="Korean_answer_25">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -323,7 +323,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_28">
+  <widget class="QTextEdit" name="Korean_answer_27">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -333,7 +333,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_29">
+  <widget class="QTextEdit" name="Korean_answer_21">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -343,7 +343,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_30">
+  <widget class="QTextEdit" name="Korean_answer_37">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -353,7 +353,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_31">
+  <widget class="QTextEdit" name="Korean_answer_24">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -363,7 +363,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_32">
+  <widget class="QTextEdit" name="Korean_answer_31">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -373,7 +373,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_33">
+  <widget class="QTextEdit" name="Korean_answer_34">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -383,7 +383,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_34">
+  <widget class="QTextEdit" name="Korean_answer_23">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -393,7 +393,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_35">
+  <widget class="QTextEdit" name="Korean_answer_36">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -403,7 +403,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_36">
+  <widget class="QTextEdit" name="Korean_answer_22">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -413,7 +413,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_37">
+  <widget class="QTextEdit" name="Korean_answer_29">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -423,7 +423,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_38">
+  <widget class="QTextEdit" name="Korean_answer_35">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -433,7 +433,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_39">
+  <widget class="QTextEdit" name="Korean_answer_26">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -443,7 +443,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_40">
+  <widget class="QTextEdit" name="Korean_answer_38">
    <property name="geometry">
     <rect>
      <x>420</x>
