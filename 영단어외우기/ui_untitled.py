@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'untitled.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -21,22 +21,22 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(605, 429)
-        self.pushButton = QPushButton(Form)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(200, 30, 75, 24))
-        self.pushButton_2 = QPushButton(Form)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setGeometry(QRect(180, 70, 111, 24))
-        self.pushButton_3 = QPushButton(Form)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setGeometry(QRect(200, 190, 75, 24))
-        self.pushButton_4 = QPushButton(Form)
-        self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setGeometry(QRect(190, 110, 101, 24))
-        self.pushButton_5 = QPushButton(Form)
-        self.pushButton_5.setObjectName(u"pushButton_5")
-        self.pushButton_5.setGeometry(QRect(200, 150, 75, 24))
+        Form.resize(565, 388)
+        self.questions = QPushButton(Form)
+        self.questions.setObjectName(u"questions")
+        self.questions.setGeometry(QRect(120, 10, 281, 71))
+        self.Select_Range = QPushButton(Form)
+        self.Select_Range.setObjectName(u"Select_Range")
+        self.Select_Range.setGeometry(QRect(120, 87, 281, 71))
+        self.closed = QPushButton(Form)
+        self.closed.setObjectName(u"closed")
+        self.closed.setGeometry(QRect(120, 300, 281, 71))
+        self.Addition = QPushButton(Form)
+        self.Addition.setObjectName(u"Addition")
+        self.Addition.setGeometry(QRect(120, 160, 281, 71))
+        self.note = QPushButton(Form)
+        self.note.setObjectName(u"note")
+        self.note.setGeometry(QRect(120, 230, 281, 71))
 
         self.retranslateUi(Form)
 
@@ -45,10 +45,10 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.pushButton.setText(QCoreApplication.translate("Form", u"\uc2dc\uc791", None))
-        self.pushButton_2.setText(QCoreApplication.translate("Form", u"\uc2dc\ud5d8 \ubc94\uc704 \uc120\ud0dd", None))
-        self.pushButton_3.setText(QCoreApplication.translate("Form", u"\uc885\ub8cc", None))
-        self.pushButton_4.setText(QCoreApplication.translate("Form", u"\uc2dc\ud5d8 \ubc94\uc704 \ucd94\uac00", None))
-        self.pushButton_5.setText(QCoreApplication.translate("Form", u"\ub2e8\uc5b4\uc7a5", None))
+        self.questions.setText(QCoreApplication.translate("Form", u"\ubb38\uc81c \ud480\uae30", None))
+        self.Select_Range.setText(QCoreApplication.translate("Form", u"\uc2dc\ud5d8 \ubc94\uc704 \uc120\ud0dd", None))
+        self.closed.setText(QCoreApplication.translate("Form", u"\uc885\ub8cc", None))
+        self.Addition.setText(QCoreApplication.translate("Form", u"\uc2dc\ud5d8 \ubc94\uc704 \ucd94\uac00", None))
+        self.note.setText(QCoreApplication.translate("Form", u"\ub2e8\uc5b4\uc7a5", None))
     # retranslateUi
 
