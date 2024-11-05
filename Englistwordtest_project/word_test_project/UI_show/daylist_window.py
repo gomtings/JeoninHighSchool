@@ -1,7 +1,7 @@
 import os
 import sys
-from project_main_ui import Ui_Select_Day
-import wordlist_ui
+from UI.project_main_ui import Ui_Select_Day
+import UI_show.UI.wordlist_ui as wordlist_ui
 
 
 from PySide6.QtWidgets import (

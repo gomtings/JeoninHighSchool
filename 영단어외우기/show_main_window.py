@@ -2,8 +2,8 @@ import sys
 import math
 import os
 import time
-from ui_untitled import Ui_Form
-import test
+from Main_window import Ui_Form
+import test_window
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -35,7 +35,7 @@ class Main_Windows(QMainWindow, Ui_Form):
 
     def strat_connect(self):
         if self.test_Window is None or not self.test_Window.isVisible(): 
-            self.test_Window = test.test_Window() 
+            self.test_Window = test_window.test_Window() 
             self.test_Window.show()
 
     def close_windows(self):

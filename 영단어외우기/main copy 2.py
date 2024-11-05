@@ -2,7 +2,7 @@ import sys
 import math
 import os
 import time
-from ui_untitled import Ui_Form
+from Main_window import Ui_Form
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
