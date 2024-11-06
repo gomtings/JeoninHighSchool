@@ -46,95 +46,16 @@ class test_Window(QMainWindow, Ui_Form):
     
         self.meaning_ilst_2 = self.findChild(QListWidget, "meaning_ilst_2")
 
-    
-        self.Korean_answer__1= self.findChild(QTextEdit,"kr_answer_1")
-
-        self.Korean_answer__2= self.findChild(QTextEdit,"kr_answer_2")
-
-        self.Korean_answer__3= self.findChild(QTextEdit,"kr_answer_3")
-
-        self.Korean_answer__4= self.findChild(QTextEdit,"kr_answer_4")
-        
-        self.Korean_answer__5= self.findChild(QTextEdit,"kr_answer_5")
-
-        self.Korean_answer__6= self.findChild(QTextEdit,"kr_answer_6")
-
-        self.Korean_answer__7= self.findChild(QTextEdit,"kr_answer_7")
-
-        self.Korean_answer__8= self.findChild(QTextEdit,"kr_answer_8")
-
-        self.Korean_answer__9= self.findChild(QTextEdit,"kr_answer_9")
-
-        self.Korean_answer__10= self.findChild(QTextEdit,"kr_answer_10")
-
-        self.Korean_answer__11= self.findChild(QTextEdit,"kr_answer_11")
-
-        self.Korean_answer__12= self.findChild(QTextEdit,"kr_answer_12")
-        
-        self.Korean_answer__13= self.findChild(QTextEdit,"kr_answer_13")
-
-        self.Korean_answer__14= self.findChild(QTextEdit,"kr_answer_14")
-
-        self.Korean_answer__15= self.findChild(QTextEdit,"kr_answer_15")
-
-        self.Korean_answer__16= self.findChild(QTextEdit,"kr_answer_16")
-
-        self.Korean_answer__17= self.findChild(QTextEdit,"kr_answer_17")
-
-        self.Korean_answer__18= self.findChild(QTextEdit,"kr_answer_18")
-
-        self.Korean_answer__19= self.findChild(QTextEdit,"kr_answer_19")
-
-        self.Korean_answer__20= self.findChild(QTextEdit,"kr_answer_20")
-
-        self.Korean_answer__21= self.findChild(QTextEdit,"kr_answer_21")
-
-        self.Korean_answer__22= self.findChild(QTextEdit,"kr_answer_22")
-
-        self.Korean_answer__23= self.findChild(QTextEdit,"kr_answer_23")
-
-        self.Korean_answer__24= self.findChild(QTextEdit,"kr_answer_24")
-
-        self.Korean_answer__25= self.findChild(QTextEdit,"kr_answer_25")
-
-        self.Korean_answer__26= self.findChild(QTextEdit,"kr_answer_26")
-
-        self.Korean_answer__27= self.findChild(QTextEdit,"kr_answer_27")
-
-        self.Korean_answer__28= self.findChild(QTextEdit,"kr_answer_28")
-
-        self.Korean_answer__29= self.findChild(QTextEdit,"kr_answer_29")
-
-        self.Korean_answer__30= self.findChild(QTextEdit,"kr_answer_30")
-
-        self.Korean_answer__31= self.findChild(QTextEdit,"kr_answer_31")
-
-        self.Korean_answer__32= self.findChild(QTextEdit,"kr_answer_32")
-
-        self.Korean_answer__33= self.findChild(QTextEdit,"kr_answer_33")
-
-        self.Korean_answer__34= self.findChild(QTextEdit,"kr_answer_34")
-
-        self.Korean_answer__35= self.findChild(QTextEdit,"kr_answer_35")
-
-        self.Korean_answer__36= self.findChild(QTextEdit,"kr_answer_36")
-
-        self.Korean_answer__37= self.findChild(QTextEdit,"kr_answer_37")
-
-        self.Korean_answer__38= self.findChild(QTextEdit,"kr_answer_38")
-
-        self.Korean_answer__39= self.findChild(QTextEdit,"kr_answer_39")
-
-        self.Korean_answer__40= self.findChild(QTextEdit,"kr_answer_40")
-
         self.chk_answer = self.findChild(QPushButton,"pushButton")
         self.chk_answer.clicked.connect(self.compare_values)
-
-        self.word_answer = [self.Korean_answer__1,self.Korean_answer__2,self.Korean_answer__3,self.Korean_answer__4,self.Korean_answer__5,self.Korean_answer__6,self.Korean_answer__7,self.Korean_answer__8,self.Korean_answer__9
-                            ,self.Korean_answer__10,self.Korean_answer__11,self.Korean_answer__12,self.Korean_answer__13,self.Korean_answer__14,self.Korean_answer__15,self.Korean_answer__16,self.Korean_answer__17,self.Korean_answer__18
-                            ,self.Korean_answer__19,self.Korean_answer__20,self.Korean_answer__21,self.Korean_answer__22,self.Korean_answer__23,self.Korean_answer__24,self.Korean_answer__25,self.Korean_answer__26,self.Korean_answer__27
-                            ,self.Korean_answer__29,self.Korean_answer__30,self.Korean_answer__31,self.Korean_answer__32,self.Korean_answer__33,self.Korean_answer__34,self.Korean_answer__35,self.Korean_answer__36,self.Korean_answer__37
-                            ,self.Korean_answer__38,self.Korean_answer__39,self.Korean_answer__40]
+    
+        self.word_answer = []
+        for i in range(1, 41): 
+            text_edit = self.findChild(QTextEdit, f"kr_answer_{i}") 
+            if text_edit: 
+                self.word_answer.append(text_edit) 
+            else: 
+                print(f"Warning: QTextEdit kr_answer_{i} not found")        
         
     def update_label(self):
         self.elapsed_time += 1

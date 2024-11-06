@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'project_main.ui'
+## Form generated from reading UI file 'daylist.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -60,7 +60,7 @@ class Ui_Select_Day(object):
     # setupUi
 
     def retranslateUi(self, Select_Day):
-        Select_Day.setWindowTitle(QCoreApplication.translate("Select_Day", u"MainWindow", None))
+        Select_Day.setWindowTitle(QCoreApplication.translate("Select_Day", u"daylist_window", None))
         self.Day1.setText(QCoreApplication.translate("Select_Day", u"Day1", None))
         self.Day3.setText(QCoreApplication.translate("Select_Day", u"Day3", None))
         self.Day5.setText(QCoreApplication.translate("Select_Day", u"Day5", None))

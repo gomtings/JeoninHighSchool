@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'untitled.ui'
+## Form generated from reading UI file 'main.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.0
 ##
@@ -21,22 +21,22 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(565, 388)
+        Form.resize(565, 369)
         self.questions = QPushButton(Form)
         self.questions.setObjectName(u"questions")
         self.questions.setGeometry(QRect(120, 10, 281, 71))
-        self.Select_Range = QPushButton(Form)
-        self.Select_Range.setObjectName(u"Select_Range")
-        self.Select_Range.setGeometry(QRect(120, 87, 281, 71))
+        self.Recode = QPushButton(Form)
+        self.Recode.setObjectName(u"Recode")
+        self.Recode.setGeometry(QRect(120, 80, 281, 71))
         self.closed = QPushButton(Form)
         self.closed.setObjectName(u"closed")
-        self.closed.setGeometry(QRect(120, 300, 281, 71))
+        self.closed.setGeometry(QRect(120, 290, 281, 71))
         self.Addition = QPushButton(Form)
         self.Addition.setObjectName(u"Addition")
-        self.Addition.setGeometry(QRect(120, 160, 281, 71))
+        self.Addition.setGeometry(QRect(120, 150, 281, 71))
         self.note = QPushButton(Form)
         self.note.setObjectName(u"note")
-        self.note.setGeometry(QRect(120, 230, 281, 71))
+        self.note.setGeometry(QRect(120, 220, 281, 71))
 
         self.retranslateUi(Form)
 
@@ -46,7 +46,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.questions.setText(QCoreApplication.translate("Form", u"\ubb38\uc81c \ud480\uae30", None))
-        self.Select_Range.setText(QCoreApplication.translate("Form", u"\uc2dc\ud5d8 \ubc94\uc704 \uc120\ud0dd", None))
+        self.Recode.setText(QCoreApplication.translate("Form", u"\uae30\ub85d", None))
         self.closed.setText(QCoreApplication.translate("Form", u"\uc885\ub8cc", None))
         self.Addition.setText(QCoreApplication.translate("Form", u"\uc2dc\ud5d8 \ubc94\uc704 \ucd94\uac00", None))
         self.note.setText(QCoreApplication.translate("Form", u"\ub2e8\uc5b4\uc7a5", None))
