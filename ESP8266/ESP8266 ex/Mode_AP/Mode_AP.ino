@@ -65,7 +65,7 @@ void handleResponse(char* response) {
       IsChangemodeTime = false;
     }
     if(!IsSetAP) {
-      SET_AP(ssids[0],"00000000");
+      SET_AP(ssids[1],"00000000");
       IsSetAP = true;
     }
     Serial.println("AP 모드로 전환 완료");
@@ -88,8 +88,20 @@ void Sand_Change_Mode(int mode){ // Station or AP 모드 전환.
   }
 }
 
-void Sand_Search(void){ // 주변 AP 검색..
+void Sand_Search(void){ // 주변 AP 검색.. AT+CWQAP
   sendCommand("AT+CWLAP");
+}
+
+void Disconnect(void){ // AP 연결 해제
+  sendCommand("AT+CWQAP");
+}
+
+void GetVersion(void){ // ESP01 의 FW 버전을 조회함.
+  sendCommand("AT+GMR");
+}
+
+void Reboot(void){ // AP 연결 해제
+  sendCommand("AT+RST");
 }
 
 void SET_AP(char* ssid, char* password) { // AP 설정
@@ -99,7 +111,8 @@ void SET_AP(char* ssid, char* password) { // AP 설정
 }
 
 double calculateDistance(int rssi) {
-  int txPower = -30; //1미터 거리에서 RSSI 값
+  // 1번 : 평균 45  2 : 평균 40  3 : 평균 39  4 : 평균 47
+  int txPower = -40; //1미터 거리에서 RSSI 값
   double n = 2.0; // 이것은 경로 손실 지수이며, 일반적으로 2.7에서 4.3 사이의 범위
   return pow(10, ((double)txPower - rssi) / (10 * n));
 }

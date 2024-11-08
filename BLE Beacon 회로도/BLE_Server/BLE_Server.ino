@@ -1,6 +1,6 @@
 #include <SoftwareSerial.h>
-const int nPin_BTTx = 2; //전송
-const int nPin_BTRx = 3; //수신
+const int nPin_BTTx = 9; //전송
+const int nPin_BTRx = 10; //수신
 SoftwareSerial BTSerial(nPin_BTTx, nPin_BTRx); // RX, TX
 void setup() {
   Serial.begin(9600);
