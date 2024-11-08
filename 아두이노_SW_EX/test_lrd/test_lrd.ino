@@ -1,8 +1,15 @@
 #include <ArduinoJson.h> //ArduinoJson 라이브러리
 #include <TimerOne.h> // TimerOne 라이브러리
 #include "QGPMaker_MotorShield.h"
+#include "QGPMaker_Encoder.h"
 #include <Wire.h>
 #define slave_addr 0x01
+
+unsigned long preTime,currTime;//기준 시간 저장 함수
+
+
+QGPMaker_Encoder Encoder3(3); 
+int rpm = 0;
 
 char MsgBuf[100]; //Master로 부터 전송받은 데이터를 저장할 버퍼
 volatile byte pos;
@@ -12,10 +19,10 @@ volatile boolean Check_Data = false;
 QGPMaker_MotorShield AFMS = QGPMaker_MotorShield();
 
 // Select which 'port' M1, M2, M3 or M4. In this case, M3
-QGPMaker_DCMotor *DCMotor_1 = AFMS.getMotor(6);
-QGPMaker_DCMotor *DCMotor_2 = AFMS.getMotor(7);
-QGPMaker_DCMotor *DCMotor_3 = AFMS.getMotor(8);
-QGPMaker_DCMotor *DCMotor_4 = AFMS.getMotor(9);
+QGPMaker_DCMotor *DCMotor_1 = AFMS.getMotor(1);
+QGPMaker_DCMotor *DCMotor_2 = AFMS.getMotor(2);
+QGPMaker_DCMotor *DCMotor_3 = AFMS.getMotor(3);
+QGPMaker_DCMotor *DCMotor_4 = AFMS.getMotor(4);
 
 // speed : 0 ~ 255
 int speed = 100;
@@ -27,6 +34,10 @@ uint16_t space,strength;
 int32_t sandTime = 0;
 bool IssandeTime = false;
 
+#define TD_TIME 1000
+int32_t TDTime = 0;
+bool IsTDTime = false;
+
 double distance1 = 0.00; // 1번 초음파 값
 double distance2 = 0.00; // 2번 초음파 값
 double Lidar = 0.00; // 라이다 값
@@ -34,11 +45,18 @@ float heading = 0.0f; //float 값에는 f가 붙음, 9축 지자기 센서 값
 float tiltheading = 0.0f;
 void mainTimer(void);
 
+float td = 0.0f; // 이동거리
+
 void mainTimer(void){
   if(IssandeTime == false)
   {
     sandTime++;
     if(sandTime >= SAND_TIME) IssandeTime = true;
+  }
+  if(IsTDTime == false)
+  {
+    TDTime++;
+    if(TDTime >= TD_TIME) IsTDTime = true;
   }
 }
 void setup() {
@@ -48,7 +66,8 @@ void setup() {
   Timer1.initialize(1000); // 1ms마다 인터럽트 발생
   Timer1.attachInterrupt(mainTimer); // 인터럽트 함수 지정
   AFMS.begin(50); // create with the default frequency 50Hz
-  
+  AFMS.begin(50);
+  Serial.begin(9600);
 }
 //write() 함수가 바이트 또는 바이트의 시퀀스를 그대로 보내는 반면, print() 함수는 데이터를 사람이 읽을 수 있는 ASCII 텍스트로 변환하여 보낸다
 void loop() {
@@ -56,7 +75,12 @@ void loop() {
     ReadData();
     sandTime = 0;
     IssandeTime = false;
-    delay(1000);
+  }
+  if (IsTDTime == true){
+    currTime += IsTDTime;
+    TD(currTime);
+    IsTDTime = 0;
+    IsTDTime = false;
   }
 }
 void Receive_Int() { //Master에서 보낸 데이터가 수신되면 호출되는 함수
@@ -95,9 +119,25 @@ void ReadData(){
     DeserializationError error = deserializeJson(doc, MsgBuf);
     // 파싱 성공한 경우에만 직렬화하고 출력합니다.
     if (!error) {
+      
       // JSON 객체를 직렬화하여 문자열로 변환합니다.
       String jsonString;
       serializeJson(doc, jsonString);
+      StaticJsonDocument<200> doc;
+      DeserializationError error = deserializeJson(doc, jsonString);
+
+        if (error) {
+          Serial.print(F("deserializeJson() failed: "));
+          Serial.println(error.f_str());
+         return;
+        }
+
+    // 새로운 정수 데이터 추가
+    doc["TD"] = td;
+
+    // JSON 데이터를 문자열로 변환하여 출력
+    serializeJson(doc, jsonString);
+      // TD라는 데이터를 jsonString에 끼어 넣기
       // 시리얼 포트를 통해 JSON 문자열 출력합니다.
       Serial.println(jsonString);
     } else {
@@ -222,5 +262,14 @@ void stop(int delay_time) {
   delay(delay_time);
 }
 
-
+void TD(unsigned long time){
+  rpm = Encoder3.getRPM();
+  if (rpm != 0) {
+    td = (rpm / 60.0) * 0.25 * time * -1; // 이동 거리 (미터)
+    
+    //Serial.print("이동 거리: ");
+    //Serial.print(distance);
+    //Serial.println("m");
+  }
+}
 

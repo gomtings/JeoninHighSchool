@@ -1,0 +1,30 @@
+###########################################
+# Syntax Coloring Map For rBase64
+###########################################
+
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+
+rbase64	KEYWORD1	rbase64
+rBase64generic	KEYWORD1	rBase64generic
+
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+
+rbase64_encode	KEYWORD2
+rbase64_decode	KEYWORD2
+rbase64_enc_len	KEYWORD2
+rbase64_dec_len	KEYWORD2
+encode	KEYWORD2
+decode	KEYWORD2
+result	KEYWORD2
+
+###########################################
+# Constants (LITERAL1)
+###########################################
+
+RBASE64_ENC_SIZECALC	LITERAL1
+RBASE64_STATUS_OK	LITERAL1
+RABSE64_STATUS_SIZE	LITERAL1
