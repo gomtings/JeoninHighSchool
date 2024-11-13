@@ -8,8 +8,11 @@
 unsigned long preTime,currTime;//기준 시간 저장 함수
 
 
-QGPMaker_Encoder Encoder3(3); 
 int rpm = 0;
+int rpm1 = 0;
+int rpm2 = 0;
+int rpm3 = 0;
+int rpm4 = 0;
 
 char MsgBuf[100]; //Master로 부터 전송받은 데이터를 저장할 버퍼
 volatile byte pos;
@@ -24,8 +27,19 @@ QGPMaker_DCMotor *DCMotor_2 = AFMS.getMotor(2);
 QGPMaker_DCMotor *DCMotor_3 = AFMS.getMotor(3);
 QGPMaker_DCMotor *DCMotor_4 = AFMS.getMotor(4);
 
+QGPMaker_Encoder Encoder1(1); 
+QGPMaker_Encoder Encoder2(2); 
+QGPMaker_Encoder Encoder3(3); 
+QGPMaker_Encoder Encoder4(4); 
+
+
 // speed : 0 ~ 255
-int speed = 100;
+int speed = 50;
+
+char cmd;
+char cmd_arr[16];
+int inx = 0;
+bool success = false;
 
 uint16_t space,strength;
 
@@ -46,6 +60,12 @@ float tiltheading = 0.0f;
 void mainTimer(void);
 
 float td = 0.0f; // 이동거리
+float td1 = 0.0f; // 이동거리
+float td2 = 0.0f; // 이동거리
+float td3 = 0.0f; // 이동거리
+float td4 = 0.0f; // 이동거리
+float averageTD = 0.0f; // 이동거리
+
 
 void mainTimer(void){
   if(IssandeTime == false)
@@ -82,6 +102,55 @@ void loop() {
     IsTDTime = 0;
     IsTDTime = false;
   }
+  while (Serial.available()) {
+    cmd = Serial.read();
+    if (cmd == '\n') {
+      success = true;
+      break;
+    }
+    cmd_arr[inx++] = cmd;
+  }
+  cmd_arr[inx] = '\0'; // 문자열의 끝을 표시
+
+  if (success) {
+    // Serial.println(cmd_arr);
+    if (strcmp(cmd_arr, "forward") == 0) {
+      // forward(speed);
+      backward(speed);
+    }
+    else if (strcmp(cmd_arr, "turn_left") == 0) {
+      turn_left(speed);
+      // delay(2300);
+      // forward(speed);
+      totalTD = 0;
+      averageTD = 0;
+    }
+    else if (strcmp(cmd_arr, "turn_right") == 0) {
+      turn_right(speed);
+      // delay(2300);
+      // forward(speed);
+      totalTD = 0;
+      averageTD = 0;
+    }
+    else if (strcmp(cmd_arr, "go_left") == 0) {
+      move_left(speed);
+    }
+    else if (strcmp(cmd_arr, "go_right") == 0) {
+      move_right(speed);
+    }
+    else if (strcmp(cmd_arr, "backward") == 0) {
+      forward(speed);
+    }
+    else if (strcmp(cmd_arr, "stop") == 0) {
+      stop(0);
+    }
+    else {
+      stop(0);
+    }
+    success = false;
+    inx = 0;
+    memset(cmd_arr,NULL, sizeof(cmd_arr));
+  }
 }
 void Receive_Int() { //Master에서 보낸 데이터가 수신되면 호출되는 함수
   byte m;
@@ -97,23 +166,8 @@ void Receive_Int() { //Master에서 보낸 데이터가 수신되면 호출되�
   } 
 }
 void ReadData(){
-  delay(1); // listen 함수 호출 후에 약간의 지연을 추가합니다.
-  //Serial.write('g'); // 'g' 라는 문자를 보내서 상대측에게 데이터 요청.
-
-  /*unsigned long startTime = millis(); // 현재 시간을 저장합니다.
-  while(!Serial.available()) {  // 소프트웨어 시리얼 포트에 데이터가 있는지 확인
-    if (millis() - startTime > 3000) { // 1초 동안 데이터가 도착하지 않으면 루프를 종료 오류가 발생할 경우 시간을 늘려야 함. (아두이노간 통신 타이밍 문제 해결)
-      Serial.println("Timeout waiting for data");
-      return;
-    }
-  }
-  StaticJsonDocument<256> doc
-  DeserializationError error = deserializeJson(doc, Serial);
-  if (error) {
-    Serial.println("Failed to read from serial port");
-    IssandeTime = false;
-    return;
-  }*/
+  delay(1);
+  
   if(Check_Data == true){
     StaticJsonDocument<256> doc;
     DeserializationError error = deserializeJson(doc, MsgBuf);
@@ -123,72 +177,27 @@ void ReadData(){
       // JSON 객체를 직렬화하여 문자열로 변환합니다.
       String jsonString;
       serializeJson(doc, jsonString);
-      StaticJsonDocument<200> doc;
-      DeserializationError error = deserializeJson(doc, jsonString);
 
-        if (error) {
-          Serial.print(F("deserializeJson() failed: "));
-          Serial.println(error.f_str());
-         return;
-        }
+      // 추가된 부분: `TD()` 함수에서 계산한 값 추가
+      doc["TD"] = td;               // 이동 거리 값 추가
+      doc["averageTD"] = averageTD;  // 평균 이동 거리 값 추가
+      doc["rpm1"] = rpm1;            // 각 엔코더의 RPM 값 추가
+      doc["rpm2"] = rpm2;            // 각 엔코더의 RPM 값 추가
+      doc["rpm3"] = rpm3;            // 각 엔코더의 RPM 값 추가
+      doc["rpm4"] = rpm4;            // 각 엔코더의 RPM 값 추가
 
-    // 새로운 정수 데이터 추가
-    doc["TD"] = td;
-
-    // JSON 데이터를 문자열로 변환하여 출력
-    serializeJson(doc, jsonString);
-      // TD라는 데이터를 jsonString에 끼어 넣기
-      // 시리얼 포트를 통해 JSON 문자열 출력합니다.
-      Serial.println(jsonString);
-    } else {
-      //Serial.print("Failed to parse JSON: ");
-      //Serial.println(error.c_str());
+      // JSON 데이터를 문자열로 변환하여 출력
+      serializeJson(doc, jsonString);
+      Serial.println(jsonString); // 시리얼 포트를 통해 JSON 문자열 출력
     }
-    /*distance1 = doc["distance1"];
-    distance2 = doc["distance2"];
-    Lidar = doc["Lidar"];
-    heading = doc["heading"];
-    tiltheading = doc["tiltheading"];
-    Serial.println("초음파1:");
-    Serial.println(distance1);
-    Serial.println("초음파2:");
-    Serial.println(distance2);
-    Serial.println("라이다:");
-    Serial.println(Lidar);
-    Serial.println("heading:");
-    Serial.println(heading);
-    Serial.println("tiltheading:");
-    Serial.println(tiltheading);*/
+    
+    // 데이터 초기화
     MsgBuf[pos] = 0;
-    pos =0 ;
+    pos = 0;
     Check_Data = false;
   }
 }
-/*
-void ReadData(){
-  Serial.listen(); //
-  Serial.write('g'); // 'g' 라는 문자를 보내서 상대측에게 데이터 요청.
-  if (Serial.available()) {  // 소프트웨어 시리얼 포트에 데이터가 있는지 확인
-    StaticJsonDocument<256> doc;
-    DeserializationError error = deserializeJson(doc, Serial);
-    if (error) {
-      Serial.println("Failed to read from serial port");
-      IssandeTime = false;
-      return;
-    }
-    distance = doc["distance"];
-    Lidar = doc["Lidar"];
-    x = doc["Accel_x"];
-    y = doc["Accel_y"];
-    z = doc["Accel_z"];
-    Serial.println(distance);
-    Serial.println(Lidar);
-    Serial.println(x);
-    Serial.println(y);
-    Serial.println(z);
-  }
-}
-*/
+
 //RC카 제어
 void forward(int speed) { 
   DCMotor_1->setSpeed(speed);
@@ -261,15 +270,36 @@ void stop(int delay_time) {
   DCMotor_4->run(RELEASE);
   delay(delay_time);
 }
+void TD(unsigned long time) {
+  float totalTD = 0.0;  // 최종 TD 값을 저장할 변수
 
-void TD(unsigned long time){
-  rpm = Encoder3.getRPM();
-  if (rpm != 0) {
-    td = (rpm / 60.0) * 0.25 * time * -1; // 이동 거리 (미터)
-    
-    //Serial.print("이동 거리: ");
-    //Serial.print(distance);
-    //Serial.println("m");
+  // 각 엔코더의 RPM 값을 가져옵니다.
+  rpm1 = Encoder1.getRPM();
+  rpm2 = Encoder2.getRPM();
+  rpm3 = Encoder3.getRPM();
+  rpm4 = Encoder4.getRPM();
+
+
+  // 모든 RPM 값이 양수일 때만 이동 거리 계산
+  if (rpm1 < 0 && rpm2 < 0 && rpm3 > 0 && rpm4 > 0) {
+    // 각 엔코더에서 이동 거리를 계산하여 totalTD에 더함
+    td1 = (rpm1 / 60.0) * 0.25 * time * -1;
+    totalTD += td1;
+
+    td2 = (rpm2 / 60.0) * 0.25 * time * -1;
+    totalTD += td2;
+
+    td3 = (rpm3 / 60.0) * 0.25 * time;
+    totalTD += td3;
+
+    td4 = (rpm4 / 60.0) * 0.25 * time;
+    totalTD += td4;
+
+    // 평균 이동 거리 계산 및 출력
+    averageTD = totalTD / 4;
   }
+  /*else if ((rpm1 > 0 && rpm2 > 0 && rpm3 > 0 && rpm4 > 0) or (rpm1 < 0 && rpm2 < 0 && rpm3 < 0 && rpm4 < 0)) {
+    averageTD = 0;
+    totalTD = 0;
+  }*/
 }
-
