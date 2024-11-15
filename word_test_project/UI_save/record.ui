@@ -1,36 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>record</class>
+ <widget class="QDialog" name="record">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>378</width>
-    <height>300</height>
+    <width>864</width>
+    <height>633</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QListWidget" name="listWidget">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>40</y>
-     <width>51</width>
-     <height>211</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QListWidget" name="listWidget_2">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>40</y>
-     <width>281</width>
-     <height>211</height>
+     <x>20</x>
+     <y>80</y>
+     <width>821</width>
+     <height>511</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <item>
+    <property name="text">
+     <string>2024/11/12 PM 9:55 Day1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2024/11/12 PM 9:55 Day2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2024/11/12 PM 9:55 Day3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2024/11/12 PM 9:55 Day5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2024/11/12 PM 9:55 Day4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2024/11/12 PM 9:55 Day6</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>10</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>28</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>기록</string>
    </property>
   </widget>
  </widget>
