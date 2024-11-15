@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QListWidget" name="listWidget_2">
+  <widget class="QListWidget" name="record_list">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -27,36 +27,6 @@
      <pointsize>20</pointsize>
     </font>
    </property>
-   <item>
-    <property name="text">
-     <string>2024/11/12 PM 9:55 Day1</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>2024/11/12 PM 9:55 Day2</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>2024/11/12 PM 9:55 Day3</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>2024/11/12 PM 9:55 Day5</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>2024/11/12 PM 9:55 Day4</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>2024/11/12 PM 9:55 Day6</string>
-    </property>
-   </item>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">

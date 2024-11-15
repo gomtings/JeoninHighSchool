@@ -3,14 +3,17 @@ import json
 import os
 from PySide6.QtWidgets import (
     QMainWindow,
-    QPushButton
+    QPushButton,
+    QListWidget
 )
-
+import shutil
 class record_Window(QMainWindow,Ui_record):
     def __init__(self,path): #init 공부하기
         super(record_Window, self).__init__()
         self.setupUi(self)
         self.path = path
+        self.listcliked = self.findChild(QListWidget,"record_list")
+        self.listcliked.itemDoubleClicked.connect(self.find_record_files)
     def load_records_from_json(self, file_path):
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
@@ -30,6 +33,11 @@ class record_Window(QMainWindow,Ui_record):
         
         # path = os.chdir("/save_record/d1_exam" )
         self.load_records_from_json(self.path)
-    
-    # def choose_record_list(self):
-        
+
+    def find_record_files(self, item, f_name):
+
+        for f_name in os.listdir('test_dir'):
+            if f_name.endswith('.txt'):
+                print(f_name)
+
+        # print(item.text())
