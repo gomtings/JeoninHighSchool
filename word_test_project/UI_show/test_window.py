@@ -14,6 +14,9 @@ from PySide6.QtWidgets import (
     QLabel,
     QListWidgetItem
 )
+
+from datetime import datetime
+
 #pyside6-designer
 #pyside6-uic ele.ui -o ui_elee.py
 from PySide6.QtCore import QTimer, QTime
@@ -27,7 +30,7 @@ class test_Window(QMainWindow, Ui_Form):
         self.correct_answer = 0
         self.wrong_answer = 0
         self.time_out = self.findChild(QLabel, "Time_limit")
-        
+    
         # Initialize QTimer 
         self.timer = QTimer(self) 
         self.timer.timeout.connect(self.update_label) 
@@ -46,9 +49,11 @@ class test_Window(QMainWindow, Ui_Form):
     
         self.meaning_ilst_2 = self.findChild(QListWidget, "meaning_ilst_2")
 
+        
+
         self.chk_answer = self.findChild(QPushButton,"pushButton")
         self.chk_answer.clicked.connect(self.compare_values)
-    
+
         self.word_answer = []
         for i in range(1, 41): 
             text_edit = self.findChild(QLineEdit, f"kr_answer_{i}") 
@@ -112,11 +117,18 @@ class test_Window(QMainWindow, Ui_Form):
             self.compare_values()
 
     def compare_values(self):
+        Answer_check={}
         # Reset counters
+        now = datetime.now()
+        day="임시"
+        time_aim=f" {now.year}년  {now.month}월 {now.day} 일 {now.hour} 시  {now.minute} 분 {day}..\n"
         self.correct_answer = 0
         self.wrong_answer = 0
 
-        # Get QTextEdit values
+        with open("time_list.txt", 'a', encoding='utf-8') as file:
+            file.write(time_aim)   
+    # Get QTextEdit values
+
         
         text_values = [edit.text() for edit in self.word_answer]
         # Compare values
@@ -126,35 +138,28 @@ class test_Window(QMainWindow, Ui_Form):
                 self.correct_answer += 1
                 print(f"Matched: {text} == {a}")
             else:
+                key = f"word{self.wrong_answer}"
                 self.wrong_answer += 1
-                
+                Answer_check[key]=a
+
                 print(f"Not Matched: {text} vs {item}")
                 print(f"Matched: {item} == {a}")
-
         # Output results
         print(f"Correct Answers: {self.correct_answer}",text_values)
         print(f"Wrong Answers: {self.wrong_answer}")
+    def showEvent(self, event):
+        super().showEvent(event)  # 부모 클래스의 showEvent 메서드 호출
+        # Load words from JSON file
+        self.load_words_from_json("d1_exam")
+        
+
+
+
         
 
         # Output results
         #print(f"Correct Answers: {self.correct_answer}")
         #print(f"Wrong Answers: {self.wrong_answer}")
 
-    def showEvent(self, event):
-        super().showEvent(event)  # 부모 클래스의 showEvent 메서드 호출
-        # Load words from JSON file
-        self.load_words_from_json("d1_exam")
 
 
-"""
-app = QApplication(sys.argv)
-
-window = test_Window()
-window.show()
-
-try:
-    app_exec = app.exec
-except AttributeError:
-    app_exec = app.exec_
-sys.exit(app_exec())
-"""

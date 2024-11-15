@@ -4,7 +4,7 @@ import os
 import time
 
 from UI_show.UI.Main_window_ui import Ui_Form
-from UI_show.test_window import test_Window
+
 from UI_show.daylist_window import daylist_window
 from UI_show.record_window import record_Window
 from PySide6.QtWidgets import (
@@ -13,6 +13,14 @@ from PySide6.QtWidgets import (
     QPushButton,
     
 )
+from UI_show.UI.Main_window_ui import Ui_Form
+from UI_show.test_window import test_Window
+from UI_show.daylist_window import daylist_window
+from UI_show.record_window import record_Window
+from PySide6.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QPushButton,)
 # pyside6-designer
 #pyside6-uic main.ui -o Main_window_ui.py
 #pyside6-uic record.ui -o record_window_ui.py
@@ -37,7 +45,7 @@ class Main_Windows(QMainWindow, Ui_Form):
         self.Select_test_range.clicked.connect(self.open_record_window)
         
         self.Add_test_scope = self.findChild(QPushButton, "Addition")
-        #self.Add_test_scope.clicked.connect(self.close_windows)
+        self.Add_test_scope.clicked.connect(self.close_windows)
         
         self.vocabulary_book = self.findChild(QPushButton, "note")
         self.vocabulary_book.clicked.connect(self.open_daylist_window)
