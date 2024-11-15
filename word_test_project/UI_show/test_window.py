@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QPushButton,
     QListWidget,
-    QTextEdit,
+    QLineEdit,
     QLabel,
     QListWidgetItem
 )
@@ -51,12 +51,53 @@ class test_Window(QMainWindow, Ui_Form):
     
         self.word_answer = []
         for i in range(1, 41): 
-            text_edit = self.findChild(QTextEdit, f"kr_answer_{i}") 
+            text_edit = self.findChild(QLineEdit, f"kr_answer_{i}") 
             if text_edit: 
                 self.word_answer.append(text_edit) 
             else: 
                 print(f"Warning: QTextEdit kr_answer_{i} not found")        
-        
+    def load_words_from_json(self, file_path):
+        try:
+            with open(file_path, 'r', encoding='utf-8') as file:
+                self.words = json.load(file)
+            
+            # Select 20 random words
+            
+            
+            self.word_as=[]
+            self.meaning_as=[]
+            self.wor=self.words[0:20]
+            self.chcek_list=[]
+            random_words = random.sample(self.wor, 20)
+            for i in range(20):
+                self.chcek_list.append(random_words[i]['meaning'])
+                self.word_as.append(random_words[i]['word'])
+            
+            random_words = random.sample(self.wor, 20)
+            for i in range(20):
+                self.meaning_as.append(random_words[i]['meaning'])
+            # Add words to QListWidget
+
+            for word in self.word_as:
+                QListWidgetItem(word, self.En_word_1)
+            for meaning in self.meaning_as:
+                QListWidgetItem(meaning, self.meaning_ilst_1)
+                
+                
+
+            
+
+            
+            # Set random_words as class variable for comparison
+            self.random_words = random_words
+
+        except FileNotFoundError:
+            print(f"Error: The file {file_path} was not found.")
+        except json.JSONDecodeError:
+            print("Error: JSON decoding error. Check the file format.")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+
     def update_label(self):
         self.elapsed_time += 1
         remaining_time = self.total_duration - self.elapsed_time
@@ -76,42 +117,28 @@ class test_Window(QMainWindow, Ui_Form):
         self.wrong_answer = 0
 
         # Get QTextEdit values
-        text_values = [edit.toPlainText() for edit in self.word_answer]
-
+        
+        text_values = [edit.text() for edit in self.word_answer]
         # Compare values
-        for text, item in zip(text_values, self.random_words):
-            if text == item["meaning"]:
+        for text, item, a in zip(text_values, self.chcek_list,self.word_as):
+            if text == item:
+
                 self.correct_answer += 1
+                print(f"Matched: {text} == {a}")
             else:
                 self.wrong_answer += 1
-                print(f"Not Matched: {text} vs {item['meaning']}")
+                
+                print(f"Not Matched: {text} vs {item}")
+                print(f"Matched: {item} == {a}")
 
         # Output results
-        print(f"Correct Answers: {self.correct_answer}")
+        print(f"Correct Answers: {self.correct_answer}",text_values)
         print(f"Wrong Answers: {self.wrong_answer}")
+        
 
-    def load_words_from_json(self, file_path):
-        try:
-            with open(file_path, 'r', encoding='utf-8') as file:
-                words = json.load(file)
-
-            # Select 20 random words
-            random_words = random.sample(words, 20)
-
-            # Add words to QListWidget
-            for item in random_words:
-                QListWidgetItem(item["word"], self.En_word_1)
-                QListWidgetItem(item["meaning"], self.meaning_ilst_1)
-
-            # Set random_words as class variable for comparison
-            self.random_words = random_words
-
-        except FileNotFoundError:
-            print(f"Error: The file {file_path} was not found.")
-        except json.JSONDecodeError:
-            print("Error: JSON decoding error. Check the file format.")
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
+        # Output results
+        #print(f"Correct Answers: {self.correct_answer}")
+        #print(f"Wrong Answers: {self.wrong_answer}")
 
     def showEvent(self, event):
         super().showEvent(event)  # 부모 클래스의 showEvent 메서드 호출
