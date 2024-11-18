@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (
     
 )
 from UI_show.UI.Main_window_ui import Ui_Form
-from UI_show.test_window import test_Window
+from UI_show.Subject_select_window import Subject_select_window
 from UI_show.daylist_window import daylist_window
 from UI_show.record_window import record_Window
 from PySide6.QtWidgets import (
@@ -23,6 +23,7 @@ from PySide6.QtWidgets import (
     QPushButton,)
 # pyside6-designer
 #pyside6-uic main.ui -o Main_window_ui.py
+#pyside6-uic Subject_select.ui -o Subject_select_ui.py
 #pyside6-uic record.ui -o record_window_ui.py
 #pyside6-uic daylist.ui -o daylist_window_ui.py
 #pyside6-uic wordlist.ui -o wordlist_ui.py
@@ -32,9 +33,13 @@ class Main_Windows(QMainWindow, Ui_Form):
         super(Main_Windows, self).__init__()
         self.setupUi(self)
         self.setWindowTitle("영단어외우기")
-        self.path = os.getcwd() +"/save_record/d2_exam"
+        # 창 크기를 고정 
+        self.setFixedSize(self.size())
+        self.Exam_record_path = os.getcwd() +"/word_test_project/Exam_test/Exam_record.txt"
+        self.Wrong_list_path = os.getcwd() +"/word_test_project/Exam_test/"
+        self.Workbook_path = os.getcwd() +"/word_test_project/Workbook/d1_exam"
         # Initialize variables and connect signals to slots
-        self.test_Window = None
+        self.select_window = None
         self.daylist_window = None
         self.record_Window = None
 
@@ -54,22 +59,29 @@ class Main_Windows(QMainWindow, Ui_Form):
         self.end.clicked.connect(self.close_windows)
 
     def open_test_Window(self):
-        if self.test_Window is None or not self.test_Window.isVisible(): 
-            self.test_Window = test_Window() 
-            self.test_Window.show()
+        if self.select_window is None or not self.select_window.isVisible(): 
+            self.select_window = Subject_select_window(self,self.Exam_record_path,self.Wrong_list_path,self.Workbook_path) 
+            self.hide()
+            self.select_window.show()
     
     def open_daylist_window(self):
         if self.daylist_window is None or not self.daylist_window.isVisible(): 
-            self.daylist_window = daylist_window() 
+            self.daylist_window = daylist_window(self)
+            self.hide()
             self.daylist_window.show()
-
-    def close_windows(self):
-        self.close()
     
     def open_record_window(self):
         if self.record_Window is None or not self.record_Window.isVisible(): 
-            self.record_Window = record_Window(self.path)
+            self.record_Window = record_Window(self,self.Exam_record_path)
+            self.hide()
             self.record_Window.show()
+
+    def close_windows(self):
+        self.close()            
+
+    def closeEvent(self, event):
+        pass
+
 
 app = QApplication(sys.argv)
 

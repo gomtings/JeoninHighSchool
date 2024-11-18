@@ -8,10 +8,13 @@ from PySide6.QtWidgets import (
 )
 import shutil
 class record_Window(QMainWindow,Ui_record):
-    def __init__(self,path): #init 공부하기
+    def __init__(self,parents,path): #init 공부하기
         super(record_Window, self).__init__()
         self.setupUi(self)
+        self.parents = parents
         self.path = path
+        # 창 크기를 고정 
+        self.setFixedSize(self.size())
         self.listcliked = self.findChild(QListWidget,"record_list")
         self.listcliked.itemDoubleClicked.connect(self.find_record_files)
     def load_records_from_json(self, file_path):
@@ -40,4 +43,6 @@ class record_Window(QMainWindow,Ui_record):
             if f_name.endswith('.txt'):
                 print(f_name)
 
-        # print(item.text())
+    def closeEvent(self, event):
+        self.parents.show()
+        event.accept()

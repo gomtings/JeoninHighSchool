@@ -10,13 +10,14 @@ from PySide6.QtWidgets import (
 )
 
 class daylist_window(QMainWindow,Ui_Select_Day):
-    def __init__(self):
+    def __init__(self,parents):
         super(daylist_window, self).__init__()
         self.setupUi(self)
-
+        self.parents = parents
         # Initialize variables and connect signals to slots
         self.Wordlist = None
-
+        # 창 크기를 고정 
+        self.setFixedSize(self.size())
         # Initialize buttons and connect signals
         for day in range(1, 9):
             day_button = self.findChild(QPushButton, f"Day{day}")
@@ -29,7 +30,10 @@ class daylist_window(QMainWindow,Ui_Select_Day):
             print(day)
             self.Wordlist = wordlist_window(self, day)
             self.Wordlist.show()
-
+    
+    def closeEvent(self, event):
+        self.parents.show()
+        event.accept()
 
 """
 app = QApplication(sys.argv)
