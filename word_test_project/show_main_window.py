@@ -35,7 +35,8 @@ class Main_Windows(QMainWindow, Ui_Form):
         self.setWindowTitle("영단어외우기")
         # 창 크기를 고정 
         self.setFixedSize(self.size())
-        self.Exam_record_path = os.getcwd() +"/word_test_project/Exam_test/Exam_record.txt"
+        self.Exam_bring = os.getcwd() +"/Exam_test/"
+        self.Exam_record_path = os.getcwd() +"/Exam_test/Exam_record.txt"
         self.Wrong_list_path = os.getcwd() +"/word_test_project/Exam_test/"
         self.Workbook_path = os.getcwd() +"/word_test_project/Workbook/d1_exam"
         # Initialize variables and connect signals to slots
@@ -72,7 +73,7 @@ class Main_Windows(QMainWindow, Ui_Form):
     
     def open_record_window(self):
         if self.record_Window is None or not self.record_Window.isVisible(): 
-            self.record_Window = record_Window(self,self.Exam_record_path)
+            self.record_Window = record_Window(self,self.Exam_record_path,self.Exam_bring)
             self.hide()
             self.record_Window.show()
 
