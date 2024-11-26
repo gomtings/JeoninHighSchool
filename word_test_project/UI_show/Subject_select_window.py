@@ -1,11 +1,11 @@
 from UI_show.UI.Subject_select_ui import Ui_Subject
-from UI_show.test_window import test_Window
 import os
 from PySide6.QtWidgets import (
     QMainWindow,
     QPushButton,
     QComboBox
 )
+from UI_show.test_window import test_Window
 class Subject_select_window(QMainWindow,Ui_Subject):
     def __init__(self,parents,Exam_record_path,Wrong_list_path,Workbook_path):
         super(Subject_select_window, self).__init__()

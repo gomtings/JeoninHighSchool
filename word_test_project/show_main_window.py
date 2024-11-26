@@ -4,9 +4,8 @@ import os
 import time
 
 from UI_show.UI.Main_window_ui import Ui_Form
-
-from UI_show.daylist_window import daylist_window
 from UI_show.record_window import record_Window
+from UI_show.daylist_window import daylist_window
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -35,10 +34,10 @@ class Main_Windows(QMainWindow, Ui_Form):
         self.setWindowTitle("영단어외우기")
         # 창 크기를 고정 
         self.setFixedSize(self.size())
-        self.Exam_record_path = os.getcwd() +"/word_test_project/Exam_test/Exam_record.txt"
-        self.Wrong_list_path = os.getcwd() +"/word_test_project/Exam_test/"
-        self.Workbook_path = os.getcwd() +"/word_test_project/Workbook/d1_exam"
-        # Initialize variables and connect signals to slots
+        self.Exam_record_path = os.getcwd() +"/Exam_test/Exam_record.txt"
+        self.Wrong_list_path = os.getcwd() +"/Exam_test/"
+        self.Workbook_path = os.getcwd() +"/Workbook/"
+
         self.select_window = None
         self.daylist_window = None
         self.record_Window = None
@@ -71,12 +70,14 @@ class Main_Windows(QMainWindow, Ui_Form):
             self.daylist_window.show()
     
     def open_record_window(self):
+        
         if self.record_Window is None or not self.record_Window.isVisible(): 
             self.record_Window = record_Window(self,self.Exam_record_path)
             self.hide()
             self.record_Window.show()
 
     def close_windows(self):
+        print(self.Workbook_path)
         self.close()            
 
     def closeEvent(self, event):
