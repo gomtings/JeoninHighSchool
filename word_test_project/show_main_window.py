@@ -63,7 +63,7 @@ class Main_Windows(QMainWindow, Ui_Form):
             self.select_window = Subject_select_window(self,self.Exam_record_path,self.Wrong_list_path,self.Workbook_path) 
             self.hide()
             self.select_window.show()
-    
+            
     def open_daylist_window(self):
         if self.daylist_window is None or not self.daylist_window.isVisible(): 
             self.daylist_window = daylist_window(self)
