@@ -30,6 +30,8 @@ class test_Window(QMainWindow, Ui_Form):
         self.Wrong_list_path = Wrong_list_path
         self.Workbook_path = Workbook_path
         self.select_day = DAY
+        self.file_save=f"{self.Workbook_path}{self.select_day}"
+        print(self.select_day,self.file_save)
         self.parents = parents
         self.setWindowTitle(f"{self.select_day} 시험")  # 윈도우 제목 설정
         # 창 크기를 고정 
@@ -68,9 +70,9 @@ class test_Window(QMainWindow, Ui_Form):
             else: 
                 print(f"Warning: QTextEdit kr_answer_{i} not found")        
     
-    def load_words_from_json(self, file_path):
+    def load_words_from_json(self, file_save):
         try:
-            with open(file_path, 'r', encoding='utf-8') as file:
+            with open(file_save, 'r', encoding='utf-8') as file:
                 self.words = json.load(file)
 
             self.word_as = []
@@ -78,25 +80,25 @@ class test_Window(QMainWindow, Ui_Form):
             self.chcek_list = []
 
             # 첫 번째 부분
-            random_words = random.sample(self.words[0:19], min(20, len(self.words[0:19])))
+            random_words = random.sample(self.words[0:24], min(25, len(self.words[0:24])))
             for word in random_words:
                 self.chcek_list.append(word['meaning'])
                 self.word_as.append(word['word'])
                 QListWidgetItem(word['word'], self.En_word_1)
 
-            random_words = random.sample(self.words[0:19], min(20, len(self.words[0:19])))
+            random_words = random.sample(self.words[0:24], min(25, len(self.words[0:24])))
             for word in random_words:
                 self.meaning_as.append(word['meaning'])
                 QListWidgetItem(word['meaning'], self.meaning_ilst_1)
 
             # 두 번째 부분
-            random_words = random.sample(self.words[20:], min(20, len(self.words[20:])))
+            random_words = random.sample(self.words[25:], min(24, len(self.words[25:])))
             for word in random_words:
                 self.chcek_list.append(word['meaning'])
                 self.word_as.append(word['word'])
                 QListWidgetItem(word['word'], self.En_word_2)
 
-            random_words = random.sample(self.words[20:], min(20, len(self.words[20:])))
+            random_words = random.sample(self.words[25:], min(24, len(self.words[25:])))
             for word in random_words:
                 self.meaning_as.append(word['meaning'])
                 QListWidgetItem(word['meaning'], self.meaning_ilst_2)
@@ -107,7 +109,7 @@ class test_Window(QMainWindow, Ui_Form):
             self.random_words = random_words
 
         except FileNotFoundError:
-            print(f"Error: The file {file_path} was not found.")
+            print(f"Error: The file {file_save} was not found.")
         except json.JSONDecodeError:
             print("Error: JSON decoding error. Check the file format.")
         except Exception as e:
@@ -130,17 +132,20 @@ class test_Window(QMainWindow, Ui_Form):
         Answer_check={}
         # Reset counters
         now = datetime.now()
-        day="DAY1"
-        record_time = f"{now.year}{now.month}{now.day}{now.hour}_{now.minute}_{day}"
+        record_time = f"{now.year}{now.month}{now.day}{now.hour}_{now.minute}_{self.select_day}"
         self.correct_answer = 0
         self.wrong_answer = 0 
-
+        
+        
+        rlacl=[]
         text_values = [edit.text() for edit in self.word_answer]
         # Compare values
         for text, item, a in zip(text_values, self.chcek_list,self.word_as):
             if text == item:
+                rlacl.append(f"{text}와 {a}이 일치합니다. \n")
                 self.correct_answer += 1
             else:
+                rlacl.append(f"{text}와 {a}이 불일치합니다. \n ")
                 key = f"word{self.wrong_answer}"
                 self.wrong_answer += 1
                 Answer_check[key]=a
@@ -152,7 +157,11 @@ class test_Window(QMainWindow, Ui_Form):
         self.Wrong_list_path = self.Wrong_list_path + record_time +".json"
         with open(self.Wrong_list_path, 'a', encoding='utf-8') as file:
            json.dump(Answer_check, file, indent=4)
+        f= open("Entity01.txt","w+")
+        for a in rlacl:
+            f.write(a)
 
+        f.write(f"맞춘갯수{self.correct_answer}틀린갯수{self.wrong_answer}")
         # 팝업 창 띄우기
         self.show_result_popup(self.correct_answer,self.wrong_answer)
 
@@ -171,9 +180,8 @@ class test_Window(QMainWindow, Ui_Form):
         event.accept()
 
     def showEvent(self, event):
-        super().showEvent(event)  # 부모 클래스의 showEvent 메서드 호출
-        # Load words from JSON file
-        self.load_words_from_json(self.Workbook_path)
+        super().showEvent(event)
+        self.load_words_from_json(self.file_save)
         
 
 

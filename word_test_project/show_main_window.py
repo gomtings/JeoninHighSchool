@@ -4,9 +4,8 @@ import os
 import time
 
 from UI_show.UI.Main_window_ui import Ui_Form
-
-from UI_show.daylist_window import daylist_window
 from UI_show.record_window import record_Window
+from UI_show.daylist_window import daylist_window
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -78,6 +77,7 @@ class Main_Windows(QMainWindow, Ui_Form):
             self.record_Window.show()
 
     def close_windows(self):
+        print(self.Workbook_path)
         self.close()            
 
     def closeEvent(self, event):
