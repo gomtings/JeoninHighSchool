@@ -4,18 +4,10 @@ import os
 import time
 
 from UI_show.UI.Main_window_ui import Ui_Form
-from UI_show.record_window import record_Window
-from UI_show.daylist_window import daylist_window
-from PySide6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QPushButton,
-    
-)
-from UI_show.UI.Main_window_ui import Ui_Form
 from UI_show.Subject_select_window import Subject_select_window
 from UI_show.daylist_window import daylist_window
 from UI_show.record_window import record_Window
+from UI_show.Uploading_window import uploading_window
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -26,6 +18,7 @@ from PySide6.QtWidgets import (
 #pyside6-uic record.ui -o record_window_ui.py
 #pyside6-uic daylist.ui -o daylist_window_ui.py
 #pyside6-uic wordlist.ui -o wordlist_ui.py
+#pyside6-uic Uploading.ui -o Uploading_ui.py
 #cd word_test_project/UI_save
 class Main_Windows(QMainWindow, Ui_Form):
     def __init__(self):
@@ -42,7 +35,8 @@ class Main_Windows(QMainWindow, Ui_Form):
         self.select_window = None
         self.daylist_window = None
         self.record_Window = None
-
+        self.uploading_window = None
+        
         self.strat = self.findChild(QPushButton, "questions")
         self.strat.clicked.connect(self.open_test_Window)
         
@@ -50,7 +44,7 @@ class Main_Windows(QMainWindow, Ui_Form):
         self.Select_test_range.clicked.connect(self.open_record_window)
         
         self.Add_test_scope = self.findChild(QPushButton, "Addition")
-        self.Add_test_scope.clicked.connect(self.close_windows)
+        self.Add_test_scope.clicked.connect(self.open_uploading_window)
         
         self.vocabulary_book = self.findChild(QPushButton, "note")
         self.vocabulary_book.clicked.connect(self.open_daylist_window)
@@ -76,6 +70,12 @@ class Main_Windows(QMainWindow, Ui_Form):
             self.hide()
             self.record_Window.show()
 
+    def open_uploading_window(self):
+        if self.uploading_window is None or not self.uploading_window.isVisible(): 
+            self.uploading_window = uploading_window(self,self.Exam_record_path,self.Exam_bring)
+            self.hide()
+            self.uploading_window.show()
+            
     def close_windows(self):
         print(self.Workbook_path)
         self.close()            
