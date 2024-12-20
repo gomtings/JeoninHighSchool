@@ -1,11 +1,12 @@
-from UI_show.UI.wordlist_ui import Ui_uploading_windows
+from UI_show.UI.Uploading_ui import Ui_uploading_windows
 from PySide6.QtWidgets import (
     QMainWindow,
-    QLabel
+    QLabel,
+    QPushButton
 )
 class uploading_window(QMainWindow, Ui_uploading_windows):
     def __init__(self, parent=None, day=None):
-        super(wordlist_window, self).__init__(parent)
+        super(uploading_window, self).__init__(parent)
         self.setupUi(self)
         self.day = day
         self.setWindowTitle(f"uploading for {day}")
@@ -32,6 +33,7 @@ class uploading_window(QMainWindow, Ui_uploading_windows):
 
     def uploading(self):
         pass
+    
     
 """
 app = QApplication(sys.argv)
