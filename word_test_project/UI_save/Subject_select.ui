@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Subject</class>
+ <widget class="QMainWindow" name="Subject">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>372</width>
+    <height>136</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="title">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>10</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>과목 선택</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="Subject_select">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>50</y>
+      <width>311</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <item>
+     <property name="text">
+      <string>DAY1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>DAY2</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>DAY3</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>DAY4</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>DAY5</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>DAY6</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>DAY7</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>DAY8</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>DAY9</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="start_exam">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>90</y>
+      <width>171</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>DAY1 시험 보기</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
