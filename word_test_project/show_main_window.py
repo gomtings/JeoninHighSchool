@@ -11,7 +11,8 @@ from UI_show.Uploading_window import uploading_window
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
-    QPushButton,)
+    QPushButton,
+    )
 # pyside6-designer
 #pyside6-uic main.ui -o Main_window_ui.py
 #pyside6-uic Subject_select.ui -o Subject_select_ui.py
@@ -72,7 +73,7 @@ class Main_Windows(QMainWindow, Ui_Form):
 
     def open_uploading_window(self):
         if self.uploading_window is None or not self.uploading_window.isVisible(): 
-            self.uploading_window = uploading_window(self,self.Exam_record_path,self.Exam_bring)
+            self.uploading_window = uploading_window(self)
             self.hide()
             self.uploading_window.show()
             
@@ -82,7 +83,6 @@ class Main_Windows(QMainWindow, Ui_Form):
 
     def closeEvent(self, event):
         pass
-
 
 app = QApplication(sys.argv)
 
