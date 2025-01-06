@@ -27,7 +27,6 @@ class daylist_window(QMainWindow,Ui_Select_Day):
 
     def Day_wordlist(self, day):
         if not self.Wordlist or not self.Wordlist.isVisible():
-            print(day)
             self.Wordlist = wordlist_window(self, day)
             self.Wordlist.show()
     

@@ -26,6 +26,7 @@ class test_Window(QMainWindow, Ui_Form):
     def __init__(self,parents,DAY,Exam_record_path,Wrong_list_path,Workbook_path):
         super(test_Window, self).__init__()  # QMainWindow의 __init__을 명시적으로 호출
         self.setupUi(self)  # Ui_Form의 UI 설정
+
         self.Exam_record_path = Exam_record_path
         self.Wrong_list_path = Wrong_list_path
         self.Workbook_path = Workbook_path
@@ -69,7 +70,10 @@ class test_Window(QMainWindow, Ui_Form):
                 self.word_answer.append(text_edit) 
             else: 
                 print(f"Warning: QTextEdit kr_answer_{i} not found")        
-    
+        
+        # 문제 불러오기....
+        self.load_words_from_json(self.file_save)
+            
     def load_words_from_json(self, file_save):
         try:
             with open(file_save, 'r', encoding='utf-8') as file:
@@ -178,16 +182,7 @@ class test_Window(QMainWindow, Ui_Form):
     def closeEvent(self, event):
         self.parents.show()
         event.accept()
-
-    def showEvent(self, event):
-        super().showEvent(event)
-        self.load_words_from_json(self.file_save)
         
-
-
-
-        
-
         # Output results
         #print(f"Correct Answers: {self.correct_answer}")
         #print(f"Wrong Answers: {self.wrong_answer}")

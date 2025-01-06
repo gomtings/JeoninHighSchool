@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QPushButton,
     )
-# pyside6-designer
+#pyside6-designer
 #pyside6-uic main.ui -o Main_window_ui.py
 #pyside6-uic Subject_select.ui -o Subject_select_ui.py
 #pyside6-uic record.ui -o record_window_ui.py
@@ -30,8 +30,8 @@ class Main_Windows(QMainWindow, Ui_Form):
         self.setFixedSize(self.size())
         self.Exam_bring = os.getcwd() +"/Exam_test/"
         self.Exam_record_path = os.getcwd() +"/Exam_test/Exam_record.txt"
-        self.Wrong_list_path = os.getcwd() +"/word_test_project/Exam_test/"
-        self.Workbook_path = os.getcwd() +"/word_test_project/Workbook/d1_exam"
+        self.Wrong_list_path = os.getcwd() +"/Exam_test/"
+        self.Workbook_path = os.getcwd() +"/Workbook/"
         # Initialize variables and connect signals to slots
         self.select_window = None
         self.daylist_window = None
