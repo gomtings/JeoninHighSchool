@@ -26,12 +26,14 @@ class Main_Windows(QMainWindow, Ui_Form):
         super(Main_Windows, self).__init__()
         self.setupUi(self)
         self.setWindowTitle("영단어외우기")
+        
         # 창 크기를 고정 
         self.setFixedSize(self.size())
         self.Exam_bring = os.getcwd() +"/Exam_test/"
         self.Exam_record_path = os.getcwd() +"/Exam_test/Exam_record.txt"
         self.Wrong_list_path = os.getcwd() +"/Exam_test/"
         self.Workbook_path = os.getcwd() +"/Workbook/"
+        
         # Initialize variables and connect signals to slots
         self.select_window = None
         self.daylist_window = None

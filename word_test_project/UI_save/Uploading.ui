@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>760</width>
-    <height>640</height>
+    <width>774</width>
+    <height>642</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -3449,8 +3449,8 @@
    <property name="geometry">
     <rect>
      <x>610</x>
-     <y>470</y>
-     <width>141</width>
+     <y>460</y>
+     <width>161</width>
      <height>51</height>
     </rect>
    </property>
@@ -3461,6 +3461,84 @@
    </property>
    <property name="text">
     <string>과제 업로드</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="Subject_select">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>410</y>
+     <width>161</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <item>
+    <property name="text">
+     <string>DAY1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY7</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY8</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY9</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_45">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>370</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>과제선택</string>
    </property>
   </widget>
  </widget>

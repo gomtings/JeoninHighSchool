@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'Uploading.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.1
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,14 +15,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDialog, QLabel, QPushButton,
-    QSizePolicy, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QDialog, QLabel,
+    QPushButton, QSizePolicy, QWidget)
 
 class Ui_uploading_windows(object):
     def setupUi(self, uploading_windows):
         if not uploading_windows.objectName():
             uploading_windows.setObjectName(u"uploading_windows")
-        uploading_windows.resize(760, 640)
+        uploading_windows.resize(774, 642)
         self.label = QLabel(uploading_windows)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(0, 40, 31, 21))
@@ -1003,10 +1003,27 @@ class Ui_uploading_windows(object):
 "")
         self.upload = QPushButton(uploading_windows)
         self.upload.setObjectName(u"upload")
-        self.upload.setGeometry(QRect(610, 470, 141, 51))
+        self.upload.setGeometry(QRect(610, 460, 161, 51))
         font1 = QFont()
         font1.setPointSize(16)
         self.upload.setFont(font1)
+        self.Subject_select = QComboBox(uploading_windows)
+        self.Subject_select.addItem("")
+        self.Subject_select.addItem("")
+        self.Subject_select.addItem("")
+        self.Subject_select.addItem("")
+        self.Subject_select.addItem("")
+        self.Subject_select.addItem("")
+        self.Subject_select.addItem("")
+        self.Subject_select.addItem("")
+        self.Subject_select.addItem("")
+        self.Subject_select.setObjectName(u"Subject_select")
+        self.Subject_select.setGeometry(QRect(610, 410, 161, 41))
+        self.Subject_select.setFont(font1)
+        self.label_45 = QLabel(uploading_windows)
+        self.label_45.setObjectName(u"label_45")
+        self.label_45.setGeometry(QRect(620, 370, 101, 31))
+        self.label_45.setFont(font1)
 
         self.retranslateUi(uploading_windows)
 
@@ -1180,5 +1197,16 @@ class Ui_uploading_windows(object):
         self.Meaning_39.setText("")
         self.Meaning_40.setText("")
         self.upload.setText(QCoreApplication.translate("uploading_windows", u"\uacfc\uc81c \uc5c5\ub85c\ub4dc", None))
+        self.Subject_select.setItemText(0, QCoreApplication.translate("uploading_windows", u"DAY1", None))
+        self.Subject_select.setItemText(1, QCoreApplication.translate("uploading_windows", u"DAY2", None))
+        self.Subject_select.setItemText(2, QCoreApplication.translate("uploading_windows", u"DAY3", None))
+        self.Subject_select.setItemText(3, QCoreApplication.translate("uploading_windows", u"DAY4", None))
+        self.Subject_select.setItemText(4, QCoreApplication.translate("uploading_windows", u"DAY5", None))
+        self.Subject_select.setItemText(5, QCoreApplication.translate("uploading_windows", u"DAY6", None))
+        self.Subject_select.setItemText(6, QCoreApplication.translate("uploading_windows", u"DAY7", None))
+        self.Subject_select.setItemText(7, QCoreApplication.translate("uploading_windows", u"DAY8", None))
+        self.Subject_select.setItemText(8, QCoreApplication.translate("uploading_windows", u"DAY9", None))
+
+        self.label_45.setText(QCoreApplication.translate("uploading_windows", u"\uacfc\uc81c\uc120\ud0dd", None))
     # retranslateUi
 
