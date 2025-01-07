@@ -69,7 +69,7 @@ class Main_Windows(QMainWindow, Ui_Form):
     
     def open_record_window(self):
         if self.record_Window is None or not self.record_Window.isVisible(): 
-            self.record_Window = record_Window(self,self.Exam_record_path,self.Exam_bring)
+            self.record_Window = record_Window(self,self.Workbook_path,self.Exam_record_path,self.Exam_bring)
             self.hide()
             self.record_Window.show()
 

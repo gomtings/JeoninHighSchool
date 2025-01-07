@@ -1,40 +1,40 @@
-와 respond이 불일치합니다. 
- 와 harbor이 불일치합니다. 
- 와 effort이 불일치합니다. 
- 와 benefit이 불일치합니다. 
- 와 participate이 불일치합니다. 
- 와 determine이 불일치합니다. 
- 와 launch이 불일치합니다. 
- 와 narrow이 불일치합니다. 
- 와 knowledge이 불일치합니다. 
- 와 satisfy이 불일치합니다. 
+와 benefit이 불일치합니다. 
  와 wonder이 불일치합니다. 
- 와 maintain이 불일치합니다. 
- 와 question이 불일치합니다. 
- 와 transform이 불일치합니다. 
- 와 victory이 불일치합니다. 
  와 unique이 불일치합니다. 
- 와 justify이 불일치합니다. 
- 와 consequence이 불일치합니다. 
- 와 generate이 불일치합니다. 
- 와 frequent이 불일치합니다. 
- 와 occur이 불일치합니다. 
- 와 initial이 불일치합니다. 
- 와 abandon이 불일치합니다. 
+ 와 narrow이 불일치합니다. 
  와 xenon이 불일치합니다. 
- 와 glimpse이 불일치합니다. 
- 와 facilitate이 불일치합니다. 
+ 와 abandon이 불일치합니다. 
+ 와 occur이 불일치합니다. 
+ 와 participate이 불일치합니다. 
+ 와 frequent이 불일치합니다. 
+ 와 victory이 불일치합니다. 
+ 와 transform이 불일치합니다. 
+ 와 consequence이 불일치합니다. 
+ 와 satisfy이 불일치합니다. 
+ 와 harbor이 불일치합니다. 
+ 와 maintain이 불일치합니다. 
+ 와 effort이 불일치합니다. 
+ 와 justify이 불일치합니다. 
+ 와 determine이 불일치합니다. 
+ 와 generate이 불일치합니다. 
+ 와 respond이 불일치합니다. 
+ 와 question이 불일치합니다. 
+ 와 launch이 불일치합니다. 
+ 와 initial이 불일치합니다. 
+ 와 knowledge이 불일치합니다. 
+ 와 manifest이 불일치합니다. 
  와 zeal이 불일치합니다. 
- 와 define이 불일치합니다. 
+ 와 inspire이 불일치합니다. 
+ 와 glimpse이 불일치합니다. 
+ 와 judge이 불일치합니다. 
  와 anticipate이 불일치합니다. 
  와 elevate이 불일치합니다. 
- 와 judge이 불일치합니다. 
- 와 hesitate이 불일치합니다. 
- 와 inspire이 불일치합니다. 
- 와 manifest이 불일치합니다. 
- 와 negotiate이 불일치합니다. 
  와 believe이 불일치합니다. 
- 와 collaborate이 불일치합니다. 
- 와 linger이 불일치합니다. 
  와 keen이 불일치합니다. 
+ 와 collaborate이 불일치합니다. 
+ 와 hesitate이 불일치합니다. 
+ 와 negotiate이 불일치합니다. 
+ 와 facilitate이 불일치합니다. 
+ 와 linger이 불일치합니다. 
+ 와 define이 불일치합니다. 
  맞춘갯수0틀린갯수39

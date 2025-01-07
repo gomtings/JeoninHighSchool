@@ -32,7 +32,7 @@ class test_Window(QMainWindow, Ui_Form):
         self.Workbook_path = Workbook_path
         self.select_day = DAY
         self.file_save=f"{self.Workbook_path}{self.select_day}"
-        print(self.select_day,self.file_save)
+        
         self.parents = parents
         self.setWindowTitle(f"{self.select_day} 시험")  # 윈도우 제목 설정
         # 창 크기를 고정 
@@ -150,22 +150,17 @@ class test_Window(QMainWindow, Ui_Form):
                 self.correct_answer += 1
             else:
                 rlacl.append(f"{text}와 {a}이 불일치합니다. \n ")
-                key = f"word{self.wrong_answer}"
                 self.wrong_answer += 1
-                Answer_check[key]=a
+                Answer_check[a]=text
         
         with open(self.Exam_record_path, 'a', encoding='utf-8') as file:
             time = record_time + "\n"
             file.write(time)
         
-        self.Wrong_list_path = self.Wrong_list_path + record_time +".json"
-        with open(self.Wrong_list_path, 'a', encoding='utf-8') as file:
+        list_path = self.Wrong_list_path + record_time +".json"
+        with open(list_path, 'a', encoding='utf-8') as file:
            json.dump(Answer_check, file, indent=4)
-        f= open("Entity01.txt","w+")
-        for a in rlacl:
-            f.write(a)
 
-        f.write(f"맞춘갯수{self.correct_answer}틀린갯수{self.wrong_answer}")
         # 팝업 창 띄우기
         self.show_result_popup(self.correct_answer,self.wrong_answer)
 
