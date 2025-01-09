@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (
 )
 
 class record_Window(QMainWindow, Ui_record):
-    def __init__(self, parents,Workbook_path, Exam_record_path, bring):  # init 공부하기
+    def __init__(self, parents,Workbook_path, Exam_record_path, bring,Base_path):  # init 공부하기
         super(record_Window, self).__init__()
         self.setupUi(self)
         self.Exam_record_path = Exam_record_path
@@ -20,10 +20,12 @@ class record_Window(QMainWindow, Ui_record):
         self.Exam_bring = bring
         self.Memo_window = None
         self.Range = None
+        self.Base_path = Base_path
         self.listcliked = self.findChild(QListWidget, "record_list")
         self.listcliked.itemDoubleClicked.connect(self.clicked_record_list)
         self.clicked_file_path = None
-
+        self.load_records_from_json(self.Exam_record_path)
+    
     def load_records_from_json(self, file_path):
         try:
             with open(self.Exam_record_path, 'r', encoding='utf-8') as file:
@@ -51,13 +53,9 @@ class record_Window(QMainWindow, Ui_record):
 
     def show_file_in_dialog(self, file_path,Range):
         if self.Memo_window is None or not self.Memo_window.isVisible(): 
-            self.Memo_window = Memo_window(self,self.Workbook_path,file_path,Range)
+            self.Memo_window = Memo_window(self,self.Base_path,self.Workbook_path,file_path,Range)
             self.hide()
             self.Memo_window.show()
-
-    def showEvent(self, event):
-        super().showEvent(event)  # 부모 클래스의 showEvent 메서드 호출
-        self.load_records_from_json(self.Exam_record_path)
 
     def closeEvent(self, event):
         self.parents.show()

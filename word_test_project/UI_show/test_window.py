@@ -74,6 +74,7 @@ class test_Window(QMainWindow, Ui_Form):
         # 문제 불러오기....
         self.load_words_from_json(self.file_save)
             
+
     def load_words_from_json(self, file_save):
         try:
             with open(file_save, 'r', encoding='utf-8') as file:
@@ -84,28 +85,32 @@ class test_Window(QMainWindow, Ui_Form):
             self.chcek_list = []
 
             # 첫 번째 부분
-            random_words = random.sample(self.words[0:24], min(25, len(self.words[0:24])))
+            random_words = random.sample(self.words[0:25], min(25, len(self.words[0:25])))
             for word in random_words:
-                self.chcek_list.append(word['meaning'])
+                for meaning in word['meaning']:  # meaning이 리스트이므로 각각을 추가
+                    self.chcek_list.append(meaning)
                 self.word_as.append(word['word'])
                 QListWidgetItem(word['word'], self.En_word_1)
 
-            random_words = random.sample(self.words[0:24], min(25, len(self.words[0:24])))
+            random_words = random.sample(self.words[0:25], min(25, len(self.words[0:25])))
             for word in random_words:
-                self.meaning_as.append(word['meaning'])
-                QListWidgetItem(word['meaning'], self.meaning_ilst_1)
+                for meaning in word['meaning']:
+                    self.meaning_as.append(meaning)
+                    QListWidgetItem(meaning, self.meaning_ilst_1)
 
             # 두 번째 부분
-            random_words = random.sample(self.words[25:], min(24, len(self.words[25:])))
+            random_words = random.sample(self.words[25:], min(25, len(self.words[25:])))
             for word in random_words:
-                self.chcek_list.append(word['meaning'])
+                for meaning in word['meaning']:
+                    self.chcek_list.append(meaning)
                 self.word_as.append(word['word'])
                 QListWidgetItem(word['word'], self.En_word_2)
 
-            random_words = random.sample(self.words[25:], min(24, len(self.words[25:])))
+            random_words = random.sample(self.words[25:], min(25, len(self.words[25:])))
             for word in random_words:
-                self.meaning_as.append(word['meaning'])
-                QListWidgetItem(word['meaning'], self.meaning_ilst_2)
+                for meaning in word['meaning']:
+                    self.meaning_as.append(meaning)
+                    QListWidgetItem(meaning, self.meaning_ilst_2)
 
             # Add words to QListWidget
             #             
@@ -118,6 +123,7 @@ class test_Window(QMainWindow, Ui_Form):
             print("Error: JSON decoding error. Check the file format.")
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
+
 
     def update_label(self):
         self.elapsed_time += 1
@@ -139,7 +145,6 @@ class test_Window(QMainWindow, Ui_Form):
         record_time = f"{now.year}{now.month}{now.day}{now.hour}_{now.minute}_{self.select_day}"
         self.correct_answer = 0
         self.wrong_answer = 0 
-        
         
         rlacl=[]
         text_values = [edit.text() for edit in self.word_answer]
