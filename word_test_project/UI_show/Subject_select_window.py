@@ -7,7 +7,7 @@ from PySide6.QtWidgets import (
 )
 from UI_show.test_window import test_Window
 class Subject_select_window(QMainWindow,Ui_Subject):
-    def __init__(self,parents,Exam_record_path,Wrong_list_path,Workbook_path):
+    def __init__(self,parents,Exam_record_path,Wrong_list_path,Workbook_path,Base_path):
         super(Subject_select_window, self).__init__()
         self.setupUi(self)
         self.setWindowTitle("시험과목선택")
@@ -19,6 +19,7 @@ class Subject_select_window(QMainWindow,Ui_Subject):
         self.Workbook_path = Workbook_path
         self.select_day = "DAY1"
         self.test_Window = None
+        self.Base_path = Base_path
         self.start_exam = self.findChild(QPushButton,"start_exam")
         self.start_exam.clicked.connect(self.open_test_Window)
         
@@ -33,7 +34,7 @@ class Subject_select_window(QMainWindow,Ui_Subject):
     def open_test_Window(self):
         if self.test_Window is None or not self.test_Window.isVisible():
             self.hide()
-            self.test_Window = test_Window(self,self.select_day,self.Exam_record_path,self.Wrong_list_path,self.Workbook_path) 
+            self.test_Window = test_Window(self,self.select_day,self.Exam_record_path,self.Wrong_list_path,self.Workbook_path,self.Base_path) 
             self.test_Window.show()
 
     def closeEvent(self, event):

@@ -4,6 +4,7 @@ import os
 import time
 import json
 import random
+from cryptography.fernet import Fernet
 from UI_show.UI.test_window_ui import Ui_Form
 from PySide6.QtWidgets import (
     QApplication,
@@ -23,7 +24,7 @@ from datetime import datetime
 from PySide6.QtCore import QTimer, QTime
 
 class test_Window(QMainWindow, Ui_Form):
-    def __init__(self,parents,DAY,Exam_record_path,Wrong_list_path,Workbook_path):
+    def __init__(self,parents,DAY,Exam_record_path,Wrong_list_path,Workbook_path,Base_path):
         super(test_Window, self).__init__()  # QMainWindow의 __init__을 명시적으로 호출
         self.setupUi(self)  # Ui_Form의 UI 설정
 
@@ -31,8 +32,8 @@ class test_Window(QMainWindow, Ui_Form):
         self.Wrong_list_path = Wrong_list_path
         self.Workbook_path = Workbook_path
         self.select_day = DAY
-        self.file_save=f"{self.Workbook_path}{self.select_day}"
-        
+        self.file_save=f"{self.Workbook_path}{self.select_day}.json"
+        self.Base_path  = Base_path
         self.parents = parents
         self.setWindowTitle(f"{self.select_day} 시험")  # 윈도우 제목 설정
         # 창 크기를 고정 
@@ -48,7 +49,12 @@ class test_Window(QMainWindow, Ui_Form):
         # Initialize start time 
         self.start_time = QTime(0, 0, 0) # Start at 00:00:00
         # Set total duration (e.g., 10 minutes = 600 seconds) 
-        
+
+        # 키 파일 경로 정의
+        self.key_path = os.path.join(self.Base_path, "info", "encryption_key.key")
+        self.key = self.load_or_generate_key()
+        self.cipher_suite = Fernet(self.key)
+
         self.time_out = self.findChild(QLabel, "Time_limit")
         self.update_label()
         
@@ -73,44 +79,53 @@ class test_Window(QMainWindow, Ui_Form):
         
         # 문제 불러오기....
         self.load_words_from_json(self.file_save)
-            
+
+    def load_or_generate_key(self):
+        if os.path.exists(self.key_path):
+            with open(self.key_path, 'rb') as key_file:
+                return key_file.read()
+        else:
+            key = Fernet.generate_key()
+            with open(self.key_path, 'wb') as key_file:
+                key_file.write(key)
+            return key
+        
+    def encrypt_meaning(self, meaning):
+        return self.cipher_suite.encrypt(meaning.encode('utf-8')).decode('utf-8')
+    
+    def decrypt_meaning(self, encrypted_meaning):
+        return self.cipher_suite.decrypt(encrypted_meaning.encode('utf-8')).decode('utf-8')            
 
     def load_words_from_json(self, file_save):
         try:
-            with open(file_save, 'r', encoding='utf-8') as file:
-                self.words = json.load(file)
-
             self.word_as = []
             self.meaning_as = []
             self.chcek_list = []
+            self.words = {}
+            with open(file_save, 'r', encoding='utf-8') as file:
+                self.words = json.load(file)
 
             # 첫 번째 부분
             random_words = random.sample(self.words[0:25], min(25, len(self.words[0:25])))
             for word in random_words:
                 for meaning in word['meaning']:  # meaning이 리스트이므로 각각을 추가
-                    self.chcek_list.append(meaning)
+                    decrypted_meaning = self.decrypt_meaning(meaning)  # 복호화
+                    self.chcek_list.append(decrypted_meaning)
+                    self.meaning_as.append(decrypted_meaning)
+                    QListWidgetItem(decrypted_meaning, self.meaning_ilst_1)
                 self.word_as.append(word['word'])
                 QListWidgetItem(word['word'], self.En_word_1)
-
-            random_words = random.sample(self.words[0:25], min(25, len(self.words[0:25])))
-            for word in random_words:
-                for meaning in word['meaning']:
-                    self.meaning_as.append(meaning)
-                    QListWidgetItem(meaning, self.meaning_ilst_1)
 
             # 두 번째 부분
             random_words = random.sample(self.words[25:], min(25, len(self.words[25:])))
             for word in random_words:
                 for meaning in word['meaning']:
-                    self.chcek_list.append(meaning)
+                    decrypted_meaning = self.decrypt_meaning(meaning)  # 복호화
+                    self.chcek_list.append(decrypted_meaning)
+                    self.meaning_as.append(decrypted_meaning)
+                    QListWidgetItem(decrypted_meaning, self.meaning_ilst_2)
                 self.word_as.append(word['word'])
                 QListWidgetItem(word['word'], self.En_word_2)
-
-            random_words = random.sample(self.words[25:], min(25, len(self.words[25:])))
-            for word in random_words:
-                for meaning in word['meaning']:
-                    self.meaning_as.append(meaning)
-                    QListWidgetItem(meaning, self.meaning_ilst_2)
 
             # Add words to QListWidget
             #             

@@ -70,6 +70,8 @@ class Main_Windows(QMainWindow, Ui_Form):
         self.end = self.findChild(QPushButton, "closed")
         self.end.clicked.connect(self.close_windows)
 
+        self.download_Workbook()
+    
     def download_key_file(self):
         SERVER_IP = self.report_dist["SERVER_IP"]
         PORT = self.report_dist["PORT"]
@@ -88,10 +90,39 @@ class Main_Windows(QMainWindow, Ui_Form):
                     "RETR " + os.path.basename(self.key_path),
                     keyfile.write,
                 )
-            print(f"키 파일 다운로드 완료: {os.path.basename(self.key_path)}")
+            print(f"키 파일  다운로드 완료: {os.path.basename(self.key_path)}")
 
         except ftplib.all_errors as e:
-            print(f"키 파일 다운로드 중 오류가 발생했습니다: {str(e)}")
+            print(f"키 파일  다운로드 중 오류가 발생했습니다: {str(e)}")
+        finally:
+            session.quit()
+
+    def download_Workbook(self):
+        SERVER_IP = self.report_dist["SERVER_IP"]
+        PORT = self.report_dist["PORT"]
+        username = self.report_dist["username"]
+        password = self.report_dist["password"]
+        session = ftplib.FTP()
+        
+        try:
+            session.connect(SERVER_IP, PORT, timeout=10)
+            session.login(username, password)
+            session.cwd("/html/word_test_project/Workbook/")
+
+            files = session.nlst()  # 현재 디렉토리의 모든 파일 목록을 가져옴
+            
+            for file_name in files:
+                local_path = os.path.join(self.Workbook_path, file_name)
+                with open(local_path, "wb") as keyfile:
+                    session.encoding = "utf-8"
+                    session.retrbinary(
+                        "RETR " + file_name,
+                        keyfile.write,
+                    )
+                print(f"문제집 다운로드 완료: {file_name}")
+
+        except ftplib.all_errors as e:
+            print(f"문제집 다운로드 중 오류가 발생했습니다: {str(e)}")
         finally:
             session.quit()
 
@@ -106,7 +137,7 @@ class Main_Windows(QMainWindow, Ui_Form):
             
     def open_test_Window(self):
         if self.select_window is None or not self.select_window.isVisible(): 
-            self.select_window = Subject_select_window(self,self.Exam_record_path,self.Wrong_list_path,self.Workbook_path) 
+            self.select_window = Subject_select_window(self,self.Exam_record_path,self.Wrong_list_path,self.Workbook_path,self.Base_path) 
             self.hide()
             self.select_window.show()
 

@@ -1,6 +1,7 @@
 import ftplib
 import json
 import os
+from datetime import datetime
 from cryptography.fernet import Fernet
 from UI_show.UI.Uploading_ui import Ui_uploading_windows
 from PySide6.QtWidgets import (
@@ -115,7 +116,10 @@ class uploading_window(QMainWindow, Ui_uploading_windows):
     def upload_report(self):
         try:
             data = []
+            now = datetime.now()
+            formatted_time = now.strftime("%Y-%m-%d %H:%M")
             Workbook_path = os.path.join(self.Base_path, "Workbook", f"{self.day}.json")
+            version_path = os.path.join(self.Base_path, "Workbook", "version.txt")
             for i in range(len(self.word_Widgets)):
                 word = self.word_Widgets[i].text()
                 meanings = self.Meaning_Widgets[i].text().split(", ")
@@ -124,7 +128,9 @@ class uploading_window(QMainWindow, Ui_uploading_windows):
             
             with open(Workbook_path, 'w', encoding='utf-8') as file:
                 json.dump(data, file, ensure_ascii=False, indent=4)
-            
+            version = f"{formatted_time}"
+            with open(version_path, 'w', encoding='utf-8') as file:
+                file.write(version)
             print(f"데이터가 파일에 저장되었습니다: {Workbook_path}")
         except Exception as e:
             print(f"파일 저장 중 오류가 발생했습니다: {str(e)}")
@@ -133,7 +139,7 @@ class uploading_window(QMainWindow, Ui_uploading_windows):
         key_path = os.path.join(self.Base_path, "info", "encryption_key.key")
 
         # 두 파일을 함께 업로드 (문제 파일 경로 리스트와 키 파일 경로를 함께 전달)
-        self.upload_to_ftp([Workbook_path], key_path)
+        self.upload_to_ftp([Workbook_path,version_path], key_path)
 
     def upload_to_ftp(self, file_paths, key_file_path):
         SERVER_IP = self.report_dist["SERVER_IP"]
