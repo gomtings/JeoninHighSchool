@@ -10,11 +10,14 @@ from UI_show.Subject_select_window import Subject_select_window
 from UI_show.daylist_window import daylist_window
 from UI_show.record_window import record_Window
 from UI_show.Uploading_window import uploading_window
+from UI_show.login_window import LoginWindow
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
     QPushButton,
+    QLabel,
     )
+
 #pyside6-designer
 #pyside6-uic main.ui -o Main_window_ui.py
 #pyside6-uic Subject_select.ui -o Subject_select_ui.py
@@ -22,7 +25,11 @@ from PySide6.QtWidgets import (
 #pyside6-uic daylist.ui -o daylist_window_ui.py
 #pyside6-uic wordlist.ui -o wordlist_ui.py
 #pyside6-uic Uploading.ui -o Uploading_ui.py
-#cd word_test_project/UI_save
+#pyside6-uic test_window.ui -o test_window_ui.py
+#pyside6-uic login.ui -o login_window_ui.py
+#pyside6-uic membership.ui -o membership_ui.py
+#cd UI_save
+
 class Main_Windows(QMainWindow, Ui_Form):
     def __init__(self):
         super(Main_Windows, self).__init__()
@@ -42,7 +49,8 @@ class Main_Windows(QMainWindow, Ui_Form):
         self.daylist_window = None
         self.record_Window = None
         self.uploading_window = None
-        
+        self.login_window = None
+
         # FTP 정보 로드
         try:
             FTP_path = os.path.join(self.Base_path, "info", "Report_FTP.json")
@@ -69,6 +77,12 @@ class Main_Windows(QMainWindow, Ui_Form):
         
         self.end = self.findChild(QPushButton, "closed")
         self.end.clicked.connect(self.close_windows)
+
+        self.login = self.findChild(QPushButton, "login_btn")
+        self.login.clicked.connect(self.login_windows)
+
+        self.info = self.findChild(QLabel, "info")
+
 
         self.download_Workbook()
     
@@ -109,22 +123,42 @@ class Main_Windows(QMainWindow, Ui_Form):
             session.login(username, password)
             session.cwd("/html/word_test_project/Workbook/")
 
-            files = session.nlst()  # 현재 디렉토리의 모든 파일 목록을 가져옴
-            
-            for file_name in files:
-                local_path = os.path.join(self.Workbook_path, file_name)
-                with open(local_path, "wb") as keyfile:
-                    session.encoding = "utf-8"
-                    session.retrbinary(
-                        "RETR " + file_name,
-                        keyfile.write,
-                    )
-                print(f"문제집 다운로드 완료: {file_name}")
+            # 서버 버전 파일을 가져옴
+            server_version = []
+            session.retrlines("RETR version.txt", server_version.append)
+            server_version = ''.join(server_version).strip()
+
+            # 로컬 버전 파일 읽기
+            local_version_path = os.path.join(self.Workbook_path, "version.txt")
+            if os.path.exists(local_version_path):
+                with open(local_version_path, "r") as f:
+                    local_version = f.read().strip()
+            else:
+                local_version = ""
+
+            # 버전 비교
+            if server_version != local_version:
+                print("새로운 버전이 감지되었습니다. 파일을 다운로드합니다...")
+                files = session.nlst()  # 현재 디렉토리의 모든 파일 목록을 가져옴
+                
+                for file_name in files:
+                    local_path = os.path.join(self.Workbook_path, file_name)
+                    with open(local_path, "wb") as keyfile:
+                        session.encoding = "utf-8"
+                        session.retrbinary("RETR " + file_name, keyfile.write)
+                    print(f"문제집 다운로드 완료: {file_name}")
+                
+                # 새로운 버전을 로컬에 저장
+                with open(local_version_path, "w") as f:
+                    f.write(server_version)
+            else:
+                print("새로운 버전이 감지되지 않았습니다. 파일을 다운로드할 필요가 없습니다.")
 
         except ftplib.all_errors as e:
             print(f"문제집 다운로드 중 오류가 발생했습니다: {str(e)}")
         finally:
             session.quit()
+
 
     def load_or_download_key(self):
         if os.path.exists(self.key_path):
@@ -158,7 +192,13 @@ class Main_Windows(QMainWindow, Ui_Form):
             self.uploading_window = uploading_window(self,self.Base_path)
             self.hide()
             self.uploading_window.show()
-            
+
+    def login_windows(self):
+        if self.login_window is None or not self.login_window.isVisible(): 
+            self.login_window = LoginWindow(self,self.Exam_record_path,self.Wrong_list_path,self.Workbook_path,self.Base_path) 
+            self.hide()
+            self.login_window.show()
+
     def close_windows(self):
         print(self.Workbook_path)
         self.close()            

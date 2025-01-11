@@ -49,20 +49,24 @@ class test_Window(QMainWindow, Ui_Form):
         # Initialize start time 
         self.start_time = QTime(0, 0, 0) # Start at 00:00:00
         # Set total duration (e.g., 10 minutes = 600 seconds) 
-
+        self.word_Widgets = []
+        
         # 키 파일 경로 정의
+        
         self.key_path = os.path.join(self.Base_path, "info", "encryption_key.key")
         self.key = self.load_or_generate_key()
         self.cipher_suite = Fernet(self.key)
 
         self.time_out = self.findChild(QLabel, "Time_limit")
-        self.update_label()
-        
-        self.En_word_1 = self.findChild(QListWidget, "En_word_1")
+
+        for i in range(1, 41): 
+            text_edit = self.findChild(QLabel, f"Word_{i}") 
+            if text_edit: 
+                self.word_Widgets.append(text_edit) 
+            else: 
+                print(f"Warning: QTextEdit Word_{i} not found")  
 
         self.meaning_ilst_1 = self.findChild(QListWidget, "meaning_ilst_1")
-
-        self.En_word_2 = self.findChild(QListWidget, "En_word_2")
     
         self.meaning_ilst_2 = self.findChild(QListWidget, "meaning_ilst_2")
 
@@ -77,6 +81,7 @@ class test_Window(QMainWindow, Ui_Form):
             else: 
                 print(f"Warning: QTextEdit kr_answer_{i} not found")        
         
+        self.update_label()        
         # 문제 불러오기....
         self.load_words_from_json(self.file_save)
 
@@ -106,31 +111,31 @@ class test_Window(QMainWindow, Ui_Form):
                 self.words = json.load(file)
 
             # 첫 번째 부분
-            random_words = random.sample(self.words[0:25], min(25, len(self.words[0:25])))
-            for word in random_words:
+            random_words_1 = random.sample(self.words[0:25], min(25, len(self.words[0:25])))
+            for i, word in enumerate(random_words_1):
                 for meaning in word['meaning']:  # meaning이 리스트이므로 각각을 추가
                     decrypted_meaning = self.decrypt_meaning(meaning)  # 복호화
                     self.chcek_list.append(decrypted_meaning)
                     self.meaning_as.append(decrypted_meaning)
                     QListWidgetItem(decrypted_meaning, self.meaning_ilst_1)
                 self.word_as.append(word['word'])
-                QListWidgetItem(word['word'], self.En_word_1)
+                self.word_Widgets[i].setText(word['word'])
 
             # 두 번째 부분
-            random_words = random.sample(self.words[25:], min(25, len(self.words[25:])))
-            for word in random_words:
+            random_words_2 = random.sample(self.words[25:], min(25, len(self.words[25:])))
+            for i, word in enumerate(random_words_2, start=len(random_words_1)):
                 for meaning in word['meaning']:
                     decrypted_meaning = self.decrypt_meaning(meaning)  # 복호화
                     self.chcek_list.append(decrypted_meaning)
                     self.meaning_as.append(decrypted_meaning)
                     QListWidgetItem(decrypted_meaning, self.meaning_ilst_2)
                 self.word_as.append(word['word'])
-                QListWidgetItem(word['word'], self.En_word_2)
+                self.word_Widgets[i].setText(word['word'])
 
             # Add words to QListWidget
             #             
             # Set random_words as class variable for comparison
-            self.random_words = random_words
+            self.random_words = random_words_1 + random_words_2
 
         except FileNotFoundError:
             print(f"Error: The file {file_save} was not found.")
@@ -138,7 +143,6 @@ class test_Window(QMainWindow, Ui_Form):
             print("Error: JSON decoding error. Check the file format.")
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
-
 
     def update_label(self):
         self.elapsed_time += 1
