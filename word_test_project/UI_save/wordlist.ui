@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>851</width>
-    <height>640</height>
+    <width>875</width>
+    <height>639</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -409,250 +409,10 @@
     <string>뜻</string>
    </property>
   </widget>
-  <widget class="QLabel" name="Word_1">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>40</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_1">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>40</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Word_2">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>70</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Word_3">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>100</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Word_4">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>130</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Word_6">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>190</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Word_5">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>160</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Word_8">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>250</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Word_7">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>220</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Word_9">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>280</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_21">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>550</y>
      <width>31</width>
      <height>21</height>
@@ -670,7 +430,7 @@
   <widget class="QLabel" name="label_22">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>310</y>
      <width>31</width>
      <height>21</height>
@@ -688,7 +448,7 @@
   <widget class="QLabel" name="label_23">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>460</y>
      <width>31</width>
      <height>21</height>
@@ -706,7 +466,7 @@
   <widget class="QLabel" name="label_24">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>490</y>
      <width>31</width>
      <height>21</height>
@@ -724,7 +484,7 @@
   <widget class="QLabel" name="label_25">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>340</y>
      <width>31</width>
      <height>21</height>
@@ -742,7 +502,7 @@
   <widget class="QLabel" name="label_26">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>430</y>
      <width>31</width>
      <height>21</height>
@@ -760,7 +520,7 @@
   <widget class="QLabel" name="label_27">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>190</y>
      <width>31</width>
      <height>16</height>
@@ -778,7 +538,7 @@
   <widget class="QLabel" name="label_28">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>100</y>
      <width>31</width>
      <height>21</height>
@@ -796,7 +556,7 @@
   <widget class="QLabel" name="label_43">
    <property name="geometry">
     <rect>
-     <x>660</x>
+     <x>650</x>
      <y>10</y>
      <width>21</width>
      <height>20</height>
@@ -814,7 +574,7 @@
   <widget class="QLabel" name="label_29">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>280</y>
      <width>31</width>
      <height>21</height>
@@ -832,7 +592,7 @@
   <widget class="QLabel" name="label_30">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>160</y>
      <width>31</width>
      <height>16</height>
@@ -850,7 +610,7 @@
   <widget class="QLabel" name="label_31">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>130</y>
      <width>31</width>
      <height>21</height>
@@ -868,7 +628,7 @@
   <widget class="QLabel" name="label_32">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>520</y>
      <width>31</width>
      <height>21</height>
@@ -886,7 +646,7 @@
   <widget class="QLabel" name="label_44">
    <property name="geometry">
     <rect>
-     <x>510</x>
+     <x>500</x>
      <y>10</y>
      <width>41</width>
      <height>21</height>
@@ -904,7 +664,7 @@
   <widget class="QLabel" name="label_33">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>40</y>
      <width>31</width>
      <height>21</height>
@@ -922,7 +682,7 @@
   <widget class="QLabel" name="label_34">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>370</y>
      <width>31</width>
      <height>21</height>
@@ -940,7 +700,7 @@
   <widget class="QLabel" name="label_35">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>250</y>
      <width>31</width>
      <height>16</height>
@@ -958,7 +718,7 @@
   <widget class="QLabel" name="label_36">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>400</y>
      <width>31</width>
      <height>21</height>
@@ -976,7 +736,7 @@
   <widget class="QLabel" name="label_37">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>220</y>
      <width>31</width>
      <height>16</height>
@@ -994,7 +754,7 @@
   <widget class="QLabel" name="label_38">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>580</y>
      <width>31</width>
      <height>21</height>
@@ -1012,7 +772,7 @@
   <widget class="QLabel" name="label_39">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>610</y>
      <width>31</width>
      <height>21</height>
@@ -1030,7 +790,7 @@
   <widget class="QLabel" name="label_40">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>440</x>
      <y>70</y>
      <width>31</width>
      <height>21</height>
@@ -1408,7 +1168,7 @@
   <widget class="QLabel" name="label_145">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>310</y>
      <width>31</width>
      <height>21</height>
@@ -1426,7 +1186,7 @@
   <widget class="QLabel" name="label_146">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>460</y>
      <width>31</width>
      <height>21</height>
@@ -1444,7 +1204,7 @@
   <widget class="QLabel" name="label_147">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>610</y>
      <width>31</width>
      <height>21</height>
@@ -1462,7 +1222,7 @@
   <widget class="QLabel" name="label_148">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>370</y>
      <width>31</width>
      <height>21</height>
@@ -1480,7 +1240,7 @@
   <widget class="QLabel" name="label_149">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>40</y>
      <width>31</width>
      <height>21</height>
@@ -1498,7 +1258,7 @@
   <widget class="QLabel" name="label_150">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>580</y>
      <width>31</width>
      <height>21</height>
@@ -1516,7 +1276,7 @@
   <widget class="QLabel" name="label_151">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>430</y>
      <width>31</width>
      <height>21</height>
@@ -1534,7 +1294,7 @@
   <widget class="QLabel" name="label_152">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>400</y>
      <width>31</width>
      <height>21</height>
@@ -1552,7 +1312,7 @@
   <widget class="QLabel" name="label_153">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>70</y>
      <width>31</width>
      <height>21</height>
@@ -1570,7 +1330,7 @@
   <widget class="QLabel" name="label_154">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>550</y>
      <width>31</width>
      <height>21</height>
@@ -1588,7 +1348,7 @@
   <widget class="QLabel" name="label_155">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>220</y>
      <width>31</width>
      <height>21</height>
@@ -1606,7 +1366,7 @@
   <widget class="QLabel" name="label_156">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>190</y>
      <width>31</width>
      <height>21</height>
@@ -1624,7 +1384,7 @@
   <widget class="QLabel" name="label_157">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>280</y>
      <width>31</width>
      <height>21</height>
@@ -1642,7 +1402,7 @@
   <widget class="QLabel" name="label_158">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>160</y>
      <width>31</width>
      <height>21</height>
@@ -1660,7 +1420,7 @@
   <widget class="QLabel" name="label_159">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>100</y>
      <width>31</width>
      <height>21</height>
@@ -1678,7 +1438,7 @@
   <widget class="QLabel" name="label_160">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>130</y>
      <width>31</width>
      <height>21</height>
@@ -1696,7 +1456,7 @@
   <widget class="QLabel" name="label_161">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>490</y>
      <width>31</width>
      <height>21</height>
@@ -1714,7 +1474,7 @@
   <widget class="QLabel" name="label_162">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>340</y>
      <width>31</width>
      <height>21</height>
@@ -1732,7 +1492,7 @@
   <widget class="QLabel" name="label_163">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>250</y>
      <width>31</width>
      <height>21</height>
@@ -1750,7 +1510,7 @@
   <widget class="QLabel" name="label_164">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>580</x>
      <y>520</y>
      <width>31</width>
      <height>21</height>
@@ -1765,7 +1525,178 @@
     <string>-&gt;</string>
    </property>
   </widget>
-  <widget class="QLabel" name="Word_10">
+  <widget class="QLineEdit" name="Word_1">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>39</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_2">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>70</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_3">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>100</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_4">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>130</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_5">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>160</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_6">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>190</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_7">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>220</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_8">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>250</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_9">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>280</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_10">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -1774,22 +1705,17 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_11">
+  <widget class="QLineEdit" name="Word_11">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -1798,22 +1724,17 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_12">
+  <widget class="QLineEdit" name="Word_12">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -1822,22 +1743,17 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_13">
+  <widget class="QLineEdit" name="Word_13">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -1846,22 +1762,17 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_14">
+  <widget class="QLineEdit" name="Word_14">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -1870,22 +1781,17 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_15">
+  <widget class="QLineEdit" name="Word_15">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -1894,22 +1800,17 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_16">
+  <widget class="QLineEdit" name="Word_16">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -1918,22 +1819,17 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_17">
+  <widget class="QLineEdit" name="Word_17">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -1942,22 +1838,17 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_18">
+  <widget class="QLineEdit" name="Word_18">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -1966,22 +1857,17 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_19">
+  <widget class="QLineEdit" name="Word_19">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -1990,22 +1876,17 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_20">
+  <widget class="QLineEdit" name="Word_20">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -2014,13 +1895,30 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_1">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>40</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
@@ -2029,3856 +1927,1122 @@
     <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="Word_21">
+  <widget class="QLineEdit" name="Meaning_2">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>170</x>
+     <y>70</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_3">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>100</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_4">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>130</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_5">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>160</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_6">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>190</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_7">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>220</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_8">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>250</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_9">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>280</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_10">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>310</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_11">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>340</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_12">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>370</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_13">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>400</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_14">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>430</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_15">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>460</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_16">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>490</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_17">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>520</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_18">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>550</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_19">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>580</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_20">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>610</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_21">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>41</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_21">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
      <y>40</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_22">
+  <widget class="QLineEdit" name="Word_22">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>70</y>
+     <x>470</x>
+     <y>69</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_23">
+  <widget class="QLineEdit" name="Meaning_22">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>610</x>
+     <y>70</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_23">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
      <y>100</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_24">
+  <widget class="QLineEdit" name="Meaning_23">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>130</y>
+     <x>610</x>
+     <y>101</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_24">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>129</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_25">
+  <widget class="QLineEdit" name="Meaning_24">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>610</x>
+     <y>130</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_25">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>161</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_25">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
      <y>160</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_26">
+  <widget class="QLineEdit" name="Word_26">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>470</x>
      <y>190</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_27">
+  <widget class="QLineEdit" name="Meaning_26">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>220</y>
+     <x>610</x>
+     <y>191</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_27">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>219</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_28">
+  <widget class="QLineEdit" name="Meaning_27">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>610</x>
+     <y>220</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_28">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>251</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_28">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
      <y>250</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_29">
+  <widget class="QLineEdit" name="Meaning_29">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>610</x>
+     <y>281</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_29">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
      <y>280</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_30">
+  <widget class="QLineEdit" name="Meaning_30">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>610</x>
+     <y>311</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_30">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
      <y>310</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_31">
+  <widget class="QLineEdit" name="Word_31">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>470</x>
+     <y>339</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_31">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
      <y>340</y>
-     <width>101</width>
+     <width>251</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_32">
+  <widget class="QLineEdit" name="Word_32">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>470</x>
+     <y>369</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_32">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
      <y>370</y>
-     <width>101</width>
+     <width>251</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_33">
+  <widget class="QLineEdit" name="Meaning_33">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>610</x>
+     <y>401</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_33">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
      <y>400</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_34">
+  <widget class="QLineEdit" name="Meaning_34">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>610</x>
+     <y>431</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_34">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
      <y>430</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_35">
+  <widget class="QLineEdit" name="Word_35">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>460</y>
+     <x>470</x>
+     <y>459</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_36">
+  <widget class="QLineEdit" name="Meaning_35">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>610</x>
+     <y>460</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_36">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>491</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_36">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
      <y>490</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_37">
+  <widget class="QLineEdit" name="Word_37">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>520</y>
+     <x>470</x>
+     <y>519</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_38">
+  <widget class="QLineEdit" name="Meaning_37">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>610</x>
+     <y>520</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Meaning_38">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>551</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_38">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
      <y>550</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_39">
+  <widget class="QLineEdit" name="Meaning_39">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>610</x>
+     <y>581</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_39">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
      <y>580</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
    </property>
-   <property name="text">
-    <string/>
-   </property>
   </widget>
-  <widget class="QLabel" name="Word_40">
+  <widget class="QLineEdit" name="Meaning_40">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>610</x>
+     <y>611</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어의 뜻을 정의 합니다. &lt;/p&gt;&lt;p&gt;단어의 뜻이 여러개 일경우 &amp;quot;,&amp;quot; 로 구분 합니다.&lt;/p&gt;&lt;p&gt;Ex.사과,바나나,배&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border: 1px solid black;
+}
+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Word_40">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
      <y>610</y>
      <width>101</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;단어 를 정의 합니다. &lt;/p&gt;&lt;p&gt;Ex. Apple&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel {
+    <string notr="true">QLineEdit {
     border: 1px solid black;
 }
 </string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_2">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>70</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_3">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>100</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_4">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>130</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_5">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>160</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_6">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>190</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_7">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>220</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_8">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>250</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_9">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>310</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_10">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>280</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_11">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>340</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_12">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>370</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_13">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>400</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_14">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>430</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_15">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>460</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_16">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>490</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_17">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>520</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_18">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>550</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_19">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>580</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_20">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>610</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_21">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>40</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_22">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>70</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_23">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>100</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_24">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>130</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_25">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>160</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_26">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>190</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_27">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>220</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_28">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>250</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_29">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>280</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_30">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>310</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_31">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>340</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_32">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>370</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_33">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>400</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_34">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>430</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_35">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>460</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_36">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>490</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_37">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>520</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_38">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>550</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_39">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>580</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Meaning_40">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>610</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_45">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>10</y>
-     <width>71</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>내가쓴 답</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_165">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>40</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_1">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>40</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_166">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>40</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_167">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>70</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_168">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>70</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_2">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>70</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_3">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>100</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_169">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>100</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_170">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>100</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_171">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>130</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_172">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>130</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_4">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>130</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_173">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>160</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_174">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>160</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_5">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>160</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_175">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>190</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_176">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>190</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_6">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>190</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_177">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>220</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_7">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>220</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_178">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>220</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_179">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>250</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_8">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>250</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_180">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>250</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_181">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>280</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_182">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>280</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_9">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>280</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_10">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>310</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_183">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>310</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_184">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>310</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_185">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>340</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_186">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>340</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_11">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>340</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_12">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>370</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_187">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>370</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_188">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>370</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_189">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>400</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_190">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>400</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_13">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>400</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_191">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>430</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_192">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>430</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_14">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>430</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_193">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>460</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_194">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>460</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_15">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>460</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_195">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>490</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_196">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>490</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_16">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>490</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_17">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>520</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_197">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>520</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_198">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>520</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_199">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>550</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_200">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>550</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_18">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>550</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_201">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>580</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_202">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>580</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_19">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>580</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_203">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>610</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_204">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>610</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_20">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>610</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_205">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>40</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_21">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>40</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_206">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>40</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_46">
-   <property name="geometry">
-    <rect>
-     <x>750</x>
-     <y>10</y>
-     <width>71</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>내가쓴 답</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_207">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>70</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_22">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>70</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_208">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>70</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_209">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>100</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_23">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>100</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_210">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>100</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_24">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>130</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_211">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>130</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_212">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>130</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_25">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>160</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_213">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>160</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_214">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>160</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_215">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>190</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_216">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>190</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_26">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>190</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_27">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>220</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_217">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>220</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_218">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>220</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_28">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>250</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_219">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>250</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_220">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>250</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_221">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>280</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_29">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>280</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_222">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>280</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_223">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>310</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_30">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>310</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_224">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>310</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_225">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>340</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_31">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>340</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_226">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>340</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_32">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>370</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_227">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>370</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_228">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>370</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_229">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>400</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_230">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>400</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_33">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>400</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_231">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>430</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_34">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>430</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_232">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>430</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_233">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>460</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_35">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>460</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_234">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>460</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_235">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>490</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_236">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>490</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_36">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>490</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_237">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>520</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_238">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>520</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_37">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>520</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_239">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>550</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_38">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>550</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_240">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>550</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_241">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>580</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_242">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>580</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_39">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>580</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_243">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>610</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="My_answer_40">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>610</y>
-     <width>101</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel {
-    border: 1px solid black;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_244">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>610</y>
-     <width>16</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>(</string>
    </property>
   </widget>
  </widget>

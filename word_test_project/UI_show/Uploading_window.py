@@ -11,13 +11,15 @@ from PySide6.QtWidgets import (
     QComboBox
 )
 class uploading_window(QMainWindow, Ui_uploading_windows):
-    def __init__(self, parent=None, Base_path=None):
+    def __init__(self, parent=None, Base_path=None,version = None):
         super(uploading_window, self).__init__(parent)
         self.setupUi(self)
         self.day = 'DAY1'
         self.Base_path = Base_path
         self.Workbook = None
         self.parents = parent
+        self.version = version
+        self.seconds = 600
         self.setWindowTitle(f"uploading for {self.day}")
 
         # 키 파일 경로 정의
@@ -55,6 +57,9 @@ class uploading_window(QMainWindow, Ui_uploading_windows):
 
         self.Subject_select = self.findChild(QComboBox, "Subject_select")
         self.Subject_select.currentTextChanged.connect(self.change_Subject)
+        
+        self.timeout = self.findChild(QComboBox, "timeout")
+        self.timeout.currentTextChanged.connect(self.change_Time)
 
         for i in range(1, 41): 
             text_edit_word = self.findChild(QLineEdit, f"Word_{i}") 
@@ -75,7 +80,14 @@ class uploading_window(QMainWindow, Ui_uploading_windows):
     
     def decrypt_meaning(self, encrypted_meaning):
         return self.cipher_suite.decrypt(encrypted_meaning.encode('utf-8')).decode('utf-8')
-    
+
+    def change_Time(self, text):
+        current_text = self.timeout.currentText()
+        minutes = int(current_text.strip('분'))
+        
+        # 분을 초로 변환
+        self.seconds = minutes * 60
+       
     def change_Subject(self, text):
         self.day = text
         self.setWindowTitle(f"uploading for {self.day}")
@@ -84,14 +96,16 @@ class uploading_window(QMainWindow, Ui_uploading_windows):
             with open(Workbook_path, "r", encoding="UTF-8") as f:
                 self.Workbook = json.load(f)
 
+            word_data = self.Workbook.get("word_data", [])
+            timeout = self.Workbook.get("timeout", 0)
             # 데이터의 길이가 위젯 수와 같지 않은 경우 빈 데이터로 채우기
-            if len(self.Workbook) < len(self.word_Widgets):
-                for i in range(len(self.Workbook), len(self.word_Widgets)):
-                    self.Workbook.append({"word": "", "meaning": [""]})
+            if len(word_data) < len(self.word_Widgets):
+                for i in range(len(word_data), len(self.word_Widgets)):
+                    word_data.append({"word": "", "meaning": [""]})
 
             for i in range(len(self.word_Widgets)):
-                word = self.Workbook[i]["word"]
-                encrypted_meanings = self.Workbook[i]["meaning"]
+                word = word_data[i]["word"]
+                encrypted_meanings = word_data[i]["meaning"]
                 meanings = []
                 for meaning in encrypted_meanings:
                     try:
@@ -126,11 +140,17 @@ class uploading_window(QMainWindow, Ui_uploading_windows):
                 encrypted_meanings = [self.encrypt_meaning(meaning) for meaning in meanings]
                 data.append({"word": word, "meaning": encrypted_meanings})
             
+            # timeout 데이터 추가
+            final_data = {"word_data": data}
+            final_data["timeout"] = self.seconds
+            
             with open(Workbook_path, 'w', encoding='utf-8') as file:
-                json.dump(data, file, ensure_ascii=False, indent=4)
-            version = f"{formatted_time}"
+                json.dump(final_data, file, ensure_ascii=False, indent=4)
+            self.version = f"{formatted_time}"
+            
             with open(version_path, 'w', encoding='utf-8') as file:
-                file.write(version)
+                file.write(self.version)
+            
             print(f"데이터가 파일에 저장되었습니다: {Workbook_path}")
         except Exception as e:
             print(f"파일 저장 중 오류가 발생했습니다: {str(e)}")
@@ -196,8 +216,9 @@ class uploading_window(QMainWindow, Ui_uploading_windows):
 
     def closeEvent(self, event):
         self.parents.show()
+        self.parents.update_version(self.version)
         event.accept()
-        
+
 """
 app = QApplication(sys.argv)
 

@@ -1528,15 +1528,15 @@
   <widget class="QPushButton" name="upload">
    <property name="geometry">
     <rect>
-     <x>880</x>
-     <y>460</y>
-     <width>161</width>
+     <x>870</x>
+     <y>490</y>
+     <width>171</width>
      <height>61</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>16</pointsize>
+     <pointsize>20</pointsize>
     </font>
    </property>
    <property name="text">
@@ -1546,9 +1546,9 @@
   <widget class="QComboBox" name="Subject_select">
    <property name="geometry">
     <rect>
-     <x>880</x>
+     <x>870</x>
      <y>410</y>
-     <width>161</width>
+     <width>171</width>
      <height>41</height>
     </rect>
    </property>
@@ -1608,7 +1608,7 @@
     <rect>
      <x>890</x>
      <y>370</y>
-     <width>101</width>
+     <width>111</width>
      <height>31</height>
     </rect>
    </property>
@@ -1618,7 +1618,7 @@
     </font>
    </property>
    <property name="text">
-    <string>과제선택</string>
+    <string>&lt;과제선택&gt;</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="Word_1">
@@ -3139,6 +3139,94 @@
     border: 1px solid black;
 }
 </string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="timeout">
+   <property name="geometry">
+    <rect>
+     <x>960</x>
+     <y>450</y>
+     <width>81</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <item>
+    <property name="text">
+     <string>10분</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>15분</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>20분</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>25분</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>30분</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>35분</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>40분</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>45분</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>50분</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>55분</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>60분</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_46">
+   <property name="geometry">
+    <rect>
+     <x>870</x>
+     <y>450</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>제한시간 :</string>
    </property>
   </widget>
  </widget>

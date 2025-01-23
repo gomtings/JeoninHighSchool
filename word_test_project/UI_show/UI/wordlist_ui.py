@@ -15,14 +15,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDialog, QLabel, QSizePolicy,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QDialog, QLabel, QLineEdit,
+    QSizePolicy, QWidget)
 
 class Ui_wordlist_windows(object):
     def setupUi(self, wordlist_windows):
         if not wordlist_windows.objectName():
             wordlist_windows.setObjectName(u"wordlist_windows")
-        wordlist_windows.resize(851, 640)
+        wordlist_windows.resize(875, 639)
         self.label = QLabel(wordlist_windows)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(0, 40, 31, 21))
@@ -113,173 +113,93 @@ class Ui_wordlist_windows(object):
         self.label_42.setObjectName(u"label_42")
         self.label_42.setGeometry(QRect(210, 10, 21, 20))
         self.label_42.setFont(font)
-        self.Word_1 = QLabel(wordlist_windows)
-        self.Word_1.setObjectName(u"Word_1")
-        self.Word_1.setGeometry(QRect(30, 40, 101, 21))
-        self.Word_1.setFont(font)
-        self.Word_1.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Meaning_1 = QLabel(wordlist_windows)
-        self.Meaning_1.setObjectName(u"Meaning_1")
-        self.Meaning_1.setGeometry(QRect(170, 40, 101, 21))
-        self.Meaning_1.setFont(font)
-        self.Meaning_1.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_2 = QLabel(wordlist_windows)
-        self.Word_2.setObjectName(u"Word_2")
-        self.Word_2.setGeometry(QRect(30, 70, 101, 21))
-        self.Word_2.setFont(font)
-        self.Word_2.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_3 = QLabel(wordlist_windows)
-        self.Word_3.setObjectName(u"Word_3")
-        self.Word_3.setGeometry(QRect(30, 100, 101, 21))
-        self.Word_3.setFont(font)
-        self.Word_3.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_4 = QLabel(wordlist_windows)
-        self.Word_4.setObjectName(u"Word_4")
-        self.Word_4.setGeometry(QRect(30, 130, 101, 21))
-        self.Word_4.setFont(font)
-        self.Word_4.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_6 = QLabel(wordlist_windows)
-        self.Word_6.setObjectName(u"Word_6")
-        self.Word_6.setGeometry(QRect(30, 190, 101, 21))
-        self.Word_6.setFont(font)
-        self.Word_6.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_5 = QLabel(wordlist_windows)
-        self.Word_5.setObjectName(u"Word_5")
-        self.Word_5.setGeometry(QRect(30, 160, 101, 21))
-        self.Word_5.setFont(font)
-        self.Word_5.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_8 = QLabel(wordlist_windows)
-        self.Word_8.setObjectName(u"Word_8")
-        self.Word_8.setGeometry(QRect(30, 250, 101, 21))
-        self.Word_8.setFont(font)
-        self.Word_8.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_7 = QLabel(wordlist_windows)
-        self.Word_7.setObjectName(u"Word_7")
-        self.Word_7.setGeometry(QRect(30, 220, 101, 21))
-        self.Word_7.setFont(font)
-        self.Word_7.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_9 = QLabel(wordlist_windows)
-        self.Word_9.setObjectName(u"Word_9")
-        self.Word_9.setGeometry(QRect(30, 280, 101, 21))
-        self.Word_9.setFont(font)
-        self.Word_9.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
         self.label_21 = QLabel(wordlist_windows)
         self.label_21.setObjectName(u"label_21")
-        self.label_21.setGeometry(QRect(450, 550, 31, 21))
+        self.label_21.setGeometry(QRect(440, 550, 31, 21))
         self.label_21.setFont(font)
         self.label_22 = QLabel(wordlist_windows)
         self.label_22.setObjectName(u"label_22")
-        self.label_22.setGeometry(QRect(450, 310, 31, 21))
+        self.label_22.setGeometry(QRect(440, 310, 31, 21))
         self.label_22.setFont(font)
         self.label_23 = QLabel(wordlist_windows)
         self.label_23.setObjectName(u"label_23")
-        self.label_23.setGeometry(QRect(450, 460, 31, 21))
+        self.label_23.setGeometry(QRect(440, 460, 31, 21))
         self.label_23.setFont(font)
         self.label_24 = QLabel(wordlist_windows)
         self.label_24.setObjectName(u"label_24")
-        self.label_24.setGeometry(QRect(450, 490, 31, 21))
+        self.label_24.setGeometry(QRect(440, 490, 31, 21))
         self.label_24.setFont(font)
         self.label_25 = QLabel(wordlist_windows)
         self.label_25.setObjectName(u"label_25")
-        self.label_25.setGeometry(QRect(450, 340, 31, 21))
+        self.label_25.setGeometry(QRect(440, 340, 31, 21))
         self.label_25.setFont(font)
         self.label_26 = QLabel(wordlist_windows)
         self.label_26.setObjectName(u"label_26")
-        self.label_26.setGeometry(QRect(450, 430, 31, 21))
+        self.label_26.setGeometry(QRect(440, 430, 31, 21))
         self.label_26.setFont(font)
         self.label_27 = QLabel(wordlist_windows)
         self.label_27.setObjectName(u"label_27")
-        self.label_27.setGeometry(QRect(450, 190, 31, 16))
+        self.label_27.setGeometry(QRect(440, 190, 31, 16))
         self.label_27.setFont(font)
         self.label_28 = QLabel(wordlist_windows)
         self.label_28.setObjectName(u"label_28")
-        self.label_28.setGeometry(QRect(450, 100, 31, 21))
+        self.label_28.setGeometry(QRect(440, 100, 31, 21))
         self.label_28.setFont(font)
         self.label_43 = QLabel(wordlist_windows)
         self.label_43.setObjectName(u"label_43")
-        self.label_43.setGeometry(QRect(660, 10, 21, 20))
+        self.label_43.setGeometry(QRect(650, 10, 21, 20))
         self.label_43.setFont(font)
         self.label_29 = QLabel(wordlist_windows)
         self.label_29.setObjectName(u"label_29")
-        self.label_29.setGeometry(QRect(450, 280, 31, 21))
+        self.label_29.setGeometry(QRect(440, 280, 31, 21))
         self.label_29.setFont(font)
         self.label_30 = QLabel(wordlist_windows)
         self.label_30.setObjectName(u"label_30")
-        self.label_30.setGeometry(QRect(450, 160, 31, 16))
+        self.label_30.setGeometry(QRect(440, 160, 31, 16))
         self.label_30.setFont(font)
         self.label_31 = QLabel(wordlist_windows)
         self.label_31.setObjectName(u"label_31")
-        self.label_31.setGeometry(QRect(450, 130, 31, 21))
+        self.label_31.setGeometry(QRect(440, 130, 31, 21))
         self.label_31.setFont(font)
         self.label_32 = QLabel(wordlist_windows)
         self.label_32.setObjectName(u"label_32")
-        self.label_32.setGeometry(QRect(450, 520, 31, 21))
+        self.label_32.setGeometry(QRect(440, 520, 31, 21))
         self.label_32.setFont(font)
         self.label_44 = QLabel(wordlist_windows)
         self.label_44.setObjectName(u"label_44")
-        self.label_44.setGeometry(QRect(510, 10, 41, 21))
+        self.label_44.setGeometry(QRect(500, 10, 41, 21))
         self.label_44.setFont(font)
         self.label_33 = QLabel(wordlist_windows)
         self.label_33.setObjectName(u"label_33")
-        self.label_33.setGeometry(QRect(450, 40, 31, 21))
+        self.label_33.setGeometry(QRect(440, 40, 31, 21))
         self.label_33.setFont(font)
         self.label_34 = QLabel(wordlist_windows)
         self.label_34.setObjectName(u"label_34")
-        self.label_34.setGeometry(QRect(450, 370, 31, 21))
+        self.label_34.setGeometry(QRect(440, 370, 31, 21))
         self.label_34.setFont(font)
         self.label_35 = QLabel(wordlist_windows)
         self.label_35.setObjectName(u"label_35")
-        self.label_35.setGeometry(QRect(450, 250, 31, 16))
+        self.label_35.setGeometry(QRect(440, 250, 31, 16))
         self.label_35.setFont(font)
         self.label_36 = QLabel(wordlist_windows)
         self.label_36.setObjectName(u"label_36")
-        self.label_36.setGeometry(QRect(450, 400, 31, 21))
+        self.label_36.setGeometry(QRect(440, 400, 31, 21))
         self.label_36.setFont(font)
         self.label_37 = QLabel(wordlist_windows)
         self.label_37.setObjectName(u"label_37")
-        self.label_37.setGeometry(QRect(450, 220, 31, 16))
+        self.label_37.setGeometry(QRect(440, 220, 31, 16))
         self.label_37.setFont(font)
         self.label_38 = QLabel(wordlist_windows)
         self.label_38.setObjectName(u"label_38")
-        self.label_38.setGeometry(QRect(450, 580, 31, 21))
+        self.label_38.setGeometry(QRect(440, 580, 31, 21))
         self.label_38.setFont(font)
         self.label_39 = QLabel(wordlist_windows)
         self.label_39.setObjectName(u"label_39")
-        self.label_39.setGeometry(QRect(450, 610, 31, 21))
+        self.label_39.setGeometry(QRect(440, 610, 31, 21))
         self.label_39.setFont(font)
         self.label_40 = QLabel(wordlist_windows)
         self.label_40.setObjectName(u"label_40")
-        self.label_40.setGeometry(QRect(450, 70, 31, 21))
+        self.label_40.setGeometry(QRect(440, 70, 31, 21))
         self.label_40.setFont(font)
         self.label_125 = QLabel(wordlist_windows)
         self.label_125.setObjectName(u"label_125")
@@ -363,1292 +283,644 @@ class Ui_wordlist_windows(object):
         self.label_144.setFont(font)
         self.label_145 = QLabel(wordlist_windows)
         self.label_145.setObjectName(u"label_145")
-        self.label_145.setGeometry(QRect(590, 310, 31, 21))
+        self.label_145.setGeometry(QRect(580, 310, 31, 21))
         self.label_145.setFont(font)
         self.label_146 = QLabel(wordlist_windows)
         self.label_146.setObjectName(u"label_146")
-        self.label_146.setGeometry(QRect(590, 460, 31, 21))
+        self.label_146.setGeometry(QRect(580, 460, 31, 21))
         self.label_146.setFont(font)
         self.label_147 = QLabel(wordlist_windows)
         self.label_147.setObjectName(u"label_147")
-        self.label_147.setGeometry(QRect(590, 610, 31, 21))
+        self.label_147.setGeometry(QRect(580, 610, 31, 21))
         self.label_147.setFont(font)
         self.label_148 = QLabel(wordlist_windows)
         self.label_148.setObjectName(u"label_148")
-        self.label_148.setGeometry(QRect(590, 370, 31, 21))
+        self.label_148.setGeometry(QRect(580, 370, 31, 21))
         self.label_148.setFont(font)
         self.label_149 = QLabel(wordlist_windows)
         self.label_149.setObjectName(u"label_149")
-        self.label_149.setGeometry(QRect(590, 40, 31, 21))
+        self.label_149.setGeometry(QRect(580, 40, 31, 21))
         self.label_149.setFont(font)
         self.label_150 = QLabel(wordlist_windows)
         self.label_150.setObjectName(u"label_150")
-        self.label_150.setGeometry(QRect(590, 580, 31, 21))
+        self.label_150.setGeometry(QRect(580, 580, 31, 21))
         self.label_150.setFont(font)
         self.label_151 = QLabel(wordlist_windows)
         self.label_151.setObjectName(u"label_151")
-        self.label_151.setGeometry(QRect(590, 430, 31, 21))
+        self.label_151.setGeometry(QRect(580, 430, 31, 21))
         self.label_151.setFont(font)
         self.label_152 = QLabel(wordlist_windows)
         self.label_152.setObjectName(u"label_152")
-        self.label_152.setGeometry(QRect(590, 400, 31, 21))
+        self.label_152.setGeometry(QRect(580, 400, 31, 21))
         self.label_152.setFont(font)
         self.label_153 = QLabel(wordlist_windows)
         self.label_153.setObjectName(u"label_153")
-        self.label_153.setGeometry(QRect(590, 70, 31, 21))
+        self.label_153.setGeometry(QRect(580, 70, 31, 21))
         self.label_153.setFont(font)
         self.label_154 = QLabel(wordlist_windows)
         self.label_154.setObjectName(u"label_154")
-        self.label_154.setGeometry(QRect(590, 550, 31, 21))
+        self.label_154.setGeometry(QRect(580, 550, 31, 21))
         self.label_154.setFont(font)
         self.label_155 = QLabel(wordlist_windows)
         self.label_155.setObjectName(u"label_155")
-        self.label_155.setGeometry(QRect(590, 220, 31, 21))
+        self.label_155.setGeometry(QRect(580, 220, 31, 21))
         self.label_155.setFont(font)
         self.label_156 = QLabel(wordlist_windows)
         self.label_156.setObjectName(u"label_156")
-        self.label_156.setGeometry(QRect(590, 190, 31, 21))
+        self.label_156.setGeometry(QRect(580, 190, 31, 21))
         self.label_156.setFont(font)
         self.label_157 = QLabel(wordlist_windows)
         self.label_157.setObjectName(u"label_157")
-        self.label_157.setGeometry(QRect(590, 280, 31, 21))
+        self.label_157.setGeometry(QRect(580, 280, 31, 21))
         self.label_157.setFont(font)
         self.label_158 = QLabel(wordlist_windows)
         self.label_158.setObjectName(u"label_158")
-        self.label_158.setGeometry(QRect(590, 160, 31, 21))
+        self.label_158.setGeometry(QRect(580, 160, 31, 21))
         self.label_158.setFont(font)
         self.label_159 = QLabel(wordlist_windows)
         self.label_159.setObjectName(u"label_159")
-        self.label_159.setGeometry(QRect(590, 100, 31, 21))
+        self.label_159.setGeometry(QRect(580, 100, 31, 21))
         self.label_159.setFont(font)
         self.label_160 = QLabel(wordlist_windows)
         self.label_160.setObjectName(u"label_160")
-        self.label_160.setGeometry(QRect(590, 130, 31, 21))
+        self.label_160.setGeometry(QRect(580, 130, 31, 21))
         self.label_160.setFont(font)
         self.label_161 = QLabel(wordlist_windows)
         self.label_161.setObjectName(u"label_161")
-        self.label_161.setGeometry(QRect(590, 490, 31, 21))
+        self.label_161.setGeometry(QRect(580, 490, 31, 21))
         self.label_161.setFont(font)
         self.label_162 = QLabel(wordlist_windows)
         self.label_162.setObjectName(u"label_162")
-        self.label_162.setGeometry(QRect(590, 340, 31, 21))
+        self.label_162.setGeometry(QRect(580, 340, 31, 21))
         self.label_162.setFont(font)
         self.label_163 = QLabel(wordlist_windows)
         self.label_163.setObjectName(u"label_163")
-        self.label_163.setGeometry(QRect(590, 250, 31, 21))
+        self.label_163.setGeometry(QRect(580, 250, 31, 21))
         self.label_163.setFont(font)
         self.label_164 = QLabel(wordlist_windows)
         self.label_164.setObjectName(u"label_164")
-        self.label_164.setGeometry(QRect(590, 520, 31, 21))
+        self.label_164.setGeometry(QRect(580, 520, 31, 21))
         self.label_164.setFont(font)
-        self.Word_10 = QLabel(wordlist_windows)
+        self.Word_1 = QLineEdit(wordlist_windows)
+        self.Word_1.setObjectName(u"Word_1")
+        self.Word_1.setGeometry(QRect(30, 39, 101, 21))
+        self.Word_1.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_2 = QLineEdit(wordlist_windows)
+        self.Word_2.setObjectName(u"Word_2")
+        self.Word_2.setGeometry(QRect(30, 70, 101, 21))
+        self.Word_2.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_3 = QLineEdit(wordlist_windows)
+        self.Word_3.setObjectName(u"Word_3")
+        self.Word_3.setGeometry(QRect(30, 100, 101, 21))
+        self.Word_3.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_4 = QLineEdit(wordlist_windows)
+        self.Word_4.setObjectName(u"Word_4")
+        self.Word_4.setGeometry(QRect(30, 130, 101, 21))
+        self.Word_4.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_5 = QLineEdit(wordlist_windows)
+        self.Word_5.setObjectName(u"Word_5")
+        self.Word_5.setGeometry(QRect(30, 160, 101, 21))
+        self.Word_5.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_6 = QLineEdit(wordlist_windows)
+        self.Word_6.setObjectName(u"Word_6")
+        self.Word_6.setGeometry(QRect(30, 190, 101, 21))
+        self.Word_6.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_7 = QLineEdit(wordlist_windows)
+        self.Word_7.setObjectName(u"Word_7")
+        self.Word_7.setGeometry(QRect(30, 220, 101, 21))
+        self.Word_7.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_8 = QLineEdit(wordlist_windows)
+        self.Word_8.setObjectName(u"Word_8")
+        self.Word_8.setGeometry(QRect(30, 250, 101, 21))
+        self.Word_8.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_9 = QLineEdit(wordlist_windows)
+        self.Word_9.setObjectName(u"Word_9")
+        self.Word_9.setGeometry(QRect(30, 280, 101, 21))
+        self.Word_9.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_10 = QLineEdit(wordlist_windows)
         self.Word_10.setObjectName(u"Word_10")
         self.Word_10.setGeometry(QRect(30, 310, 101, 21))
-        self.Word_10.setFont(font)
-        self.Word_10.setStyleSheet(u"QLabel {\n"
+        self.Word_10.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Word_11 = QLabel(wordlist_windows)
+        self.Word_11 = QLineEdit(wordlist_windows)
         self.Word_11.setObjectName(u"Word_11")
         self.Word_11.setGeometry(QRect(30, 340, 101, 21))
-        self.Word_11.setFont(font)
-        self.Word_11.setStyleSheet(u"QLabel {\n"
+        self.Word_11.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Word_12 = QLabel(wordlist_windows)
+        self.Word_12 = QLineEdit(wordlist_windows)
         self.Word_12.setObjectName(u"Word_12")
         self.Word_12.setGeometry(QRect(30, 370, 101, 21))
-        self.Word_12.setFont(font)
-        self.Word_12.setStyleSheet(u"QLabel {\n"
+        self.Word_12.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Word_13 = QLabel(wordlist_windows)
+        self.Word_13 = QLineEdit(wordlist_windows)
         self.Word_13.setObjectName(u"Word_13")
         self.Word_13.setGeometry(QRect(30, 400, 101, 21))
-        self.Word_13.setFont(font)
-        self.Word_13.setStyleSheet(u"QLabel {\n"
+        self.Word_13.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Word_14 = QLabel(wordlist_windows)
+        self.Word_14 = QLineEdit(wordlist_windows)
         self.Word_14.setObjectName(u"Word_14")
         self.Word_14.setGeometry(QRect(30, 430, 101, 21))
-        self.Word_14.setFont(font)
-        self.Word_14.setStyleSheet(u"QLabel {\n"
+        self.Word_14.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Word_15 = QLabel(wordlist_windows)
+        self.Word_15 = QLineEdit(wordlist_windows)
         self.Word_15.setObjectName(u"Word_15")
         self.Word_15.setGeometry(QRect(30, 460, 101, 21))
-        self.Word_15.setFont(font)
-        self.Word_15.setStyleSheet(u"QLabel {\n"
+        self.Word_15.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Word_16 = QLabel(wordlist_windows)
+        self.Word_16 = QLineEdit(wordlist_windows)
         self.Word_16.setObjectName(u"Word_16")
         self.Word_16.setGeometry(QRect(30, 490, 101, 21))
-        self.Word_16.setFont(font)
-        self.Word_16.setStyleSheet(u"QLabel {\n"
+        self.Word_16.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Word_17 = QLabel(wordlist_windows)
+        self.Word_17 = QLineEdit(wordlist_windows)
         self.Word_17.setObjectName(u"Word_17")
         self.Word_17.setGeometry(QRect(30, 520, 101, 21))
-        self.Word_17.setFont(font)
-        self.Word_17.setStyleSheet(u"QLabel {\n"
+        self.Word_17.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Word_18 = QLabel(wordlist_windows)
+        self.Word_18 = QLineEdit(wordlist_windows)
         self.Word_18.setObjectName(u"Word_18")
         self.Word_18.setGeometry(QRect(30, 550, 101, 21))
-        self.Word_18.setFont(font)
-        self.Word_18.setStyleSheet(u"QLabel {\n"
+        self.Word_18.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Word_19 = QLabel(wordlist_windows)
+        self.Word_19 = QLineEdit(wordlist_windows)
         self.Word_19.setObjectName(u"Word_19")
         self.Word_19.setGeometry(QRect(30, 580, 101, 21))
-        self.Word_19.setFont(font)
-        self.Word_19.setStyleSheet(u"QLabel {\n"
+        self.Word_19.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Word_20 = QLabel(wordlist_windows)
+        self.Word_20 = QLineEdit(wordlist_windows)
         self.Word_20.setObjectName(u"Word_20")
         self.Word_20.setGeometry(QRect(30, 610, 101, 21))
-        self.Word_20.setFont(font)
-        self.Word_20.setStyleSheet(u"QLabel {\n"
+        self.Word_20.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Word_21 = QLabel(wordlist_windows)
-        self.Word_21.setObjectName(u"Word_21")
-        self.Word_21.setGeometry(QRect(480, 40, 101, 21))
-        self.Word_21.setFont(font)
-        self.Word_21.setStyleSheet(u"QLabel {\n"
+        self.Meaning_1 = QLineEdit(wordlist_windows)
+        self.Meaning_1.setObjectName(u"Meaning_1")
+        self.Meaning_1.setGeometry(QRect(170, 40, 251, 21))
+        self.Meaning_1.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Word_22 = QLabel(wordlist_windows)
-        self.Word_22.setObjectName(u"Word_22")
-        self.Word_22.setGeometry(QRect(480, 70, 101, 21))
-        self.Word_22.setFont(font)
-        self.Word_22.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_23 = QLabel(wordlist_windows)
-        self.Word_23.setObjectName(u"Word_23")
-        self.Word_23.setGeometry(QRect(480, 100, 101, 21))
-        self.Word_23.setFont(font)
-        self.Word_23.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_24 = QLabel(wordlist_windows)
-        self.Word_24.setObjectName(u"Word_24")
-        self.Word_24.setGeometry(QRect(480, 130, 101, 21))
-        self.Word_24.setFont(font)
-        self.Word_24.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_25 = QLabel(wordlist_windows)
-        self.Word_25.setObjectName(u"Word_25")
-        self.Word_25.setGeometry(QRect(480, 160, 101, 21))
-        self.Word_25.setFont(font)
-        self.Word_25.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_26 = QLabel(wordlist_windows)
-        self.Word_26.setObjectName(u"Word_26")
-        self.Word_26.setGeometry(QRect(480, 190, 101, 21))
-        self.Word_26.setFont(font)
-        self.Word_26.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_27 = QLabel(wordlist_windows)
-        self.Word_27.setObjectName(u"Word_27")
-        self.Word_27.setGeometry(QRect(480, 220, 101, 21))
-        self.Word_27.setFont(font)
-        self.Word_27.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_28 = QLabel(wordlist_windows)
-        self.Word_28.setObjectName(u"Word_28")
-        self.Word_28.setGeometry(QRect(480, 250, 101, 21))
-        self.Word_28.setFont(font)
-        self.Word_28.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_29 = QLabel(wordlist_windows)
-        self.Word_29.setObjectName(u"Word_29")
-        self.Word_29.setGeometry(QRect(480, 280, 101, 21))
-        self.Word_29.setFont(font)
-        self.Word_29.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_30 = QLabel(wordlist_windows)
-        self.Word_30.setObjectName(u"Word_30")
-        self.Word_30.setGeometry(QRect(480, 310, 101, 21))
-        self.Word_30.setFont(font)
-        self.Word_30.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_31 = QLabel(wordlist_windows)
-        self.Word_31.setObjectName(u"Word_31")
-        self.Word_31.setGeometry(QRect(480, 340, 101, 21))
-        self.Word_31.setFont(font)
-        self.Word_31.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_32 = QLabel(wordlist_windows)
-        self.Word_32.setObjectName(u"Word_32")
-        self.Word_32.setGeometry(QRect(480, 370, 101, 21))
-        self.Word_32.setFont(font)
-        self.Word_32.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_33 = QLabel(wordlist_windows)
-        self.Word_33.setObjectName(u"Word_33")
-        self.Word_33.setGeometry(QRect(480, 400, 101, 21))
-        self.Word_33.setFont(font)
-        self.Word_33.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_34 = QLabel(wordlist_windows)
-        self.Word_34.setObjectName(u"Word_34")
-        self.Word_34.setGeometry(QRect(480, 430, 101, 21))
-        self.Word_34.setFont(font)
-        self.Word_34.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_35 = QLabel(wordlist_windows)
-        self.Word_35.setObjectName(u"Word_35")
-        self.Word_35.setGeometry(QRect(480, 460, 101, 21))
-        self.Word_35.setFont(font)
-        self.Word_35.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_36 = QLabel(wordlist_windows)
-        self.Word_36.setObjectName(u"Word_36")
-        self.Word_36.setGeometry(QRect(480, 490, 101, 21))
-        self.Word_36.setFont(font)
-        self.Word_36.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_37 = QLabel(wordlist_windows)
-        self.Word_37.setObjectName(u"Word_37")
-        self.Word_37.setGeometry(QRect(480, 520, 101, 21))
-        self.Word_37.setFont(font)
-        self.Word_37.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_38 = QLabel(wordlist_windows)
-        self.Word_38.setObjectName(u"Word_38")
-        self.Word_38.setGeometry(QRect(480, 550, 101, 21))
-        self.Word_38.setFont(font)
-        self.Word_38.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_39 = QLabel(wordlist_windows)
-        self.Word_39.setObjectName(u"Word_39")
-        self.Word_39.setGeometry(QRect(480, 580, 101, 21))
-        self.Word_39.setFont(font)
-        self.Word_39.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Word_40 = QLabel(wordlist_windows)
-        self.Word_40.setObjectName(u"Word_40")
-        self.Word_40.setGeometry(QRect(480, 610, 101, 21))
-        self.Word_40.setFont(font)
-        self.Word_40.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.Meaning_2 = QLabel(wordlist_windows)
+        self.Meaning_2 = QLineEdit(wordlist_windows)
         self.Meaning_2.setObjectName(u"Meaning_2")
-        self.Meaning_2.setGeometry(QRect(170, 70, 101, 21))
-        self.Meaning_2.setFont(font)
-        self.Meaning_2.setStyleSheet(u"QLabel {\n"
+        self.Meaning_2.setGeometry(QRect(170, 70, 251, 21))
+        self.Meaning_2.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_3 = QLabel(wordlist_windows)
+        self.Meaning_3 = QLineEdit(wordlist_windows)
         self.Meaning_3.setObjectName(u"Meaning_3")
-        self.Meaning_3.setGeometry(QRect(170, 100, 101, 21))
-        self.Meaning_3.setFont(font)
-        self.Meaning_3.setStyleSheet(u"QLabel {\n"
+        self.Meaning_3.setGeometry(QRect(170, 100, 251, 21))
+        self.Meaning_3.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_4 = QLabel(wordlist_windows)
+        self.Meaning_4 = QLineEdit(wordlist_windows)
         self.Meaning_4.setObjectName(u"Meaning_4")
-        self.Meaning_4.setGeometry(QRect(170, 130, 101, 21))
-        self.Meaning_4.setFont(font)
-        self.Meaning_4.setStyleSheet(u"QLabel {\n"
+        self.Meaning_4.setGeometry(QRect(170, 130, 251, 21))
+        self.Meaning_4.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_5 = QLabel(wordlist_windows)
+        self.Meaning_5 = QLineEdit(wordlist_windows)
         self.Meaning_5.setObjectName(u"Meaning_5")
-        self.Meaning_5.setGeometry(QRect(170, 160, 101, 21))
-        self.Meaning_5.setFont(font)
-        self.Meaning_5.setStyleSheet(u"QLabel {\n"
+        self.Meaning_5.setGeometry(QRect(170, 160, 251, 21))
+        self.Meaning_5.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_6 = QLabel(wordlist_windows)
+        self.Meaning_6 = QLineEdit(wordlist_windows)
         self.Meaning_6.setObjectName(u"Meaning_6")
-        self.Meaning_6.setGeometry(QRect(170, 190, 101, 21))
-        self.Meaning_6.setFont(font)
-        self.Meaning_6.setStyleSheet(u"QLabel {\n"
+        self.Meaning_6.setGeometry(QRect(170, 190, 251, 21))
+        self.Meaning_6.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_7 = QLabel(wordlist_windows)
+        self.Meaning_7 = QLineEdit(wordlist_windows)
         self.Meaning_7.setObjectName(u"Meaning_7")
-        self.Meaning_7.setGeometry(QRect(170, 220, 101, 21))
-        self.Meaning_7.setFont(font)
-        self.Meaning_7.setStyleSheet(u"QLabel {\n"
+        self.Meaning_7.setGeometry(QRect(170, 220, 251, 21))
+        self.Meaning_7.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_8 = QLabel(wordlist_windows)
+        self.Meaning_8 = QLineEdit(wordlist_windows)
         self.Meaning_8.setObjectName(u"Meaning_8")
-        self.Meaning_8.setGeometry(QRect(170, 250, 101, 21))
-        self.Meaning_8.setFont(font)
-        self.Meaning_8.setStyleSheet(u"QLabel {\n"
+        self.Meaning_8.setGeometry(QRect(170, 250, 251, 21))
+        self.Meaning_8.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_9 = QLabel(wordlist_windows)
+        self.Meaning_9 = QLineEdit(wordlist_windows)
         self.Meaning_9.setObjectName(u"Meaning_9")
-        self.Meaning_9.setGeometry(QRect(170, 310, 101, 21))
-        self.Meaning_9.setFont(font)
-        self.Meaning_9.setStyleSheet(u"QLabel {\n"
+        self.Meaning_9.setGeometry(QRect(170, 280, 251, 21))
+        self.Meaning_9.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_10 = QLabel(wordlist_windows)
+        self.Meaning_10 = QLineEdit(wordlist_windows)
         self.Meaning_10.setObjectName(u"Meaning_10")
-        self.Meaning_10.setGeometry(QRect(170, 280, 101, 21))
-        self.Meaning_10.setFont(font)
-        self.Meaning_10.setStyleSheet(u"QLabel {\n"
+        self.Meaning_10.setGeometry(QRect(170, 310, 251, 21))
+        self.Meaning_10.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_11 = QLabel(wordlist_windows)
+        self.Meaning_11 = QLineEdit(wordlist_windows)
         self.Meaning_11.setObjectName(u"Meaning_11")
-        self.Meaning_11.setGeometry(QRect(170, 340, 101, 21))
-        self.Meaning_11.setFont(font)
-        self.Meaning_11.setStyleSheet(u"QLabel {\n"
+        self.Meaning_11.setGeometry(QRect(170, 340, 251, 21))
+        self.Meaning_11.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_12 = QLabel(wordlist_windows)
+        self.Meaning_12 = QLineEdit(wordlist_windows)
         self.Meaning_12.setObjectName(u"Meaning_12")
-        self.Meaning_12.setGeometry(QRect(170, 370, 101, 21))
-        self.Meaning_12.setFont(font)
-        self.Meaning_12.setStyleSheet(u"QLabel {\n"
+        self.Meaning_12.setGeometry(QRect(170, 370, 251, 21))
+        self.Meaning_12.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_13 = QLabel(wordlist_windows)
+        self.Meaning_13 = QLineEdit(wordlist_windows)
         self.Meaning_13.setObjectName(u"Meaning_13")
-        self.Meaning_13.setGeometry(QRect(170, 400, 101, 21))
-        self.Meaning_13.setFont(font)
-        self.Meaning_13.setStyleSheet(u"QLabel {\n"
+        self.Meaning_13.setGeometry(QRect(170, 400, 251, 21))
+        self.Meaning_13.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_14 = QLabel(wordlist_windows)
+        self.Meaning_14 = QLineEdit(wordlist_windows)
         self.Meaning_14.setObjectName(u"Meaning_14")
-        self.Meaning_14.setGeometry(QRect(170, 430, 101, 21))
-        self.Meaning_14.setFont(font)
-        self.Meaning_14.setStyleSheet(u"QLabel {\n"
+        self.Meaning_14.setGeometry(QRect(170, 430, 251, 21))
+        self.Meaning_14.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_15 = QLabel(wordlist_windows)
+        self.Meaning_15 = QLineEdit(wordlist_windows)
         self.Meaning_15.setObjectName(u"Meaning_15")
-        self.Meaning_15.setGeometry(QRect(170, 460, 101, 21))
-        self.Meaning_15.setFont(font)
-        self.Meaning_15.setStyleSheet(u"QLabel {\n"
+        self.Meaning_15.setGeometry(QRect(170, 460, 251, 21))
+        self.Meaning_15.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_16 = QLabel(wordlist_windows)
+        self.Meaning_16 = QLineEdit(wordlist_windows)
         self.Meaning_16.setObjectName(u"Meaning_16")
-        self.Meaning_16.setGeometry(QRect(170, 490, 101, 21))
-        self.Meaning_16.setFont(font)
-        self.Meaning_16.setStyleSheet(u"QLabel {\n"
+        self.Meaning_16.setGeometry(QRect(170, 490, 251, 21))
+        self.Meaning_16.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_17 = QLabel(wordlist_windows)
+        self.Meaning_17 = QLineEdit(wordlist_windows)
         self.Meaning_17.setObjectName(u"Meaning_17")
-        self.Meaning_17.setGeometry(QRect(170, 520, 101, 21))
-        self.Meaning_17.setFont(font)
-        self.Meaning_17.setStyleSheet(u"QLabel {\n"
+        self.Meaning_17.setGeometry(QRect(170, 520, 251, 21))
+        self.Meaning_17.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_18 = QLabel(wordlist_windows)
+        self.Meaning_18 = QLineEdit(wordlist_windows)
         self.Meaning_18.setObjectName(u"Meaning_18")
-        self.Meaning_18.setGeometry(QRect(170, 550, 101, 21))
-        self.Meaning_18.setFont(font)
-        self.Meaning_18.setStyleSheet(u"QLabel {\n"
+        self.Meaning_18.setGeometry(QRect(170, 550, 251, 21))
+        self.Meaning_18.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_19 = QLabel(wordlist_windows)
+        self.Meaning_19 = QLineEdit(wordlist_windows)
         self.Meaning_19.setObjectName(u"Meaning_19")
-        self.Meaning_19.setGeometry(QRect(170, 580, 101, 21))
-        self.Meaning_19.setFont(font)
-        self.Meaning_19.setStyleSheet(u"QLabel {\n"
+        self.Meaning_19.setGeometry(QRect(170, 580, 251, 21))
+        self.Meaning_19.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_20 = QLabel(wordlist_windows)
+        self.Meaning_20 = QLineEdit(wordlist_windows)
         self.Meaning_20.setObjectName(u"Meaning_20")
-        self.Meaning_20.setGeometry(QRect(170, 610, 101, 21))
-        self.Meaning_20.setFont(font)
-        self.Meaning_20.setStyleSheet(u"QLabel {\n"
+        self.Meaning_20.setGeometry(QRect(170, 610, 251, 21))
+        self.Meaning_20.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_21 = QLabel(wordlist_windows)
+        self.Meaning_21 = QLineEdit(wordlist_windows)
         self.Meaning_21.setObjectName(u"Meaning_21")
-        self.Meaning_21.setGeometry(QRect(610, 40, 101, 21))
-        self.Meaning_21.setFont(font)
-        self.Meaning_21.setStyleSheet(u"QLabel {\n"
+        self.Meaning_21.setGeometry(QRect(610, 41, 251, 21))
+        self.Meaning_21.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_22 = QLabel(wordlist_windows)
+        self.Word_21 = QLineEdit(wordlist_windows)
+        self.Word_21.setObjectName(u"Word_21")
+        self.Word_21.setGeometry(QRect(470, 40, 101, 21))
+        self.Word_21.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_22 = QLineEdit(wordlist_windows)
+        self.Word_22.setObjectName(u"Word_22")
+        self.Word_22.setGeometry(QRect(470, 69, 101, 21))
+        self.Word_22.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_22 = QLineEdit(wordlist_windows)
         self.Meaning_22.setObjectName(u"Meaning_22")
-        self.Meaning_22.setGeometry(QRect(610, 70, 101, 21))
-        self.Meaning_22.setFont(font)
-        self.Meaning_22.setStyleSheet(u"QLabel {\n"
+        self.Meaning_22.setGeometry(QRect(610, 70, 251, 21))
+        self.Meaning_22.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_23 = QLabel(wordlist_windows)
+        self.Word_23 = QLineEdit(wordlist_windows)
+        self.Word_23.setObjectName(u"Word_23")
+        self.Word_23.setGeometry(QRect(470, 100, 101, 21))
+        self.Word_23.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_23 = QLineEdit(wordlist_windows)
         self.Meaning_23.setObjectName(u"Meaning_23")
-        self.Meaning_23.setGeometry(QRect(610, 100, 101, 21))
-        self.Meaning_23.setFont(font)
-        self.Meaning_23.setStyleSheet(u"QLabel {\n"
+        self.Meaning_23.setGeometry(QRect(610, 101, 251, 21))
+        self.Meaning_23.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_24 = QLabel(wordlist_windows)
+        self.Word_24 = QLineEdit(wordlist_windows)
+        self.Word_24.setObjectName(u"Word_24")
+        self.Word_24.setGeometry(QRect(470, 129, 101, 21))
+        self.Word_24.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_24 = QLineEdit(wordlist_windows)
         self.Meaning_24.setObjectName(u"Meaning_24")
-        self.Meaning_24.setGeometry(QRect(610, 130, 101, 21))
-        self.Meaning_24.setFont(font)
-        self.Meaning_24.setStyleSheet(u"QLabel {\n"
+        self.Meaning_24.setGeometry(QRect(610, 130, 251, 21))
+        self.Meaning_24.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_25 = QLabel(wordlist_windows)
+        self.Meaning_25 = QLineEdit(wordlist_windows)
         self.Meaning_25.setObjectName(u"Meaning_25")
-        self.Meaning_25.setGeometry(QRect(610, 160, 101, 21))
-        self.Meaning_25.setFont(font)
-        self.Meaning_25.setStyleSheet(u"QLabel {\n"
+        self.Meaning_25.setGeometry(QRect(610, 161, 251, 21))
+        self.Meaning_25.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_26 = QLabel(wordlist_windows)
+        self.Word_25 = QLineEdit(wordlist_windows)
+        self.Word_25.setObjectName(u"Word_25")
+        self.Word_25.setGeometry(QRect(470, 160, 101, 21))
+        self.Word_25.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_26 = QLineEdit(wordlist_windows)
+        self.Word_26.setObjectName(u"Word_26")
+        self.Word_26.setGeometry(QRect(470, 190, 101, 21))
+        self.Word_26.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_26 = QLineEdit(wordlist_windows)
         self.Meaning_26.setObjectName(u"Meaning_26")
-        self.Meaning_26.setGeometry(QRect(610, 190, 101, 21))
-        self.Meaning_26.setFont(font)
-        self.Meaning_26.setStyleSheet(u"QLabel {\n"
+        self.Meaning_26.setGeometry(QRect(610, 191, 251, 21))
+        self.Meaning_26.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_27 = QLabel(wordlist_windows)
+        self.Word_27 = QLineEdit(wordlist_windows)
+        self.Word_27.setObjectName(u"Word_27")
+        self.Word_27.setGeometry(QRect(470, 219, 101, 21))
+        self.Word_27.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_27 = QLineEdit(wordlist_windows)
         self.Meaning_27.setObjectName(u"Meaning_27")
-        self.Meaning_27.setGeometry(QRect(610, 220, 101, 21))
-        self.Meaning_27.setFont(font)
-        self.Meaning_27.setStyleSheet(u"QLabel {\n"
+        self.Meaning_27.setGeometry(QRect(610, 220, 251, 21))
+        self.Meaning_27.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_28 = QLabel(wordlist_windows)
+        self.Meaning_28 = QLineEdit(wordlist_windows)
         self.Meaning_28.setObjectName(u"Meaning_28")
-        self.Meaning_28.setGeometry(QRect(610, 250, 101, 21))
-        self.Meaning_28.setFont(font)
-        self.Meaning_28.setStyleSheet(u"QLabel {\n"
+        self.Meaning_28.setGeometry(QRect(610, 251, 251, 21))
+        self.Meaning_28.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_29 = QLabel(wordlist_windows)
+        self.Word_28 = QLineEdit(wordlist_windows)
+        self.Word_28.setObjectName(u"Word_28")
+        self.Word_28.setGeometry(QRect(470, 250, 101, 21))
+        self.Word_28.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_29 = QLineEdit(wordlist_windows)
         self.Meaning_29.setObjectName(u"Meaning_29")
-        self.Meaning_29.setGeometry(QRect(610, 280, 101, 21))
-        self.Meaning_29.setFont(font)
-        self.Meaning_29.setStyleSheet(u"QLabel {\n"
+        self.Meaning_29.setGeometry(QRect(610, 281, 251, 21))
+        self.Meaning_29.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_30 = QLabel(wordlist_windows)
+        self.Word_29 = QLineEdit(wordlist_windows)
+        self.Word_29.setObjectName(u"Word_29")
+        self.Word_29.setGeometry(QRect(470, 280, 101, 21))
+        self.Word_29.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_30 = QLineEdit(wordlist_windows)
         self.Meaning_30.setObjectName(u"Meaning_30")
-        self.Meaning_30.setGeometry(QRect(610, 310, 101, 21))
-        self.Meaning_30.setFont(font)
-        self.Meaning_30.setStyleSheet(u"QLabel {\n"
+        self.Meaning_30.setGeometry(QRect(610, 311, 251, 21))
+        self.Meaning_30.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_31 = QLabel(wordlist_windows)
+        self.Word_30 = QLineEdit(wordlist_windows)
+        self.Word_30.setObjectName(u"Word_30")
+        self.Word_30.setGeometry(QRect(470, 310, 101, 21))
+        self.Word_30.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_31 = QLineEdit(wordlist_windows)
+        self.Word_31.setObjectName(u"Word_31")
+        self.Word_31.setGeometry(QRect(470, 339, 101, 21))
+        self.Word_31.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_31 = QLineEdit(wordlist_windows)
         self.Meaning_31.setObjectName(u"Meaning_31")
-        self.Meaning_31.setGeometry(QRect(610, 340, 101, 21))
-        self.Meaning_31.setFont(font)
-        self.Meaning_31.setStyleSheet(u"QLabel {\n"
+        self.Meaning_31.setGeometry(QRect(610, 340, 251, 21))
+        self.Meaning_31.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_32 = QLabel(wordlist_windows)
+        self.Word_32 = QLineEdit(wordlist_windows)
+        self.Word_32.setObjectName(u"Word_32")
+        self.Word_32.setGeometry(QRect(470, 369, 101, 21))
+        self.Word_32.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_32 = QLineEdit(wordlist_windows)
         self.Meaning_32.setObjectName(u"Meaning_32")
-        self.Meaning_32.setGeometry(QRect(610, 370, 101, 21))
-        self.Meaning_32.setFont(font)
-        self.Meaning_32.setStyleSheet(u"QLabel {\n"
+        self.Meaning_32.setGeometry(QRect(610, 370, 251, 21))
+        self.Meaning_32.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_33 = QLabel(wordlist_windows)
+        self.Meaning_33 = QLineEdit(wordlist_windows)
         self.Meaning_33.setObjectName(u"Meaning_33")
-        self.Meaning_33.setGeometry(QRect(610, 400, 101, 21))
-        self.Meaning_33.setFont(font)
-        self.Meaning_33.setStyleSheet(u"QLabel {\n"
+        self.Meaning_33.setGeometry(QRect(610, 401, 251, 21))
+        self.Meaning_33.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_34 = QLabel(wordlist_windows)
+        self.Word_33 = QLineEdit(wordlist_windows)
+        self.Word_33.setObjectName(u"Word_33")
+        self.Word_33.setGeometry(QRect(470, 400, 101, 21))
+        self.Word_33.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_34 = QLineEdit(wordlist_windows)
         self.Meaning_34.setObjectName(u"Meaning_34")
-        self.Meaning_34.setGeometry(QRect(610, 430, 101, 21))
-        self.Meaning_34.setFont(font)
-        self.Meaning_34.setStyleSheet(u"QLabel {\n"
+        self.Meaning_34.setGeometry(QRect(610, 431, 251, 21))
+        self.Meaning_34.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_35 = QLabel(wordlist_windows)
+        self.Word_34 = QLineEdit(wordlist_windows)
+        self.Word_34.setObjectName(u"Word_34")
+        self.Word_34.setGeometry(QRect(470, 430, 101, 21))
+        self.Word_34.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_35 = QLineEdit(wordlist_windows)
+        self.Word_35.setObjectName(u"Word_35")
+        self.Word_35.setGeometry(QRect(470, 459, 101, 21))
+        self.Word_35.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_35 = QLineEdit(wordlist_windows)
         self.Meaning_35.setObjectName(u"Meaning_35")
-        self.Meaning_35.setGeometry(QRect(610, 460, 101, 21))
-        self.Meaning_35.setFont(font)
-        self.Meaning_35.setStyleSheet(u"QLabel {\n"
+        self.Meaning_35.setGeometry(QRect(610, 460, 251, 21))
+        self.Meaning_35.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_36 = QLabel(wordlist_windows)
+        self.Meaning_36 = QLineEdit(wordlist_windows)
         self.Meaning_36.setObjectName(u"Meaning_36")
-        self.Meaning_36.setGeometry(QRect(610, 490, 101, 21))
-        self.Meaning_36.setFont(font)
-        self.Meaning_36.setStyleSheet(u"QLabel {\n"
+        self.Meaning_36.setGeometry(QRect(610, 491, 251, 21))
+        self.Meaning_36.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_37 = QLabel(wordlist_windows)
+        self.Word_36 = QLineEdit(wordlist_windows)
+        self.Word_36.setObjectName(u"Word_36")
+        self.Word_36.setGeometry(QRect(470, 490, 101, 21))
+        self.Word_36.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Word_37 = QLineEdit(wordlist_windows)
+        self.Word_37.setObjectName(u"Word_37")
+        self.Word_37.setGeometry(QRect(470, 519, 101, 21))
+        self.Word_37.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_37 = QLineEdit(wordlist_windows)
         self.Meaning_37.setObjectName(u"Meaning_37")
-        self.Meaning_37.setGeometry(QRect(610, 520, 101, 21))
-        self.Meaning_37.setFont(font)
-        self.Meaning_37.setStyleSheet(u"QLabel {\n"
+        self.Meaning_37.setGeometry(QRect(610, 520, 251, 21))
+        self.Meaning_37.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_38 = QLabel(wordlist_windows)
+        self.Meaning_38 = QLineEdit(wordlist_windows)
         self.Meaning_38.setObjectName(u"Meaning_38")
-        self.Meaning_38.setGeometry(QRect(610, 550, 101, 21))
-        self.Meaning_38.setFont(font)
-        self.Meaning_38.setStyleSheet(u"QLabel {\n"
+        self.Meaning_38.setGeometry(QRect(610, 551, 251, 21))
+        self.Meaning_38.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_39 = QLabel(wordlist_windows)
+        self.Word_38 = QLineEdit(wordlist_windows)
+        self.Word_38.setObjectName(u"Word_38")
+        self.Word_38.setGeometry(QRect(470, 550, 101, 21))
+        self.Word_38.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_39 = QLineEdit(wordlist_windows)
         self.Meaning_39.setObjectName(u"Meaning_39")
-        self.Meaning_39.setGeometry(QRect(610, 580, 101, 21))
-        self.Meaning_39.setFont(font)
-        self.Meaning_39.setStyleSheet(u"QLabel {\n"
+        self.Meaning_39.setGeometry(QRect(610, 581, 251, 21))
+        self.Meaning_39.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.Meaning_40 = QLabel(wordlist_windows)
+        self.Word_39 = QLineEdit(wordlist_windows)
+        self.Word_39.setObjectName(u"Word_39")
+        self.Word_39.setGeometry(QRect(470, 580, 101, 21))
+        self.Word_39.setStyleSheet(u"QLineEdit {\n"
+"    border: 1px solid black;\n"
+"}\n"
+"")
+        self.Meaning_40 = QLineEdit(wordlist_windows)
         self.Meaning_40.setObjectName(u"Meaning_40")
-        self.Meaning_40.setGeometry(QRect(610, 610, 101, 21))
-        self.Meaning_40.setFont(font)
-        self.Meaning_40.setStyleSheet(u"QLabel {\n"
+        self.Meaning_40.setGeometry(QRect(610, 611, 251, 21))
+        self.Meaning_40.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.label_45 = QLabel(wordlist_windows)
-        self.label_45.setObjectName(u"label_45")
-        self.label_45.setGeometry(QRect(310, 10, 71, 20))
-        self.label_45.setFont(font)
-        self.label_165 = QLabel(wordlist_windows)
-        self.label_165.setObjectName(u"label_165")
-        self.label_165.setGeometry(QRect(280, 40, 16, 21))
-        self.label_165.setFont(font)
-        self.My_answer_1 = QLabel(wordlist_windows)
-        self.My_answer_1.setObjectName(u"My_answer_1")
-        self.My_answer_1.setGeometry(QRect(290, 40, 101, 21))
-        self.My_answer_1.setFont(font)
-        self.My_answer_1.setStyleSheet(u"QLabel {\n"
+        self.Word_40 = QLineEdit(wordlist_windows)
+        self.Word_40.setObjectName(u"Word_40")
+        self.Word_40.setGeometry(QRect(470, 610, 101, 21))
+        self.Word_40.setStyleSheet(u"QLineEdit {\n"
 "    border: 1px solid black;\n"
 "}\n"
 "")
-        self.label_166 = QLabel(wordlist_windows)
-        self.label_166.setObjectName(u"label_166")
-        self.label_166.setGeometry(QRect(400, 40, 16, 21))
-        self.label_166.setFont(font)
-        self.label_167 = QLabel(wordlist_windows)
-        self.label_167.setObjectName(u"label_167")
-        self.label_167.setGeometry(QRect(280, 70, 16, 21))
-        self.label_167.setFont(font)
-        self.label_168 = QLabel(wordlist_windows)
-        self.label_168.setObjectName(u"label_168")
-        self.label_168.setGeometry(QRect(400, 70, 16, 21))
-        self.label_168.setFont(font)
-        self.My_answer_2 = QLabel(wordlist_windows)
-        self.My_answer_2.setObjectName(u"My_answer_2")
-        self.My_answer_2.setGeometry(QRect(290, 70, 101, 21))
-        self.My_answer_2.setFont(font)
-        self.My_answer_2.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.My_answer_3 = QLabel(wordlist_windows)
-        self.My_answer_3.setObjectName(u"My_answer_3")
-        self.My_answer_3.setGeometry(QRect(290, 100, 101, 21))
-        self.My_answer_3.setFont(font)
-        self.My_answer_3.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_169 = QLabel(wordlist_windows)
-        self.label_169.setObjectName(u"label_169")
-        self.label_169.setGeometry(QRect(400, 100, 16, 21))
-        self.label_169.setFont(font)
-        self.label_170 = QLabel(wordlist_windows)
-        self.label_170.setObjectName(u"label_170")
-        self.label_170.setGeometry(QRect(280, 100, 16, 21))
-        self.label_170.setFont(font)
-        self.label_171 = QLabel(wordlist_windows)
-        self.label_171.setObjectName(u"label_171")
-        self.label_171.setGeometry(QRect(400, 130, 16, 21))
-        self.label_171.setFont(font)
-        self.label_172 = QLabel(wordlist_windows)
-        self.label_172.setObjectName(u"label_172")
-        self.label_172.setGeometry(QRect(280, 130, 16, 21))
-        self.label_172.setFont(font)
-        self.My_answer_4 = QLabel(wordlist_windows)
-        self.My_answer_4.setObjectName(u"My_answer_4")
-        self.My_answer_4.setGeometry(QRect(290, 130, 101, 21))
-        self.My_answer_4.setFont(font)
-        self.My_answer_4.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_173 = QLabel(wordlist_windows)
-        self.label_173.setObjectName(u"label_173")
-        self.label_173.setGeometry(QRect(400, 160, 16, 21))
-        self.label_173.setFont(font)
-        self.label_174 = QLabel(wordlist_windows)
-        self.label_174.setObjectName(u"label_174")
-        self.label_174.setGeometry(QRect(280, 160, 16, 21))
-        self.label_174.setFont(font)
-        self.My_answer_5 = QLabel(wordlist_windows)
-        self.My_answer_5.setObjectName(u"My_answer_5")
-        self.My_answer_5.setGeometry(QRect(290, 160, 101, 21))
-        self.My_answer_5.setFont(font)
-        self.My_answer_5.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_175 = QLabel(wordlist_windows)
-        self.label_175.setObjectName(u"label_175")
-        self.label_175.setGeometry(QRect(400, 190, 16, 21))
-        self.label_175.setFont(font)
-        self.label_176 = QLabel(wordlist_windows)
-        self.label_176.setObjectName(u"label_176")
-        self.label_176.setGeometry(QRect(280, 190, 16, 21))
-        self.label_176.setFont(font)
-        self.My_answer_6 = QLabel(wordlist_windows)
-        self.My_answer_6.setObjectName(u"My_answer_6")
-        self.My_answer_6.setGeometry(QRect(290, 190, 101, 21))
-        self.My_answer_6.setFont(font)
-        self.My_answer_6.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_177 = QLabel(wordlist_windows)
-        self.label_177.setObjectName(u"label_177")
-        self.label_177.setGeometry(QRect(280, 220, 16, 21))
-        self.label_177.setFont(font)
-        self.My_answer_7 = QLabel(wordlist_windows)
-        self.My_answer_7.setObjectName(u"My_answer_7")
-        self.My_answer_7.setGeometry(QRect(290, 220, 101, 21))
-        self.My_answer_7.setFont(font)
-        self.My_answer_7.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_178 = QLabel(wordlist_windows)
-        self.label_178.setObjectName(u"label_178")
-        self.label_178.setGeometry(QRect(400, 220, 16, 21))
-        self.label_178.setFont(font)
-        self.label_179 = QLabel(wordlist_windows)
-        self.label_179.setObjectName(u"label_179")
-        self.label_179.setGeometry(QRect(400, 250, 16, 21))
-        self.label_179.setFont(font)
-        self.My_answer_8 = QLabel(wordlist_windows)
-        self.My_answer_8.setObjectName(u"My_answer_8")
-        self.My_answer_8.setGeometry(QRect(290, 250, 101, 21))
-        self.My_answer_8.setFont(font)
-        self.My_answer_8.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_180 = QLabel(wordlist_windows)
-        self.label_180.setObjectName(u"label_180")
-        self.label_180.setGeometry(QRect(280, 250, 16, 21))
-        self.label_180.setFont(font)
-        self.label_181 = QLabel(wordlist_windows)
-        self.label_181.setObjectName(u"label_181")
-        self.label_181.setGeometry(QRect(280, 280, 16, 21))
-        self.label_181.setFont(font)
-        self.label_182 = QLabel(wordlist_windows)
-        self.label_182.setObjectName(u"label_182")
-        self.label_182.setGeometry(QRect(400, 280, 16, 21))
-        self.label_182.setFont(font)
-        self.My_answer_9 = QLabel(wordlist_windows)
-        self.My_answer_9.setObjectName(u"My_answer_9")
-        self.My_answer_9.setGeometry(QRect(290, 280, 101, 21))
-        self.My_answer_9.setFont(font)
-        self.My_answer_9.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.My_answer_10 = QLabel(wordlist_windows)
-        self.My_answer_10.setObjectName(u"My_answer_10")
-        self.My_answer_10.setGeometry(QRect(290, 310, 101, 21))
-        self.My_answer_10.setFont(font)
-        self.My_answer_10.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_183 = QLabel(wordlist_windows)
-        self.label_183.setObjectName(u"label_183")
-        self.label_183.setGeometry(QRect(400, 310, 16, 21))
-        self.label_183.setFont(font)
-        self.label_184 = QLabel(wordlist_windows)
-        self.label_184.setObjectName(u"label_184")
-        self.label_184.setGeometry(QRect(280, 310, 16, 21))
-        self.label_184.setFont(font)
-        self.label_185 = QLabel(wordlist_windows)
-        self.label_185.setObjectName(u"label_185")
-        self.label_185.setGeometry(QRect(400, 340, 16, 21))
-        self.label_185.setFont(font)
-        self.label_186 = QLabel(wordlist_windows)
-        self.label_186.setObjectName(u"label_186")
-        self.label_186.setGeometry(QRect(280, 340, 16, 21))
-        self.label_186.setFont(font)
-        self.My_answer_11 = QLabel(wordlist_windows)
-        self.My_answer_11.setObjectName(u"My_answer_11")
-        self.My_answer_11.setGeometry(QRect(290, 340, 101, 21))
-        self.My_answer_11.setFont(font)
-        self.My_answer_11.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.My_answer_12 = QLabel(wordlist_windows)
-        self.My_answer_12.setObjectName(u"My_answer_12")
-        self.My_answer_12.setGeometry(QRect(290, 370, 101, 21))
-        self.My_answer_12.setFont(font)
-        self.My_answer_12.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_187 = QLabel(wordlist_windows)
-        self.label_187.setObjectName(u"label_187")
-        self.label_187.setGeometry(QRect(280, 370, 16, 21))
-        self.label_187.setFont(font)
-        self.label_188 = QLabel(wordlist_windows)
-        self.label_188.setObjectName(u"label_188")
-        self.label_188.setGeometry(QRect(400, 370, 16, 21))
-        self.label_188.setFont(font)
-        self.label_189 = QLabel(wordlist_windows)
-        self.label_189.setObjectName(u"label_189")
-        self.label_189.setGeometry(QRect(280, 400, 16, 21))
-        self.label_189.setFont(font)
-        self.label_190 = QLabel(wordlist_windows)
-        self.label_190.setObjectName(u"label_190")
-        self.label_190.setGeometry(QRect(400, 400, 16, 21))
-        self.label_190.setFont(font)
-        self.My_answer_13 = QLabel(wordlist_windows)
-        self.My_answer_13.setObjectName(u"My_answer_13")
-        self.My_answer_13.setGeometry(QRect(290, 400, 101, 21))
-        self.My_answer_13.setFont(font)
-        self.My_answer_13.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_191 = QLabel(wordlist_windows)
-        self.label_191.setObjectName(u"label_191")
-        self.label_191.setGeometry(QRect(280, 430, 16, 21))
-        self.label_191.setFont(font)
-        self.label_192 = QLabel(wordlist_windows)
-        self.label_192.setObjectName(u"label_192")
-        self.label_192.setGeometry(QRect(400, 430, 16, 21))
-        self.label_192.setFont(font)
-        self.My_answer_14 = QLabel(wordlist_windows)
-        self.My_answer_14.setObjectName(u"My_answer_14")
-        self.My_answer_14.setGeometry(QRect(290, 430, 101, 21))
-        self.My_answer_14.setFont(font)
-        self.My_answer_14.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_193 = QLabel(wordlist_windows)
-        self.label_193.setObjectName(u"label_193")
-        self.label_193.setGeometry(QRect(400, 460, 16, 21))
-        self.label_193.setFont(font)
-        self.label_194 = QLabel(wordlist_windows)
-        self.label_194.setObjectName(u"label_194")
-        self.label_194.setGeometry(QRect(280, 460, 16, 21))
-        self.label_194.setFont(font)
-        self.My_answer_15 = QLabel(wordlist_windows)
-        self.My_answer_15.setObjectName(u"My_answer_15")
-        self.My_answer_15.setGeometry(QRect(290, 460, 101, 21))
-        self.My_answer_15.setFont(font)
-        self.My_answer_15.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_195 = QLabel(wordlist_windows)
-        self.label_195.setObjectName(u"label_195")
-        self.label_195.setGeometry(QRect(400, 490, 16, 21))
-        self.label_195.setFont(font)
-        self.label_196 = QLabel(wordlist_windows)
-        self.label_196.setObjectName(u"label_196")
-        self.label_196.setGeometry(QRect(280, 490, 16, 21))
-        self.label_196.setFont(font)
-        self.My_answer_16 = QLabel(wordlist_windows)
-        self.My_answer_16.setObjectName(u"My_answer_16")
-        self.My_answer_16.setGeometry(QRect(290, 490, 101, 21))
-        self.My_answer_16.setFont(font)
-        self.My_answer_16.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.My_answer_17 = QLabel(wordlist_windows)
-        self.My_answer_17.setObjectName(u"My_answer_17")
-        self.My_answer_17.setGeometry(QRect(290, 520, 101, 21))
-        self.My_answer_17.setFont(font)
-        self.My_answer_17.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_197 = QLabel(wordlist_windows)
-        self.label_197.setObjectName(u"label_197")
-        self.label_197.setGeometry(QRect(280, 520, 16, 21))
-        self.label_197.setFont(font)
-        self.label_198 = QLabel(wordlist_windows)
-        self.label_198.setObjectName(u"label_198")
-        self.label_198.setGeometry(QRect(400, 520, 16, 21))
-        self.label_198.setFont(font)
-        self.label_199 = QLabel(wordlist_windows)
-        self.label_199.setObjectName(u"label_199")
-        self.label_199.setGeometry(QRect(280, 550, 16, 21))
-        self.label_199.setFont(font)
-        self.label_200 = QLabel(wordlist_windows)
-        self.label_200.setObjectName(u"label_200")
-        self.label_200.setGeometry(QRect(400, 550, 16, 21))
-        self.label_200.setFont(font)
-        self.My_answer_18 = QLabel(wordlist_windows)
-        self.My_answer_18.setObjectName(u"My_answer_18")
-        self.My_answer_18.setGeometry(QRect(290, 550, 101, 21))
-        self.My_answer_18.setFont(font)
-        self.My_answer_18.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_201 = QLabel(wordlist_windows)
-        self.label_201.setObjectName(u"label_201")
-        self.label_201.setGeometry(QRect(280, 580, 16, 21))
-        self.label_201.setFont(font)
-        self.label_202 = QLabel(wordlist_windows)
-        self.label_202.setObjectName(u"label_202")
-        self.label_202.setGeometry(QRect(400, 580, 16, 21))
-        self.label_202.setFont(font)
-        self.My_answer_19 = QLabel(wordlist_windows)
-        self.My_answer_19.setObjectName(u"My_answer_19")
-        self.My_answer_19.setGeometry(QRect(290, 580, 101, 21))
-        self.My_answer_19.setFont(font)
-        self.My_answer_19.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_203 = QLabel(wordlist_windows)
-        self.label_203.setObjectName(u"label_203")
-        self.label_203.setGeometry(QRect(280, 610, 16, 21))
-        self.label_203.setFont(font)
-        self.label_204 = QLabel(wordlist_windows)
-        self.label_204.setObjectName(u"label_204")
-        self.label_204.setGeometry(QRect(400, 610, 16, 21))
-        self.label_204.setFont(font)
-        self.My_answer_20 = QLabel(wordlist_windows)
-        self.My_answer_20.setObjectName(u"My_answer_20")
-        self.My_answer_20.setGeometry(QRect(290, 610, 101, 21))
-        self.My_answer_20.setFont(font)
-        self.My_answer_20.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_205 = QLabel(wordlist_windows)
-        self.label_205.setObjectName(u"label_205")
-        self.label_205.setGeometry(QRect(720, 40, 16, 21))
-        self.label_205.setFont(font)
-        self.My_answer_21 = QLabel(wordlist_windows)
-        self.My_answer_21.setObjectName(u"My_answer_21")
-        self.My_answer_21.setGeometry(QRect(730, 40, 101, 21))
-        self.My_answer_21.setFont(font)
-        self.My_answer_21.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_206 = QLabel(wordlist_windows)
-        self.label_206.setObjectName(u"label_206")
-        self.label_206.setGeometry(QRect(840, 40, 16, 21))
-        self.label_206.setFont(font)
-        self.label_46 = QLabel(wordlist_windows)
-        self.label_46.setObjectName(u"label_46")
-        self.label_46.setGeometry(QRect(750, 10, 71, 20))
-        self.label_46.setFont(font)
-        self.label_207 = QLabel(wordlist_windows)
-        self.label_207.setObjectName(u"label_207")
-        self.label_207.setGeometry(QRect(840, 70, 16, 21))
-        self.label_207.setFont(font)
-        self.My_answer_22 = QLabel(wordlist_windows)
-        self.My_answer_22.setObjectName(u"My_answer_22")
-        self.My_answer_22.setGeometry(QRect(730, 70, 101, 21))
-        self.My_answer_22.setFont(font)
-        self.My_answer_22.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_208 = QLabel(wordlist_windows)
-        self.label_208.setObjectName(u"label_208")
-        self.label_208.setGeometry(QRect(720, 70, 16, 21))
-        self.label_208.setFont(font)
-        self.label_209 = QLabel(wordlist_windows)
-        self.label_209.setObjectName(u"label_209")
-        self.label_209.setGeometry(QRect(720, 100, 16, 21))
-        self.label_209.setFont(font)
-        self.My_answer_23 = QLabel(wordlist_windows)
-        self.My_answer_23.setObjectName(u"My_answer_23")
-        self.My_answer_23.setGeometry(QRect(730, 100, 101, 21))
-        self.My_answer_23.setFont(font)
-        self.My_answer_23.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_210 = QLabel(wordlist_windows)
-        self.label_210.setObjectName(u"label_210")
-        self.label_210.setGeometry(QRect(840, 100, 16, 21))
-        self.label_210.setFont(font)
-        self.My_answer_24 = QLabel(wordlist_windows)
-        self.My_answer_24.setObjectName(u"My_answer_24")
-        self.My_answer_24.setGeometry(QRect(730, 130, 101, 21))
-        self.My_answer_24.setFont(font)
-        self.My_answer_24.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_211 = QLabel(wordlist_windows)
-        self.label_211.setObjectName(u"label_211")
-        self.label_211.setGeometry(QRect(720, 130, 16, 21))
-        self.label_211.setFont(font)
-        self.label_212 = QLabel(wordlist_windows)
-        self.label_212.setObjectName(u"label_212")
-        self.label_212.setGeometry(QRect(840, 130, 16, 21))
-        self.label_212.setFont(font)
-        self.My_answer_25 = QLabel(wordlist_windows)
-        self.My_answer_25.setObjectName(u"My_answer_25")
-        self.My_answer_25.setGeometry(QRect(730, 160, 101, 21))
-        self.My_answer_25.setFont(font)
-        self.My_answer_25.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_213 = QLabel(wordlist_windows)
-        self.label_213.setObjectName(u"label_213")
-        self.label_213.setGeometry(QRect(840, 160, 16, 21))
-        self.label_213.setFont(font)
-        self.label_214 = QLabel(wordlist_windows)
-        self.label_214.setObjectName(u"label_214")
-        self.label_214.setGeometry(QRect(720, 160, 16, 21))
-        self.label_214.setFont(font)
-        self.label_215 = QLabel(wordlist_windows)
-        self.label_215.setObjectName(u"label_215")
-        self.label_215.setGeometry(QRect(720, 190, 16, 21))
-        self.label_215.setFont(font)
-        self.label_216 = QLabel(wordlist_windows)
-        self.label_216.setObjectName(u"label_216")
-        self.label_216.setGeometry(QRect(840, 190, 16, 21))
-        self.label_216.setFont(font)
-        self.My_answer_26 = QLabel(wordlist_windows)
-        self.My_answer_26.setObjectName(u"My_answer_26")
-        self.My_answer_26.setGeometry(QRect(730, 190, 101, 21))
-        self.My_answer_26.setFont(font)
-        self.My_answer_26.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.My_answer_27 = QLabel(wordlist_windows)
-        self.My_answer_27.setObjectName(u"My_answer_27")
-        self.My_answer_27.setGeometry(QRect(730, 220, 101, 21))
-        self.My_answer_27.setFont(font)
-        self.My_answer_27.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_217 = QLabel(wordlist_windows)
-        self.label_217.setObjectName(u"label_217")
-        self.label_217.setGeometry(QRect(840, 220, 16, 21))
-        self.label_217.setFont(font)
-        self.label_218 = QLabel(wordlist_windows)
-        self.label_218.setObjectName(u"label_218")
-        self.label_218.setGeometry(QRect(720, 220, 16, 21))
-        self.label_218.setFont(font)
-        self.My_answer_28 = QLabel(wordlist_windows)
-        self.My_answer_28.setObjectName(u"My_answer_28")
-        self.My_answer_28.setGeometry(QRect(730, 250, 101, 21))
-        self.My_answer_28.setFont(font)
-        self.My_answer_28.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_219 = QLabel(wordlist_windows)
-        self.label_219.setObjectName(u"label_219")
-        self.label_219.setGeometry(QRect(720, 250, 16, 21))
-        self.label_219.setFont(font)
-        self.label_220 = QLabel(wordlist_windows)
-        self.label_220.setObjectName(u"label_220")
-        self.label_220.setGeometry(QRect(840, 250, 16, 21))
-        self.label_220.setFont(font)
-        self.label_221 = QLabel(wordlist_windows)
-        self.label_221.setObjectName(u"label_221")
-        self.label_221.setGeometry(QRect(720, 280, 16, 21))
-        self.label_221.setFont(font)
-        self.My_answer_29 = QLabel(wordlist_windows)
-        self.My_answer_29.setObjectName(u"My_answer_29")
-        self.My_answer_29.setGeometry(QRect(730, 280, 101, 21))
-        self.My_answer_29.setFont(font)
-        self.My_answer_29.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_222 = QLabel(wordlist_windows)
-        self.label_222.setObjectName(u"label_222")
-        self.label_222.setGeometry(QRect(840, 280, 16, 21))
-        self.label_222.setFont(font)
-        self.label_223 = QLabel(wordlist_windows)
-        self.label_223.setObjectName(u"label_223")
-        self.label_223.setGeometry(QRect(720, 310, 16, 21))
-        self.label_223.setFont(font)
-        self.My_answer_30 = QLabel(wordlist_windows)
-        self.My_answer_30.setObjectName(u"My_answer_30")
-        self.My_answer_30.setGeometry(QRect(730, 310, 101, 21))
-        self.My_answer_30.setFont(font)
-        self.My_answer_30.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_224 = QLabel(wordlist_windows)
-        self.label_224.setObjectName(u"label_224")
-        self.label_224.setGeometry(QRect(840, 310, 16, 21))
-        self.label_224.setFont(font)
-        self.label_225 = QLabel(wordlist_windows)
-        self.label_225.setObjectName(u"label_225")
-        self.label_225.setGeometry(QRect(840, 340, 16, 21))
-        self.label_225.setFont(font)
-        self.My_answer_31 = QLabel(wordlist_windows)
-        self.My_answer_31.setObjectName(u"My_answer_31")
-        self.My_answer_31.setGeometry(QRect(730, 340, 101, 21))
-        self.My_answer_31.setFont(font)
-        self.My_answer_31.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_226 = QLabel(wordlist_windows)
-        self.label_226.setObjectName(u"label_226")
-        self.label_226.setGeometry(QRect(720, 340, 16, 21))
-        self.label_226.setFont(font)
-        self.My_answer_32 = QLabel(wordlist_windows)
-        self.My_answer_32.setObjectName(u"My_answer_32")
-        self.My_answer_32.setGeometry(QRect(730, 370, 101, 21))
-        self.My_answer_32.setFont(font)
-        self.My_answer_32.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_227 = QLabel(wordlist_windows)
-        self.label_227.setObjectName(u"label_227")
-        self.label_227.setGeometry(QRect(720, 370, 16, 21))
-        self.label_227.setFont(font)
-        self.label_228 = QLabel(wordlist_windows)
-        self.label_228.setObjectName(u"label_228")
-        self.label_228.setGeometry(QRect(840, 370, 16, 21))
-        self.label_228.setFont(font)
-        self.label_229 = QLabel(wordlist_windows)
-        self.label_229.setObjectName(u"label_229")
-        self.label_229.setGeometry(QRect(840, 400, 16, 21))
-        self.label_229.setFont(font)
-        self.label_230 = QLabel(wordlist_windows)
-        self.label_230.setObjectName(u"label_230")
-        self.label_230.setGeometry(QRect(720, 400, 16, 21))
-        self.label_230.setFont(font)
-        self.My_answer_33 = QLabel(wordlist_windows)
-        self.My_answer_33.setObjectName(u"My_answer_33")
-        self.My_answer_33.setGeometry(QRect(730, 400, 101, 21))
-        self.My_answer_33.setFont(font)
-        self.My_answer_33.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_231 = QLabel(wordlist_windows)
-        self.label_231.setObjectName(u"label_231")
-        self.label_231.setGeometry(QRect(720, 430, 16, 21))
-        self.label_231.setFont(font)
-        self.My_answer_34 = QLabel(wordlist_windows)
-        self.My_answer_34.setObjectName(u"My_answer_34")
-        self.My_answer_34.setGeometry(QRect(730, 430, 101, 21))
-        self.My_answer_34.setFont(font)
-        self.My_answer_34.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_232 = QLabel(wordlist_windows)
-        self.label_232.setObjectName(u"label_232")
-        self.label_232.setGeometry(QRect(840, 430, 16, 21))
-        self.label_232.setFont(font)
-        self.label_233 = QLabel(wordlist_windows)
-        self.label_233.setObjectName(u"label_233")
-        self.label_233.setGeometry(QRect(720, 460, 16, 21))
-        self.label_233.setFont(font)
-        self.My_answer_35 = QLabel(wordlist_windows)
-        self.My_answer_35.setObjectName(u"My_answer_35")
-        self.My_answer_35.setGeometry(QRect(730, 460, 101, 21))
-        self.My_answer_35.setFont(font)
-        self.My_answer_35.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_234 = QLabel(wordlist_windows)
-        self.label_234.setObjectName(u"label_234")
-        self.label_234.setGeometry(QRect(840, 460, 16, 21))
-        self.label_234.setFont(font)
-        self.label_235 = QLabel(wordlist_windows)
-        self.label_235.setObjectName(u"label_235")
-        self.label_235.setGeometry(QRect(720, 490, 16, 21))
-        self.label_235.setFont(font)
-        self.label_236 = QLabel(wordlist_windows)
-        self.label_236.setObjectName(u"label_236")
-        self.label_236.setGeometry(QRect(840, 490, 16, 21))
-        self.label_236.setFont(font)
-        self.My_answer_36 = QLabel(wordlist_windows)
-        self.My_answer_36.setObjectName(u"My_answer_36")
-        self.My_answer_36.setGeometry(QRect(730, 490, 101, 21))
-        self.My_answer_36.setFont(font)
-        self.My_answer_36.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_237 = QLabel(wordlist_windows)
-        self.label_237.setObjectName(u"label_237")
-        self.label_237.setGeometry(QRect(840, 520, 16, 21))
-        self.label_237.setFont(font)
-        self.label_238 = QLabel(wordlist_windows)
-        self.label_238.setObjectName(u"label_238")
-        self.label_238.setGeometry(QRect(720, 520, 16, 21))
-        self.label_238.setFont(font)
-        self.My_answer_37 = QLabel(wordlist_windows)
-        self.My_answer_37.setObjectName(u"My_answer_37")
-        self.My_answer_37.setGeometry(QRect(730, 520, 101, 21))
-        self.My_answer_37.setFont(font)
-        self.My_answer_37.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_239 = QLabel(wordlist_windows)
-        self.label_239.setObjectName(u"label_239")
-        self.label_239.setGeometry(QRect(840, 550, 16, 21))
-        self.label_239.setFont(font)
-        self.My_answer_38 = QLabel(wordlist_windows)
-        self.My_answer_38.setObjectName(u"My_answer_38")
-        self.My_answer_38.setGeometry(QRect(730, 550, 101, 21))
-        self.My_answer_38.setFont(font)
-        self.My_answer_38.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_240 = QLabel(wordlist_windows)
-        self.label_240.setObjectName(u"label_240")
-        self.label_240.setGeometry(QRect(720, 550, 16, 21))
-        self.label_240.setFont(font)
-        self.label_241 = QLabel(wordlist_windows)
-        self.label_241.setObjectName(u"label_241")
-        self.label_241.setGeometry(QRect(840, 580, 16, 21))
-        self.label_241.setFont(font)
-        self.label_242 = QLabel(wordlist_windows)
-        self.label_242.setObjectName(u"label_242")
-        self.label_242.setGeometry(QRect(720, 580, 16, 21))
-        self.label_242.setFont(font)
-        self.My_answer_39 = QLabel(wordlist_windows)
-        self.My_answer_39.setObjectName(u"My_answer_39")
-        self.My_answer_39.setGeometry(QRect(730, 580, 101, 21))
-        self.My_answer_39.setFont(font)
-        self.My_answer_39.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_243 = QLabel(wordlist_windows)
-        self.label_243.setObjectName(u"label_243")
-        self.label_243.setGeometry(QRect(840, 610, 16, 21))
-        self.label_243.setFont(font)
-        self.My_answer_40 = QLabel(wordlist_windows)
-        self.My_answer_40.setObjectName(u"My_answer_40")
-        self.My_answer_40.setGeometry(QRect(730, 610, 101, 21))
-        self.My_answer_40.setFont(font)
-        self.My_answer_40.setStyleSheet(u"QLabel {\n"
-"    border: 1px solid black;\n"
-"}\n"
-"")
-        self.label_244 = QLabel(wordlist_windows)
-        self.label_244.setObjectName(u"label_244")
-        self.label_244.setGeometry(QRect(720, 610, 16, 21))
-        self.label_244.setFont(font)
 
         self.retranslateUi(wordlist_windows)
 
@@ -1679,16 +951,6 @@ class Ui_wordlist_windows(object):
         self.label_20.setText(QCoreApplication.translate("wordlist_windows", u"20.", None))
         self.label_41.setText(QCoreApplication.translate("wordlist_windows", u"\ub2e8\uc5b4", None))
         self.label_42.setText(QCoreApplication.translate("wordlist_windows", u"\ub73b", None))
-        self.Word_1.setText("")
-        self.Meaning_1.setText("")
-        self.Word_2.setText("")
-        self.Word_3.setText("")
-        self.Word_4.setText("")
-        self.Word_6.setText("")
-        self.Word_5.setText("")
-        self.Word_8.setText("")
-        self.Word_7.setText("")
-        self.Word_9.setText("")
         self.label_21.setText(QCoreApplication.translate("wordlist_windows", u"38.", None))
         self.label_22.setText(QCoreApplication.translate("wordlist_windows", u"30.", None))
         self.label_23.setText(QCoreApplication.translate("wordlist_windows", u"35.", None))
@@ -1751,197 +1013,243 @@ class Ui_wordlist_windows(object):
         self.label_162.setText(QCoreApplication.translate("wordlist_windows", u"->", None))
         self.label_163.setText(QCoreApplication.translate("wordlist_windows", u"->", None))
         self.label_164.setText(QCoreApplication.translate("wordlist_windows", u"->", None))
-        self.Word_10.setText("")
-        self.Word_11.setText("")
-        self.Word_12.setText("")
-        self.Word_13.setText("")
-        self.Word_14.setText("")
-        self.Word_15.setText("")
-        self.Word_16.setText("")
-        self.Word_17.setText("")
-        self.Word_18.setText("")
-        self.Word_19.setText("")
-        self.Word_20.setText("")
-        self.Word_21.setText("")
-        self.Word_22.setText("")
-        self.Word_23.setText("")
-        self.Word_24.setText("")
-        self.Word_25.setText("")
-        self.Word_26.setText("")
-        self.Word_27.setText("")
-        self.Word_28.setText("")
-        self.Word_29.setText("")
-        self.Word_30.setText("")
-        self.Word_31.setText("")
-        self.Word_32.setText("")
-        self.Word_33.setText("")
-        self.Word_34.setText("")
-        self.Word_35.setText("")
-        self.Word_36.setText("")
-        self.Word_37.setText("")
-        self.Word_38.setText("")
-        self.Word_39.setText("")
-        self.Word_40.setText("")
-        self.Meaning_2.setText("")
-        self.Meaning_3.setText("")
-        self.Meaning_4.setText("")
-        self.Meaning_5.setText("")
-        self.Meaning_6.setText("")
-        self.Meaning_7.setText("")
-        self.Meaning_8.setText("")
-        self.Meaning_9.setText("")
-        self.Meaning_10.setText("")
-        self.Meaning_11.setText("")
-        self.Meaning_12.setText("")
-        self.Meaning_13.setText("")
-        self.Meaning_14.setText("")
-        self.Meaning_15.setText("")
-        self.Meaning_16.setText("")
-        self.Meaning_17.setText("")
-        self.Meaning_18.setText("")
-        self.Meaning_19.setText("")
-        self.Meaning_20.setText("")
-        self.Meaning_21.setText("")
-        self.Meaning_22.setText("")
-        self.Meaning_23.setText("")
-        self.Meaning_24.setText("")
-        self.Meaning_25.setText("")
-        self.Meaning_26.setText("")
-        self.Meaning_27.setText("")
-        self.Meaning_28.setText("")
-        self.Meaning_29.setText("")
-        self.Meaning_30.setText("")
-        self.Meaning_31.setText("")
-        self.Meaning_32.setText("")
-        self.Meaning_33.setText("")
-        self.Meaning_34.setText("")
-        self.Meaning_35.setText("")
-        self.Meaning_36.setText("")
-        self.Meaning_37.setText("")
-        self.Meaning_38.setText("")
-        self.Meaning_39.setText("")
-        self.Meaning_40.setText("")
-        self.label_45.setText(QCoreApplication.translate("wordlist_windows", u"\ub0b4\uac00\uc4f4 \ub2f5", None))
-        self.label_165.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_1.setText("")
-        self.label_166.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_167.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_168.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_2.setText("")
-        self.My_answer_3.setText("")
-        self.label_169.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_170.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_171.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_172.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_4.setText("")
-        self.label_173.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_174.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_5.setText("")
-        self.label_175.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_176.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_6.setText("")
-        self.label_177.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_7.setText("")
-        self.label_178.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_179.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_8.setText("")
-        self.label_180.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_181.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_182.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_9.setText("")
-        self.My_answer_10.setText("")
-        self.label_183.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_184.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_185.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_186.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_11.setText("")
-        self.My_answer_12.setText("")
-        self.label_187.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_188.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_189.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_190.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_13.setText("")
-        self.label_191.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_192.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_14.setText("")
-        self.label_193.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_194.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_15.setText("")
-        self.label_195.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_196.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_16.setText("")
-        self.My_answer_17.setText("")
-        self.label_197.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_198.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_199.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_200.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_18.setText("")
-        self.label_201.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_202.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_19.setText("")
-        self.label_203.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_204.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_20.setText("")
-        self.label_205.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_21.setText("")
-        self.label_206.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_46.setText(QCoreApplication.translate("wordlist_windows", u"\ub0b4\uac00\uc4f4 \ub2f5", None))
-        self.label_207.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_22.setText("")
-        self.label_208.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_209.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_23.setText("")
-        self.label_210.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_24.setText("")
-        self.label_211.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_212.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_25.setText("")
-        self.label_213.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_214.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_215.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_216.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_26.setText("")
-        self.My_answer_27.setText("")
-        self.label_217.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_218.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_28.setText("")
-        self.label_219.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_220.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_221.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_29.setText("")
-        self.label_222.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_223.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_30.setText("")
-        self.label_224.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_225.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_31.setText("")
-        self.label_226.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_32.setText("")
-        self.label_227.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_228.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_229.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_230.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_33.setText("")
-        self.label_231.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_34.setText("")
-        self.label_232.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_233.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_35.setText("")
-        self.label_234.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_235.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_236.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_36.setText("")
-        self.label_237.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_238.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_37.setText("")
-        self.label_239.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_38.setText("")
-        self.label_240.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.label_241.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.label_242.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
-        self.My_answer_39.setText("")
-        self.label_243.setText(QCoreApplication.translate("wordlist_windows", u")", None))
-        self.My_answer_40.setText("")
-        self.label_244.setText(QCoreApplication.translate("wordlist_windows", u"(", None))
+#if QT_CONFIG(tooltip)
+        self.Word_1.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_2.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_3.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_4.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_5.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_6.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_7.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_8.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_9.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_10.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_11.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_12.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_13.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_14.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_15.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_16.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_17.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_18.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_19.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_20.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_1.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+        self.Meaning_1.setText("")
+#if QT_CONFIG(tooltip)
+        self.Meaning_2.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_3.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_4.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_5.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_6.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_7.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_8.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_10.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_11.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_12.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_13.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_14.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_15.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_16.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_17.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_18.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_19.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_20.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_21.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_21.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_22.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_22.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_23.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_23.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_24.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_24.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_25.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_25.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_26.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_26.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_27.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_27.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_28.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_28.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_29.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_29.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_30.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_30.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_31.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_31.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_32.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_32.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_33.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_33.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_34.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_34.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_35.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_35.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_36.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_36.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_37.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_37.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_38.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_38.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_39.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_39.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Meaning_40.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4\uc758 \ub73b\uc744 \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>\ub2e8\uc5b4\uc758 \ub73b\uc774 \uc5ec\ub7ec\uac1c \uc77c\uacbd\uc6b0 &quot;,&quot; \ub85c \uad6c\ubd84 \ud569\ub2c8\ub2e4.</p><p>Ex.\uc0ac\uacfc,\ubc14\ub098\ub098,\ubc30</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.Word_40.setToolTip(QCoreApplication.translate("wordlist_windows", u"<html><head/><body><p>\ub2e8\uc5b4 \ub97c \uc815\uc758 \ud569\ub2c8\ub2e4. </p><p>Ex. Apple</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
     # retranslateUi
 

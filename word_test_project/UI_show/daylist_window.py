@@ -10,10 +10,11 @@ from PySide6.QtWidgets import (
 )
 
 class daylist_window(QMainWindow,Ui_Select_Day):
-    def __init__(self,parents):
+    def __init__(self,parents,Base_path):
         super(daylist_window, self).__init__()
         self.setupUi(self)
         self.parents = parents
+        self.Base_path = Base_path
         # Initialize variables and connect signals to slots
         self.Wordlist = None
         # 창 크기를 고정 
@@ -27,7 +28,7 @@ class daylist_window(QMainWindow,Ui_Select_Day):
 
     def Day_wordlist(self, day):
         if not self.Wordlist or not self.Wordlist.isVisible():
-            self.Wordlist = wordlist_window(self, day)
+            self.Wordlist = wordlist_window(self, day,self.Base_path)
             self.Wordlist.show()
     
     def closeEvent(self, event):

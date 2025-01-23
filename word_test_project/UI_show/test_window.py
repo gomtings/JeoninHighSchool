@@ -109,9 +109,11 @@ class test_Window(QMainWindow, Ui_Form):
             self.words = {}
             with open(file_save, 'r', encoding='utf-8') as file:
                 self.words = json.load(file)
-
+            word_data = self.words.get("word_data", [])
+            self.total_duration = self.words.get("timeout", 0)
+            
             # 첫 번째 부분
-            random_words_1 = random.sample(self.words[0:25], min(25, len(self.words[0:25])))
+            random_words_1 = random.sample(word_data[0:25], min(25, len(word_data[0:25])))
             for i, word in enumerate(random_words_1):
                 for meaning in word['meaning']:  # meaning이 리스트이므로 각각을 추가
                     decrypted_meaning = self.decrypt_meaning(meaning)  # 복호화
@@ -122,7 +124,7 @@ class test_Window(QMainWindow, Ui_Form):
                 self.word_Widgets[i].setText(word['word'])
 
             # 두 번째 부분
-            random_words_2 = random.sample(self.words[25:], min(25, len(self.words[25:])))
+            random_words_2 = random.sample(word_data[25:], min(25, len(word_data[25:])))
             for i, word in enumerate(random_words_2, start=len(random_words_1)):
                 for meaning in word['meaning']:
                     decrypted_meaning = self.decrypt_meaning(meaning)  # 복호화

@@ -5,7 +5,7 @@ import ftplib
 import json
 import os
 from cryptography.fernet import Fernet
-from UI_show.UI.wordlist_ui import Ui_wordlist_windows
+from UI_show.UI.Memo_ui import Ui_wordlist_windows
 from PySide6.QtWidgets import (
     QMainWindow,
     QLabel
@@ -79,10 +79,12 @@ class Memo_window(QMainWindow, Ui_wordlist_windows):
             with open(file_save, 'r', encoding='utf-8') as file:
                 self.words = json.load(file)
             
+            word_data = self.words.get("word_data", [])
+
             # 데이터와 위젯 리스트 크기를 비교하여 작은 크기까지만 처리
-            for i in range(min(len(self.word_Widgets), len(self.words))):
-                word = self.words[i]["word"]
-                encrypted_meanings = self.words[i]["meaning"]
+            for i in range(min(len(self.word_Widgets), len(word_data))):
+                word = word_data[i]["word"]
+                encrypted_meanings = word_data[i]["meaning"]
                 meanings = [self.decrypt_meaning(meaning) for meaning in encrypted_meanings]  # 복호화
                 meanings_str = ", ".join(meanings)  # 리스트를 문자열로 변환
 

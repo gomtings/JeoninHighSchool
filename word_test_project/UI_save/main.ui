@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>533</width>
-    <height>369</height>
+    <width>576</width>
+    <height>396</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +18,14 @@
     <rect>
      <x>120</x>
      <y>10</y>
-     <width>281</width>
+     <width>331</width>
      <height>71</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>문제 풀기</string>
@@ -31,9 +36,14 @@
     <rect>
      <x>120</x>
      <y>80</y>
-     <width>281</width>
+     <width>331</width>
      <height>71</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>기록</string>
@@ -44,9 +54,14 @@
     <rect>
      <x>120</x>
      <y>290</y>
-     <width>281</width>
+     <width>331</width>
      <height>71</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>종료</string>
@@ -57,9 +72,14 @@
     <rect>
      <x>120</x>
      <y>150</y>
-     <width>281</width>
+     <width>331</width>
      <height>71</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>시험 범위 추가</string>
@@ -70,9 +90,14 @@
     <rect>
      <x>120</x>
      <y>220</y>
-     <width>281</width>
+     <width>331</width>
      <height>71</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>단어장</string>
@@ -82,17 +107,18 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>60</y>
+     <y>90</y>
      <width>121</width>
-     <height>51</height>
+     <height>61</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
    <property name="styleSheet">
-    <string notr="true">QPushButton {
-    border: 1px solid black;
-    background-color: rgba(255, 255, 255, 0); /* 투명한 배경색 */
-}
-</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>로그인</string>
@@ -101,17 +127,74 @@
   <widget class="QLabel" name="info">
    <property name="geometry">
     <rect>
-     <x>411</x>
-     <y>343</y>
-     <width>121</width>
+     <x>350</x>
+     <y>370</y>
+     <width>221</width>
      <height>21</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="styleSheet">
-    <string notr="true">QLabel { border: 1px solid black; }</string>
+    <string notr="true">QLabel { 
+    border: 1px solid rgba(0, 0, 0, 0); 
+}
+</string>
    </property>
    <property name="text">
-    <string>ABCDEFGFIJKLMN</string>
+    <string>사용자 님 로그인 후 사용해 주세요.</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="version">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>370</y>
+     <width>351</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel { 
+    border: 1px solid rgba(0, 0, 0, 0); 
+}
+</string>
+   </property>
+   <property name="text">
+    <string>SW 버전 : 25-01-22.01  |  학습지 버전 : 2025-01-10 10:55</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Manager_btn">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>160</y>
+     <width>121</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    border: none; /* Remove border */
+    background-color: rgba(0, 0, 0, 0); /* Completely transparent background */
+}
+</string>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>
