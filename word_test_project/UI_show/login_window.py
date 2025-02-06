@@ -37,29 +37,33 @@ class LoginWindow(QMainWindow,Ui_LoginWindow):
     def Login(self):
         name = self.name.text()
         stunum = self.stunum.text()
-        post = {'name': name, 'stunum': stunum}
-        response = requests.post('http://solimatics.dothome.co.kr/word_test_project/db/login.php', data=post)
-        # 응답이 성공 메시지일 때 팝업 창 띄우기
-        result = response.json()
-        if result['result'] == 'success':
-            version_path = os.path.join(self.Base_path, "info", "logininfo")
-            with open(version_path, 'w', encoding='utf-8') as file:
-                json.dump(result, file, ensure_ascii=False, indent=4)
-            self.logininfo = result
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Information)
-            msg_box.setWindowTitle("로그인 성공!")
-            msg_box.setText(f"{name} 로그인 되었습니다.")
-            msg_box.setStandardButtons(QMessageBox.Ok)
-            msg_box.exec()
-            
-            # 창 닫기...
-            self.close()
+        if name or stunum:
+            post = {'name': name, 'stunum': stunum}
+            response = requests.post('http://solimatics.dothome.co.kr/word_test_project/db/login.php', data=post)
+            # 응답이 성공 메시지일 때 팝업 창 띄우기
+            result = response.json()
+            if result['result'] == 'success':
+                version_path = os.path.join(self.Base_path, "info", "logininfo")
+                with open(version_path, 'w', encoding='utf-8') as file:
+                    json.dump(result, file, ensure_ascii=False, indent=4)
+                self.logininfo = result
+                msg_box = QMessageBox()
+                msg_box.setIcon(QMessageBox.Information)
+                msg_box.setWindowTitle("로그인 성공!")
+                msg_box.setText(f"{name} 로그인 되었습니다.")
+                msg_box.setStandardButtons(QMessageBox.Ok)
+                msg_box.exec()
+                
+                # 창 닫기...
+                self.close()
+            else:
+                pass
         else:
-            pass
+            self.popupwindows()
     
     def membership_callback(self, result):
-        print("Membership Window Result:", result)
+        pass
+        #print("Membership Window Result:", result)
         # 여기서 콜백 값에 따른 추가 작업 수행 가능
 
     def membership_window(self):
@@ -67,6 +71,14 @@ class LoginWindow(QMainWindow,Ui_LoginWindow):
             self.hide()
             self.membershipwindow = membership_window(self,self.Exam_record_path,self.Wrong_list_path,self.Workbook_path,self.Base_path,self.membership_callback) 
             self.membershipwindow.show()
+
+    def popupwindows(self):
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.setWindowTitle("입력 오류!")
+        msg_box.setText("아이디 혹은 비밀번호가 입력되지 않았습니다.")
+        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.exec()
 
     def closeEvent(self, event):
         self.parents.show()

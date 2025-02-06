@@ -38,21 +38,32 @@ class membership_window(QMainWindow,Ui_MembershipWindow):
     def open_test_Window(self):
         name = self.name.text()
         stunum = self.stunum.text()
-        post = {'name': name, 'stunum': stunum}
-        response = requests.post('http://solimatics.dothome.co.kr/word_test_project/db/insert_id.php', data=post)
-        # 응답이 성공 메시지일 때 팝업 창 띄우기
-        result = response.json()
-        if result['result'] == 'success':
-            self.membership = True
-            msg_box = QMessageBox()
-            msg_box.setIcon(QMessageBox.Information)
-            msg_box.setWindowTitle("회원가입 성공!")
-            msg_box.setText(f"{name} 의 계정이 성공적으로 생성되었습니다.")
-            msg_box.setStandardButtons(QMessageBox.Ok)
-            msg_box.exec()
-            
-            # 창 닫기...
-            self.close()
+        if name or stunum:
+            post = {'name': name, 'stunum': stunum}
+            response = requests.post('http://solimatics.dothome.co.kr/word_test_project/db/insert_id.php', data=post)
+            # 응답이 성공 메시지일 때 팝업 창 띄우기
+            result = response.json()
+            if result['result'] == 'success':
+                self.membership = True
+                msg_box = QMessageBox()
+                msg_box.setIcon(QMessageBox.Information)
+                msg_box.setWindowTitle("회원가입 성공!")
+                msg_box.setText(f"{name} 의 계정이 성공적으로 생성되었습니다.")
+                msg_box.setStandardButtons(QMessageBox.Ok)
+                msg_box.exec()
+                
+                # 창 닫기...
+                self.close()
+        else:
+            self.popupwindows()
+    
+    def popupwindows(self):
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.setWindowTitle("입력 오류!")
+        msg_box.setText("아이디 혹은 비밀번호가 입력되지 않았습니다.")
+        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.exec()
 
     def closeEvent(self, event):
         if self.callback:

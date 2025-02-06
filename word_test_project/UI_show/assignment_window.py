@@ -24,17 +24,36 @@ class get_assignment_Window(QMainWindow, Ui_assignment_window):
 
         # 계정목록 가져오기...
         result = self.Get_account()
-        # 출력 예시 
-        #{'result': 'success', 'msg': 'data retrieved', 'data': [{'name': 'JeoninHighSchool', 'admin': 1}, {'name': 'abcdef', 'admin': 0}, {'name': '', 'admin': 0}]}
         self.Add_account_list(result)
     
     def Add_account_list(self, result):
-        pass
+        try:
+            self.listcliked.clear()  # 기존 항목 모두 제거
+            # 'data' 키의 값들을 순회하며 'name' 값을 QListWidget에 추가
+            for item in result['data']:
+                name = item['name']
+                admin = item['admin']
+                if name:  # name 값이 비어있지 않은 경우에만 추가
+                    list_item = QListWidgetItem(f"{name} - 관리자" if admin == 1 else f"{name} - 사용자")
+                    list_item.setForeground(QColor('blue') if admin == 1 else QColor('black'))
+                    self.listcliked.addItem(list_item)
+        except Exception as e:
+            print(f"Exception error: {e}")
 
     def clicked_record_list(self, item):
-        #Set_Manager 의 출력 결과.
-        #{"result":"success","msg":"admin value updated","name":"abcdef","admin":0}
-        pass
+        itemtext = item.text()
+        change_itemtext = itemtext.strip("\n")
+        parts = change_itemtext.split(" - ")  # " - "를 기준으로 문자열 분리
+        name = parts[0]  # 첫 번째 부분을 self.Range에 할당
+        if name != "JeoninHighSchool":
+            result = self.Set_Manager(name)
+            if result["result"] == "success":
+                # 계정목록 가져오기...
+                result = self.Get_account()
+                self.Add_account_list(result)
+        else:
+            self.popupwindows()
+
 
     def Get_account(self):
         response = requests.post('http://solimatics.dothome.co.kr/word_test_project/db/Get_account.php')
