@@ -7,6 +7,8 @@ import os
 from cryptography.fernet import Fernet
 from UI_show.UI.Manager_ui import Ui_Manager_window
 from UI_show.assignment_window import get_assignment_Window
+from UI_show.Remove_window import Account_remove_Windows
+from UI_show.Grade_window import grade_manager_Windows
 
 from PySide6.QtWidgets import (
     QApplication,
@@ -30,28 +32,51 @@ from PySide6.QtWidgets import (
 #cd UI_save
 
 class Manager_Windows(QMainWindow, Ui_Manager_window):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None,Base_path = None):
         super(Manager_Windows, self).__init__()
         self.setupUi(self)
-        self.setWindowTitle("관리자 모드드")
+        self.setWindowTitle("관리자 모드")
+        self.parents = parent
+        self.Base_path = Base_path
         self.ver = "25-01-22.01"
         # 창 크기를 고정 
         self.setFixedSize(self.size())
 
         # Initialize variables and connect signals to slots
         self.assignment_Windows= None
+        self.Account_remove_Windows = None
+        self.Grade_Manager_Windows = None
 
         self.assignment = self.findChild(QPushButton, "assignment") # 시험 보기 
         self.assignment.clicked.connect(self.assignment_Window)
-            
+
+        self.Account_remove = self.findChild(QPushButton, "Account_remove") # 시험 보기 
+        self.Account_remove.clicked.connect(self.Account_remove_Window)
+
+        self.Grade_Manager = self.findChild(QPushButton, "Grade_Manager") # 시험 보기 
+        self.Grade_Manager.clicked.connect(self.Grade_Manager_Window)
+
     def assignment_Window(self):
         if self.assignment_Windows is None or not self.assignment_Windows.isVisible(): 
             self.assignment_Windows = get_assignment_Window(self) 
             self.hide()
             self.assignment_Windows.show()         
 
+    def Account_remove_Window(self):
+        if self.Account_remove_Windows is None or not self.Account_remove_Windows.isVisible(): 
+            self.Account_remove_Windows = Account_remove_Windows(self) 
+            self.hide()
+            self.Account_remove_Windows.show() 
+
+    def Grade_Manager_Window(self):
+        if self.Grade_Manager_Windows is None or not self.Grade_Manager_Windows.isVisible(): 
+            self.Grade_Manager_Windows = grade_manager_Windows(self,self.Base_path) 
+            self.hide()
+            self.Grade_Manager_Windows.show()
+
     def closeEvent(self, event):
-        pass
+        self.parents.show()
+        event.accept()
 
     def popupwindows(self):
         msg_box = QMessageBox()

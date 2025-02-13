@@ -1,6 +1,4 @@
 import sys
-import math
-import time
 import ftplib
 import json
 import os
@@ -32,6 +30,8 @@ from PySide6.QtWidgets import (
 #pyside6-uic membership.ui -o membership_ui.py
 #pyside6-uic Manager.ui -o Manager_ui.py
 #pyside6-uic assignment.ui -o assignment_ui.py
+#pyside6-uic grade_manager.ui -o grade_manager_ui.py
+#pyside6-uic Check_grades.ui -o Check_grades_ui.py
 #cd UI_save
 
 class Main_Windows(QMainWindow, Ui_Form):
@@ -196,7 +196,7 @@ class Main_Windows(QMainWindow, Ui_Form):
     def open_test_Window(self):
         if self.Successlogin:
             if self.select_window is None or not self.select_window.isVisible(): 
-                self.select_window = Subject_select_window(self,self.Exam_record_path,self.Wrong_list_path,self.Workbook_path,self.Base_path) 
+                self.select_window = Subject_select_window(self,self.Exam_record_path,self.Wrong_list_path,self.Workbook_path,self.Base_path,self.name) 
                 self.hide()
                 self.select_window.show()
         else:
@@ -256,7 +256,7 @@ class Main_Windows(QMainWindow, Ui_Form):
     def login_success(self):
         version_path = os.path.join(self.Base_path, "info", "logininfo")
         if os.path.exists(version_path):
-            with open(version_path, 'r') as file:
+            with open(version_path, 'r',encoding = 'utf-8') as file:
                 data = json.load(file)
             self.Successlogin = True
             self.name = data["name"]
@@ -268,14 +268,15 @@ class Main_Windows(QMainWindow, Ui_Form):
             if self.Successlogin:
                 self.login.setText("로그아웃")
                 self.info.setText(f"{self.name} 님 로그인을 환영합니다.")
-                self.Manager_btn.setEnabled(True)
-                self.Manager_btn.setText("관리자")
-                self.Manager_btn.setStyleSheet(
-                """
-                QPushButton {border: 1px solid black; background-color: transparent; color: black;}
-                QPushButton:hover {background-color: #87CEEB; color: black;}
-                """
-                )
+                if self.admin:
+                    self.Manager_btn.setEnabled(True)
+                    self.Manager_btn.setText("관리자")
+                    self.Manager_btn.setStyleSheet(
+                    """
+                    QPushButton {border: 1px solid black; background-color: transparent; color: black;}
+                    QPushButton:hover {background-color: #87CEEB; color: black;}
+                    """
+                    )
             else:
                 self.info.setText("로그인 되지 않았습니다.")
         else:
@@ -284,7 +285,7 @@ class Main_Windows(QMainWindow, Ui_Form):
     def Manager_windows(self):
         if self.admin:
             if self.Manager_window is None or not self.Manager_window.isVisible(): 
-                self.Manager_window = Manager_Windows(self)
+                self.Manager_window = Manager_Windows(self,self.Base_path)
                 self.hide()
                 self.Manager_window.show()
 

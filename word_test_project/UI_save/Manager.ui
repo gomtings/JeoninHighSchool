@@ -31,7 +31,7 @@
     <string>관리자 권한 부여</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="Recode">
+  <widget class="QPushButton" name="Account_remove">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -46,7 +46,7 @@
     </font>
    </property>
    <property name="text">
-    <string>-</string>
+    <string>계정 삭제</string>
    </property>
   </widget>
   <widget class="QPushButton" name="closed">
@@ -67,7 +67,7 @@
     <string>-</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="Addition">
+  <widget class="QPushButton" name="Grade_Manager">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -82,7 +82,7 @@
     </font>
    </property>
    <property name="text">
-    <string>-</string>
+    <string>성적 관리</string>
    </property>
   </widget>
   <widget class="QPushButton" name="note">

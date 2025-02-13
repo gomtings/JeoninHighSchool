@@ -36,10 +36,10 @@ class Ui_Manager_window(object):
         self.closed.setObjectName(u"closed")
         self.closed.setGeometry(QRect(20, 290, 331, 71))
         self.closed.setFont(font)
-        self.Grade_Manager = QPushButton(Manager_window)
-        self.Grade_Manager.setObjectName(u"Grade_Manager")
-        self.Grade_Manager.setGeometry(QRect(20, 150, 331, 71))
-        self.Grade_Manager.setFont(font)
+        self.Addition = QPushButton(Manager_window)
+        self.Addition.setObjectName(u"Addition")
+        self.Addition.setGeometry(QRect(20, 150, 331, 71))
+        self.Addition.setFont(font)
         self.note = QPushButton(Manager_window)
         self.note.setObjectName(u"note")
         self.note.setGeometry(QRect(20, 220, 331, 71))
@@ -55,7 +55,7 @@ class Ui_Manager_window(object):
         self.assignment.setText(QCoreApplication.translate("Manager_window", u"\uad00\ub9ac\uc790 \uad8c\ud55c \ubd80\uc5ec", None))
         self.Account_remove.setText(QCoreApplication.translate("Manager_window", u"\uacc4\uc815 \uc0ad\uc81c", None))
         self.closed.setText(QCoreApplication.translate("Manager_window", u"-", None))
-        self.Grade_Manager.setText(QCoreApplication.translate("Manager_window", u"\uc131\uc801 \uad00\ub9ac", None))
+        self.Addition.setText(QCoreApplication.translate("Manager_window", u"-", None))
         self.note.setText(QCoreApplication.translate("Manager_window", u"-", None))
     # retranslateUi
 

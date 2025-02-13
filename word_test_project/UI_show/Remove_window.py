@@ -13,12 +13,12 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtGui import QColor
 
-class get_assignment_Window(QMainWindow, Ui_assignment_window):
+class Account_remove_Windows(QMainWindow, Ui_assignment_window):
     def __init__(self,parent=None):  # init 공부하기
-        super(get_assignment_Window, self).__init__()
+        super(Account_remove_Windows, self).__init__()
         self.setupUi(self)
         self.parents = parent
-        self.setWindowTitle("관리자 권한 부여")
+        self.setWindowTitle("계정 삭제")
         self.listcliked = self.findChild(QListWidget, "Account_list")
         self.listcliked.itemDoubleClicked.connect(self.clicked_record_list)
 
@@ -46,7 +46,7 @@ class get_assignment_Window(QMainWindow, Ui_assignment_window):
         parts = change_itemtext.split(" - ")  # " - "를 기준으로 문자열 분리
         name = parts[0]  # 첫 번째 부분을 self.Range에 할당
         if name != "JeoninHighSchool":
-            result = self.Set_Manager(name)
+            result = self.Remove_account(name)
             if result["result"] == "success":
                 # 계정목록 가져오기...
                 result = self.Get_account()
@@ -60,9 +60,9 @@ class get_assignment_Window(QMainWindow, Ui_assignment_window):
         # 응답이 성공 메시지일 때 팝업 창 띄우기
         return response.json()
     
-    def Set_Manager(self,name):
+    def Remove_account(self,name):
         post = {'name': name}
-        response = requests.post('http://solimatics.dothome.co.kr/word_test_project/db/Set_Manager.php', data=post)
+        response = requests.post('http://solimatics.dothome.co.kr/word_test_project/db/Remove_account.php', data=post)
         # 응답이 성공 메시지일 때 팝업 창 띄우기
         return response.json()
     
@@ -70,7 +70,7 @@ class get_assignment_Window(QMainWindow, Ui_assignment_window):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Information)
         msg_box.setWindowTitle("권한 없음")
-        msg_box.setText("마스터 계정은 변경이 불가 합니다.")
+        msg_box.setText("마스터 계정은 제거 불가 합니다.")
         msg_box.setStandardButtons(QMessageBox.Ok)
         msg_box.exec()
 

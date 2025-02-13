@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>grade_window</class>
+ <widget class="QDialog" name="grade_window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>515</width>
+    <height>543</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QListWidget" name="grade_list">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>80</y>
+     <width>511</width>
+     <height>461</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;성적순으로 정렬 됩니다. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>161</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>28</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>&lt;성적표&gt;</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="Sorting">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>30</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>정답순</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>오답순</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>40</y>
+     <width>81</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>정렬기준 :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>40</y>
+     <width>51</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>과목 :</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="subject">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>30</y>
+     <width>61</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>ALL</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY5</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY6</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY7</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>DAY8</string>
+    </property>
+   </item>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
