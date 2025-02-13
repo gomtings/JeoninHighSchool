@@ -43,8 +43,12 @@ class grade_manager_Windows(QMainWindow, Ui_grade_window):
         self.subject.currentTextChanged.connect(self.subject_combobox_text_changed)
 
         # 계정목록 가져오기...
+        
         self.result = self.Get_account()
         for directory in self.result['data']:
+            a=directory["name"]
+            self.Sorting.addItem(a)
+            pass
             # directory 딕셔너리 에서'name' 키에서 이름을 추출 합니다. 
             # #self.Sorting QComboBox 에 이름을 추가 합니다.
         
