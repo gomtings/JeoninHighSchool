@@ -81,10 +81,10 @@ class Check_grades_window(QMainWindow, Ui_Check_grades_windows):
         
     def load_words_from_json(self, file_save, gradefile):
         try:
-            self.name = None # gradefile 딕서너리에서 값을 가져와 QLabel 에 문자열을 추가 합니다. 키값은 "이름" 입니다. 
-            self.subject = None # gradefile 딕서너리에서 값을 가져와 QLabel 에 문자열을 추가 합니다. 키값은 "과제" 입니다. 
-            self.correct = None # gradefile 딕서너리에서 값을 가져와 QLabel 에 문자열을 추가 합니다. 키값은 "맞춘 갯수" 입니다. 
-            self.wrong = None # gradefile 딕서너리에서 값을 가져와 QLabel 에 문자열을 추가 합니다. 키값은 "틀린 갯수" 입니다. 
+            self.name.setText(gradefile["이름"])
+            self.subject.setText(gradefile["과제"])
+            self.correct.setText(str(gradefile["맞춘 갯수"]))
+            self.wrong.setText(str(gradefile["틀린 갯수"]))
             ms = gradefile.get("시간", 0)
             if ms != 0:
                 minutes = ms // 60

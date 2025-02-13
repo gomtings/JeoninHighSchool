@@ -8,7 +8,7 @@ from cryptography.fernet import Fernet
 from UI_show.UI.Manager_ui import Ui_Manager_window
 from UI_show.assignment_window import get_assignment_Window
 from UI_show.Remove_window import Account_remove_Windows
-from UI_show.grade_window import grade_manager_Windows
+from UI_show.Grade_window import grade_manager_Windows
 
 from PySide6.QtWidgets import (
     QApplication,
