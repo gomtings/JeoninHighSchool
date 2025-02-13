@@ -45,8 +45,8 @@ class grade_manager_Windows(QMainWindow, Ui_grade_window):
         # 계정목록 가져오기...
         self.result = self.Get_account()
         for directory in self.result['data']:
-            # directory 딕셔너리 에서'name' 키에서 이름을 추출 합니다. 
-            # #self.Sorting QComboBox 에 이름을 추가 합니다.
+            name = directory['name']
+            self.Sorting.addItem(name)  
         
         # 관리파일 다운로드 
         self.download_Management_file(self.result)
@@ -152,7 +152,9 @@ class grade_manager_Windows(QMainWindow, Ui_grade_window):
 
     def clicked_record_list(self, item):
         itemtext = item.text()
-        # itemtext 로 부터 문자열을 분리해 파일 이름을 만듭니다. 
+        change_itemtext = itemtext.strip("\n")
+        parts = change_itemtext.split("_")  # "_"를 기준으로 문자열 분리
+        file_name = f"{parts[0]}_{parts[1]}"
         path = os.path.join(self.Base_path, "Management",parts[1],file_name)
         if self.Check_grades_windows is None or not self.Check_grades_windows.isVisible(): 
             self.Check_grades_windows = Check_grades_window(self,self.Base_path,path,parts[0]) 
