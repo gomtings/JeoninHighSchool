@@ -48,26 +48,26 @@ class Admin_Menu_windows(QMainWindow, Ui_Admin_Menu_window):
         self.login_window = None
         self.Successlogin = False
         self.admin = False
+        self.name = ""
         self.Workbook_ver = None
 
         self.strat = self.findChild(QPushButton, "questions") # 시험 보기 
-        #self.strat.clicked.connect(self.open_test_Window)
+        self.strat.clicked.connect(self.open_test_Window)
 
         self.Select_test_range = self.findChild(QPushButton, "Recode") # 기록
-        #self.Select_test_range.clicked.connect(self.open_record_window)
+        self.Select_test_range.clicked.connect(self.open_record_window)
 
         self.Add_test_scope = self.findChild(QPushButton, "Addition")
-        #self.Add_test_scope.clicked.connect(self.open_uploading_window) # 문제 출제제
+        self.Add_test_scope.clicked.connect(self.open_uploading_window) # 문제 출제제
 
         self.vocabulary_book = self.findChild(QPushButton, "note") #단어장 
-        #self.vocabulary_book.clicked.connect(self.open_daylist_window)
+        self.vocabulary_book.clicked.connect(self.open_daylist_window)
 
         self.end = self.findChild(QPushButton, "closed") # 창닫기 
         self.end.clicked.connect(self.close_windows)
 
         self.info = self.findChild(QLabel, "info")
         self.version = self.findChild(QLabel, "version")
-        self.info.setText(f"{self.name} 님 로그인 환영합니다.")
         self.version.setText(f"SW 버전 : {self.ver}  |  학습지 버전 : 2025-01-10 10:55")
         
 

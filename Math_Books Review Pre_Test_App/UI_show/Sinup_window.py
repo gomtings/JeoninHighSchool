@@ -30,11 +30,15 @@ class Sinup_window(QMainWindow,Ui_Sinup_window):
     def join_db(self):
         name = self.Edit_ID.text()
         stunum = self.Edit_Password.text()
-        if True:
+        if name or stunum:
             post = {'name': name, 'stunum': stunum}
             response = requests.post('http://solimatics.dothome.co.kr/word_test_project/db/insert_id.php', data=post)
             result = response.json()
-            #{'result': 'success', 'msg': 'success', 'name': '이상우', 'student_num': '0001', 'idx': 0}
+            if result['result'] == 'success':
+                self.membership = True
+                self.popupwindows("회원가입 성공!",f"{name} 의 계정이 성공적으로 생성되었습니다.")
+                # 창 닫기...
+                self.close()
         else:
             self.popupwindows("입력 오류!","아이디 혹은 비밀번호가 입력되지 않았습니다.")
     

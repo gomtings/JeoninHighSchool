@@ -66,22 +66,43 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
     def login_windows(self):
         ID = self.Edit_ID.text()
         Password = self.Edit_Password.text()
-        if True:
+        if ID or Password:
             post = {'name': ID, 'stunum': Password}
             response = requests.post('http://solimatics.dothome.co.kr/word_test_project/db/login.php', data=post)
             # 응답이 성공 메시지일 때 팝업 창 띄우기
             result = response.json()
-             #{'result': 'success', 'msg': 'login success', 'name': '이상우', 'admin': 0}
+            if result['result'] == 'success':
+                self.name = result["name"]
+                self.admin = False if result["admin"] == 0 else True
+                self.Successlogin = True
+                if self.admin:
+                    self.Open_Admin_Menu_window()
+                else:
+                    self.Open_User_Menu_window()
+                self.popupwindows("로그인 성공!","로그인 되었습니다.")
+            else:
+                self.popupwindows("로그인 실패!","아이디 또는 비밀번호 확인")
+        else:
+            self.popupwindows("경고","아이디 또는 비밀번호를 입력해 주세요!")
 
 
     def Open_Sinup_window(self):
-        pass
+        if self.Sinup_window is None or not self.Sinup_window.isVisible(): 
+            self.Sinup_window = Sinup_window(self) 
+            self.hide()
+            self.Sinup_window.show()
 
     def Open_Admin_Menu_window(self):
-        pass
+        if self.Admin_Menu_window is None or not self.Admin_Menu_window.isVisible(): 
+            self.Admin_Menu_window = Admin_Menu_windows(self,self.Base_path,self.name) 
+            self.hide()
+            self.Admin_Menu_window.show()
 
     def Open_User_Menu_window(self):
-        pass
+        if self.User_Menu_window is None or not self.User_Menu_window.isVisible(): 
+            self.User_Menu_window = User_Menu_windows(self,self.Base_path,self.name) 
+            self.hide()
+            self.User_Menu_window.show()
 
     def close_windows(self):
         self.close()            
