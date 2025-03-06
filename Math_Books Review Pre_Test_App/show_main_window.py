@@ -23,6 +23,9 @@ from PySide6.QtWidgets import (
 #pyside6-uic Admin_Menu_window.ui -o Admin_Menu_window_ui.py
 #pyside6-uic User_Menu_window.ui -o User_Menu_window_ui.py
 #pyside6-uic Sinup_window.ui -o Sinup_window_ui.py
+#pyside6-uic Create_question_window.ui -o Create_question_window_ui.py
+#pyside6-uic Create_question_window_2.ui -o Create_question_window_2_ui.py
+#pyside6-uic Select_Type_Window.ui -o Select_Type_Window_ui.py
 #cd UI_save
 
 class Login_Windows(QMainWindow, Ui_Login_Window):
@@ -34,13 +37,23 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
         # 창 크기를 고정 
         self.setFixedSize(self.size())
         self.Base_path = os.getcwd()
+        self.key_path = os.path.join(self.Base_path, "info", "encryption_key.key")
         
+        # FTP 정보 로드
+        try:
+            FTP_path = os.path.join(self.Base_path, "info", "Report_FTP.json")
+            with open(FTP_path, "r", encoding="UTF-8") as f:
+                self.report_dist = json.load(f)
+        except Exception as e:
+            print(f'FTP.json 데이터가 없습니다. {e}')
+
         # Initialize variables and connect signals to slots
         self.Admin_Menu_window = None
         self.User_Menu_window = None
         self.Sinup_window = None
         self.Successlogin = False
         self.admin = False
+        self.Workbook_ver = None
         self.name = ""
 
         self.Edit_ID = self.findChild(QLineEdit, "Edit_ID") # 아이디
@@ -94,13 +107,13 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
 
     def Open_Admin_Menu_window(self):
         if self.Admin_Menu_window is None or not self.Admin_Menu_window.isVisible(): 
-            self.Admin_Menu_window = Admin_Menu_windows(self,self.Base_path,self.name) 
+            self.Admin_Menu_window = Admin_Menu_windows(self,self.Base_path,self.name,self.Workbook_ver) 
             self.hide()
             self.Admin_Menu_window.show()
 
     def Open_User_Menu_window(self):
         if self.User_Menu_window is None or not self.User_Menu_window.isVisible(): 
-            self.User_Menu_window = User_Menu_windows(self,self.Base_path,self.name) 
+            self.User_Menu_window = User_Menu_windows(self,self.Base_path,self.name,self.Workbook_ver) 
             self.hide()
             self.User_Menu_window.show()
 
@@ -118,6 +131,88 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
         msg_box.setStandardButtons(QMessageBox.Ok)
         msg_box.exec()
 
+    def download_key_file(self):
+        SERVER_IP = self.report_dist["SERVER_IP"]
+        PORT = self.report_dist["PORT"]
+        username = self.report_dist["username"]
+        password = self.report_dist["password"]
+        session = ftplib.FTP()
+        
+        try:
+            session.connect(SERVER_IP, PORT, timeout=10)
+            session.login(username, password)
+            session.cwd("/html/Math_Books Review Pre_Test_App/key/")
+
+            with open(self.key_path, "wb") as keyfile:
+                session.encoding = "utf-8"
+                session.retrbinary(
+                    "RETR " + os.path.basename(self.key_path),
+                    keyfile.write,
+                )
+            print(f"키 파일  다운로드 완료: {os.path.basename(self.key_path)}")
+
+        except ftplib.all_errors as e:
+            print(f"키 파일  다운로드 중 오류가 발생했습니다: {str(e)}")
+        finally:
+            session.quit()
+
+    def download_Workbook(self):
+        SERVER_IP = self.report_dist["SERVER_IP"]
+        PORT = self.report_dist["PORT"]
+        username = self.report_dist["username"]
+        password = self.report_dist["password"]
+        session = ftplib.FTP()
+        try:
+            session.connect(SERVER_IP, PORT, timeout=10)
+            session.login(username, password)
+            session.cwd("/html/Math_Books Review Pre_Test_App/Workbook/")
+
+            # 서버 버전 파일을 가져옴
+            server_version = []
+            session.retrlines("RETR version.txt", server_version.append)
+            server_version = ''.join(server_version).strip()
+
+            # 로컬 버전 파일 읽기
+            Workbook_path = self.Base_path +"/Workbook/"
+            local_version_path = os.path.join(Workbook_path, "version.txt")
+            if os.path.exists(local_version_path):
+                with open(local_version_path, "r") as f:
+                    local_version = f.read().strip()
+            else:
+                local_version = ""
+
+            # 버전 비교
+            if server_version != local_version:
+                files = session.nlst()  # 현재 디렉토리의 모든 파일 목록을 가져옴
+                
+                for file_name in files:
+                    Workbook_path = self.Base_path +"/Workbook/"
+                    local_path = os.path.join(Workbook_path, file_name)
+                    with open(local_path, "wb") as keyfile:
+                        session.encoding = "utf-8"
+                        session.retrbinary("RETR " + file_name, keyfile.write)
+                # 새로운 버전을 로컬에 저장
+                with open(local_version_path, "w") as f:
+                    f.write(server_version)
+                
+                self.Workbook_ver = server_version    
+            else:
+                self.Workbook_ver = local_version 
+
+        except ftplib.all_errors as e:
+            print(f"문제집 다운로드 중 오류가 발생했습니다: {str(e)}")
+        finally:
+            session.quit()
+
+    def load_or_download_key(self):
+        if os.path.exists(self.key_path):
+            with open(self.key_path, 'rb') as key_file:
+                return key_file.read()
+        else:
+            self.download_key_file()
+            with open(self.key_path, 'rb') as key_file:
+                return key_file.read()
+            
 app = QApplication(sys.argv)
 
 window = Login_Windows()

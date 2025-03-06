@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="questions">
+  <widget class="QPushButton" name="Manager_Setup">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -28,10 +28,10 @@
     </font>
    </property>
    <property name="text">
-    <string>시험 보기</string>
+    <string>관리자 권한 관리</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="Recode">
+  <widget class="QPushButton" name="Account_Remove">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -46,7 +46,7 @@
     </font>
    </property>
    <property name="text">
-    <string>기록</string>
+    <string>계정 삭제</string>
    </property>
   </widget>
   <widget class="QPushButton" name="closed">
@@ -71,7 +71,7 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>150</y>
+     <y>220</y>
      <width>331</width>
      <height>71</height>
     </rect>
@@ -85,11 +85,11 @@
     <string>시험 범위 추가</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="note">
+  <widget class="QPushButton" name="Grade_Manager">
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>220</y>
+     <y>150</y>
      <width>331</width>
      <height>71</height>
     </rect>
@@ -100,7 +100,7 @@
     </font>
    </property>
    <property name="text">
-    <string>단어장</string>
+    <string>성적 관리</string>
    </property>
   </widget>
   <widget class="QLabel" name="info">
