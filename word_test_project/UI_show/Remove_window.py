@@ -22,6 +22,7 @@ class Account_remove_Windows(QMainWindow, Ui_assignment_window):
         self.listcliked = self.findChild(QListWidget, "Account_list")
         self.listcliked.itemDoubleClicked.connect(self.clicked_record_list)
 
+
         # 계정목록 가져오기...
         result = self.Get_account()
         self.Add_account_list(result)
@@ -39,6 +40,8 @@ class Account_remove_Windows(QMainWindow, Ui_assignment_window):
                     self.listcliked.addItem(list_item)
         except Exception as e:
             print(f"Exception error: {e}")
+        # 여기에 계정목록이 출력 됩니다. vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv                                                                                          
+        pass
 
     def clicked_record_list(self, item):
         itemtext = item.text()
@@ -53,6 +56,7 @@ class Account_remove_Windows(QMainWindow, Ui_assignment_window):
                 self.Add_account_list(result)
         else:
             self.popupwindows()
+        pass
 
 
     def Get_account(self):
