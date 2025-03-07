@@ -29,7 +29,7 @@ from PySide6.QtWidgets import (
 #cd UI_save
 
 class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
-    def __init__(self,parents,Base_path,name):
+    def __init__(self,parents,Base_path,name,Workbook_ver):
         super(User_Menu_windows, self).__init__()
         self.setupUi(self)
         self.setWindowTitle("영단어외우기")
@@ -39,7 +39,8 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
         self.parents = parents
         self.Base_path = Base_path
         self.name = name
-        
+        self.Workbook_ver = Workbook_ver
+
         # Initialize variables and connect signals to slots
         self.select_window = None
         self.daylist_window = None
@@ -49,28 +50,29 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
         self.login_window = None
         self.Successlogin = False
         self.admin = False
-        self.Workbook_ver = None
 
         self.strat = self.findChild(QPushButton, "questions") # 시험 보기 
-        #self.strat.clicked.connect(self.open_test_Window)
+        self.strat.clicked.connect(self.open_test_Window)
 
         self.Select_test_range = self.findChild(QPushButton, "Recode") # 기록
-        #self.Select_test_range.clicked.connect(self.open_record_window)
-
-        self.vocabulary_book = self.findChild(QPushButton, "note") #단어장 
-        #self.vocabulary_book.clicked.connect(self.open_daylist_window)
+        self.Select_test_range.clicked.connect(self.open_record_window)
 
         self.end = self.findChild(QPushButton, "closed") # 창닫기 
         self.end.clicked.connect(self.close_windows)
 
-        self.Manager_btn = self.findChild(QPushButton, "Manager_btn") # 관리자 모드 
-        #self.Manager_btn.clicked.connect(self.Manager_windows)
-
         self.info = self.findChild(QLabel, "info")
+        self.info.setText(f"{self.name} 님 로그인을 환영합니다.")
         self.version = self.findChild(QLabel, "version")
-        self.info.setText(f"   {self.name} 님 로그인 환영합니다.")
-        self.version.setText(f"SW 버전 : {self.ver}  |  학습지 버전 : 2025-01-10 10:55")
-
+        self.version.setText(f"SW 버전 : {self.ver}  |  학습지 버전 : {self.Workbook_ver}")
+    
+    def load_or_download_key(self):
+        if os.path.exists(self.key_path):
+            with open(self.key_path, 'rb') as key_file:
+                return key_file.read()
+        else:
+            self.download_key_file()
+            with open(self.key_path, 'rb') as key_file:
+                return key_file.read()
 
     def close_windows(self):
         self.close()            

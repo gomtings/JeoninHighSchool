@@ -4,6 +4,10 @@ import json
 import os
 from cryptography.fernet import Fernet
 from UI_show.UI.Admin_Menu_window_ui import Ui_Admin_Menu_window
+from UI_show.assignment_window import get_assignment_Window
+from UI_show.Remove_window import Account_remove_Windows
+from UI_show.Grade_window import grade_manager_Windows
+from UI_show.Select_Type_Window import Select_Type_Window
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -29,7 +33,7 @@ from PySide6.QtWidgets import (
 #cd UI_save
 
 class Admin_Menu_windows(QMainWindow, Ui_Admin_Menu_window):
-    def __init__(self,parents,Base_path,name):
+    def __init__(self,parents,Base_path,name,Workbook_ver):
         super(Admin_Menu_windows, self).__init__()
         self.setupUi(self)
         self.setWindowTitle("영단어외우기")
@@ -39,37 +43,63 @@ class Admin_Menu_windows(QMainWindow, Ui_Admin_Menu_window):
         self.parents = parents
         self.Base_path = Base_path
         self.name = name
+        self.Workbook_ver = Workbook_ver
+
         # Initialize variables and connect signals to slots
-        self.select_window = None
-        self.daylist_window = None
-        self.record_Window = None
+        self.assignment_Windows = None
+        self.Account_Remove_windows = None
+        self.Grade_Manager_Windows = None
         self.uploading_window = None
         self.Manager_window = None
         self.login_window = None
+        self.Select_Type_Window = None
         self.Successlogin = False
         self.admin = False
-        self.Workbook_ver = None
 
-        self.strat = self.findChild(QPushButton, "questions") # 시험 보기 
-        #self.strat.clicked.connect(self.open_test_Window)
+        self.Manager_Setup = self.findChild(QPushButton, "Manager_Setup") # 관리자 권한 관리리
+        self.Manager_Setup.clicked.connect(self.Manager_Setup_Window)
 
-        self.Select_test_range = self.findChild(QPushButton, "Recode") # 기록
-        #self.Select_test_range.clicked.connect(self.open_record_window)
+        self.Account_Remove = self.findChild(QPushButton, "Account_Remove") # 계정 제거거
+        self.Account_Remove.clicked.connect(self.Account_Remove_window)
 
-        self.Add_test_scope = self.findChild(QPushButton, "Addition")
-        #self.Add_test_scope.clicked.connect(self.open_uploading_window) # 문제 출제제
+        self.Grade_Manager = self.findChild(QPushButton, "Grade_Manager") #기록 확인 
+        self.Grade_Manager.clicked.connect(self.Grade_Manager_Window)
 
-        self.vocabulary_book = self.findChild(QPushButton, "note") #단어장 
-        #self.vocabulary_book.clicked.connect(self.open_daylist_window)
+        self.Addition = self.findChild(QPushButton, "Addition")
+        self.Addition.clicked.connect(self.Addition_window) # 문제 출제제
 
         self.end = self.findChild(QPushButton, "closed") # 창닫기 
         self.end.clicked.connect(self.close_windows)
 
         self.info = self.findChild(QLabel, "info")
+        self.info.setText(f"{self.name} 님 로그인을 환영합니다.")
         self.version = self.findChild(QLabel, "version")
-        self.info.setText(f"{self.name} 님 로그인 환영합니다.")
-        self.version.setText(f"SW 버전 : {self.ver}  |  학습지 버전 : 2025-01-10 10:55")
+        self.version.setText(f"SW 버전 : {self.ver}  |  학습지 버전 : {self.Workbook_ver}")
         
+
+    def Manager_Setup_Window(self):
+        if self.assignment_Windows is None or not self.assignment_Windows.isVisible(): 
+            self.assignment_Windows = get_assignment_Window(self) 
+            self.hide()
+            self.assignment_Windows.show()
+
+    def Account_Remove_window(self):
+        if self.Account_Remove_windows is None or not self.Account_Remove_windows.isVisible(): 
+            self.Account_Remove_windows = Account_remove_Windows(self) 
+            self.hide()
+            self.Account_Remove_windows.show()
+
+    def Grade_Manager_Window(self):
+        if self.Grade_Manager_Windows is None or not self.Grade_Manager_Windows.isVisible(): 
+            self.Grade_Manager_Windows = grade_manager_Windows(self,self.Base_path) 
+            self.hide()
+            self.Grade_Manager_Windows.show()
+
+    def Addition_window(self):
+        if self.Select_Type_Window is None or not self.Select_Type_Window.isVisible(): 
+            self.Select_Type_Window = Select_Type_Window(self) 
+            self.hide()
+            self.Select_Type_Window.show()
 
     def close_windows(self):
         self.close()            

@@ -16,7 +16,7 @@ from PySide6.QtWidgets import (
     QPushButton,
     QLabel,
     QMessageBox,
-    )
+)
 
 #pyside6-designer
 #pyside6-uic main.ui -o Main_window_ui.py

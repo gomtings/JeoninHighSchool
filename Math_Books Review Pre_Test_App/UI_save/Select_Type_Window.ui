@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Select_Type_Window</class>
+ <widget class="QMainWindow" name="Select_Type_Window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>445</width>
+    <height>176</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QComboBox" name="SelectTypeBox">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>50</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <item>
+     <property name="text">
+      <string>객관식</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>주관식</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="BookBox">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>50</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>50</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>도서선택 :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>50</y>
+      <width>81</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>유형 :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="title">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>10</y>
+      <width>251</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>출제 유형 및 도서 선택</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="SelectInfo">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>150</y>
+      <width>361</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>00 권 의 현재 까지 출제된 문제는 00 개 입니다.</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="submitbtn">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>100</y>
+      <width>211</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>출제 하기</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
