@@ -25,6 +25,5 @@ arr = []
 arr.append(1)
 print(len(arr))
 
-print(arr)
 del arr # 명시적으로 가비지 컬렉터 에 메모리를 반환함.
 

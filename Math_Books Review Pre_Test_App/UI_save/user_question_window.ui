@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>786</width>
+    <width>630</width>
     <height>633</height>
    </rect>
   </property>
@@ -34,40 +34,6 @@
     </property>
     <property name="scaledContents">
      <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="find_picture">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>160</y>
-      <width>151</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>20</pointsize>
-     </font>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제에 넣을 사진을 선택 합니다.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="text">
-     <string>찾기</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="Edit_Description">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>390</y>
-      <width>611</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제 에 대한 설명을 입력해 주세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="answer_1">
@@ -132,7 +98,7 @@
      <rect>
       <x>60</x>
       <y>600</y>
-      <width>681</width>
+      <width>561</width>
       <height>31</height>
      </rect>
     </property>
@@ -253,90 +219,112 @@
      <string>4.</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="submit_btn">
+   <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>630</x>
-      <y>250</y>
-      <width>151</width>
-      <height>71</height>
+      <x>10</x>
+      <y>400</y>
+      <width>611</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>20</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제를 제출 합니다.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <property name="text">
+     <string> 문제. : </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="answer_ex1">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>440</y>
+      <width>531</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="text">
-     <string>출제하기</string>
+     <string>정답 1</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="answer_ex1">
+   <widget class="QLabel" name="answer_ex2">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>440</y>
-      <width>541</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제 에 대한 설명을 입력해 주세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="answer_ex2">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
+      <x>90</x>
       <y>480</y>
-      <width>541</width>
+      <width>531</width>
       <height>31</height>
      </rect>
     </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제 에 대한 설명을 입력해 주세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>정답 2</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="answer_ex3">
+   <widget class="QLabel" name="answer_ex3">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>90</x>
       <y>520</y>
-      <width>541</width>
+      <width>531</width>
       <height>31</height>
      </rect>
     </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제 에 대한 설명을 입력해 주세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>정답 3</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="answer_ex4">
+   <widget class="QLabel" name="answer_ex4">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>90</x>
       <y>560</y>
-      <width>541</width>
+      <width>531</width>
       <height>31</height>
      </rect>
     </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제 에 대한 설명을 입력해 주세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>정답 4</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="answer_ex5">
+   <widget class="QLabel" name="answer_ex5">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>90</x>
       <y>600</y>
-      <width>541</width>
+      <width>531</width>
       <height>31</height>
      </rect>
     </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제 에 대한 설명을 입력해 주세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>정답 5</string>
     </property>
    </widget>
   </widget>
