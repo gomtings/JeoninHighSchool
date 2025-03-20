@@ -78,6 +78,7 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
         for file_name in os.listdir(self.Workbook_path):
             if file_name.endswith(".json"):  # JSON 파일만 읽기
                 file_path = os.path.join(self.Workbook_path, file_name)    
+                
                 # 파일 이름에서 "_"를 기준으로 분리
                 prefix = file_name.split("_")[0]  # "Multiple" 또는 "Subjective" 추출
                 numver = int(file_name.split("_")[1]) # 문제 번호 추출

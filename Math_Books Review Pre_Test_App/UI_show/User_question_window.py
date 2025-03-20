@@ -22,7 +22,11 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
         self.Label_Widgets = []
 
         self.setWindowTitle("객관식 문제 출제")
-        
+
+        # JSON 파일 읽기
+        with open(file_path, "r", encoding="utf-8") as json_file:
+            self.data = json.load(json_file)
+
         self.picture_view = self.findChild(QLabel, "picture_view")
         self.exam = self.findChild(QLabel, "label_6")
         
