@@ -2,8 +2,11 @@ import sys
 import ftplib
 import json
 import os
+import random
 from cryptography.fernet import Fernet
 from UI_show.UI.User_Menu_window_ui import Ui_User_Menu_window
+from UI_show.User_question_window import Create_question_window as Type1
+from UI_show.User_question_window_2 import Create_question_window_2 as Type2
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -38,24 +41,18 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
         self.setFixedSize(self.size())
         self.parents = parents
         self.Base_path = Base_path
+        self.Workbook_path = self.Base_path + "/Workbook"
         self.name = name
         self.Workbook_ver = Workbook_ver
 
-        # Initialize variables and connect signals to slots
-        self.select_window = None
-        self.daylist_window = None
-        self.record_Window = None
-        self.uploading_window = None
-        self.Manager_window = None
-        self.login_window = None
-        self.Successlogin = False
-        self.admin = False
+        self.Create_question_window1 = None
+        self.Create_question_window2 = None
 
         self.strat = self.findChild(QPushButton, "questions") # 시험 보기 
         self.strat.clicked.connect(self.open_test_Window)
 
         self.Select_test_range = self.findChild(QPushButton, "Recode") # 기록
-        self.Select_test_range.clicked.connect(self.open_record_window)
+        #self.Select_test_range.clicked.connect(self.open_record_window)
 
         self.end = self.findChild(QPushButton, "closed") # 창닫기 
         self.end.clicked.connect(self.close_windows)
@@ -74,6 +71,39 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
             with open(self.key_path, 'rb') as key_file:
                 return key_file.read()
 
+    def open_Windows(self):
+        # 폴더 내 모든 파일 탐색
+        num = 1#random.randrange(1,7)
+        prefix = None
+        for file_name in os.listdir(self.Workbook_path):
+            if file_name.endswith(".json"):  # JSON 파일만 읽기
+                file_path = os.path.join(self.Workbook_path, file_name)    
+                
+                # 파일 이름에서 "_"를 기준으로 분리
+                prefix = file_name.split("_")[0]  # "Multiple" 또는 "Subjective" 추출
+                numver = int(file_name.split("_")[1]) # 문제 번호 추출
+
+                if numver == num:
+                    break
+        
+        if prefix != None:
+            if prefix == "Multiple":
+                self.Create_question_window(file_path)
+            elif prefix == "Subjective":
+                self.Create_question_window_2(file_path)
+
+    def Create_question_window(self,file_path):
+        if self.Create_question_window1 is None or not self.Create_question_window1.isVisible(): 
+            self.Create_question_window1 = Type1(self,file_path) 
+            self.hide()
+            self.Create_question_window1.show()
+
+    def Create_question_window_2(self,file_path):
+        if self.Create_question_window2 is None or not self.Create_question_window2.isVisible(): 
+            self.Create_question_window2 = Type2(self,file_path)
+            self.hide()
+            self.Create_question_window2.show()
+            
     def close_windows(self):
         self.close()            
 

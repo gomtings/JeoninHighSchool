@@ -88,7 +88,7 @@
      <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="text">
-     <string>정답 1</string>
+     <string/>
     </property>
    </widget>
    <widget class="QRadioButton" name="answer_2">
@@ -106,7 +106,7 @@
      </font>
     </property>
     <property name="text">
-     <string>정답 2</string>
+     <string/>
     </property>
    </widget>
    <widget class="QRadioButton" name="answer_3">
@@ -124,7 +124,7 @@
      </font>
     </property>
     <property name="text">
-     <string>정답 3</string>
+     <string/>
     </property>
    </widget>
    <widget class="QRadioButton" name="answer_5">
@@ -132,7 +132,7 @@
      <rect>
       <x>60</x>
       <y>600</y>
-      <width>561</width>
+      <width>681</width>
       <height>31</height>
      </rect>
     </property>
@@ -142,7 +142,7 @@
      </font>
     </property>
     <property name="text">
-     <string>정답 5</string>
+     <string/>
     </property>
    </widget>
    <widget class="QRadioButton" name="answer_4">
@@ -160,7 +160,7 @@
      </font>
     </property>
     <property name="text">
-     <string>정답 4</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -272,6 +272,71 @@
     </property>
     <property name="text">
      <string>출제하기</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="answer_ex1">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>440</y>
+      <width>541</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제 에 대한 설명을 입력해 주세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="answer_ex2">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>480</y>
+      <width>541</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제 에 대한 설명을 입력해 주세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="answer_ex3">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>520</y>
+      <width>541</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제 에 대한 설명을 입력해 주세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="answer_ex4">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>560</y>
+      <width>541</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제 에 대한 설명을 입력해 주세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="answer_ex5">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>600</y>
+      <width>541</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제 에 대한 설명을 입력해 주세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>

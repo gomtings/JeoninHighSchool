@@ -19,6 +19,7 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
         self.parents = parent
         self.book = book
         self.Radio_Widgets = []
+        self.Edit_Widgets = []
 
         self.setWindowTitle("객관식 문제 출제")
         self.picture_view = self.findChild(QLabel, "picture_view")
@@ -31,9 +32,15 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
             if RadioBtn: 
                 self.Radio_Widgets.append(RadioBtn) 
             else: 
-                print(f"Warning: QLineEdit Word_{i} not found")
+                print(f"Warning: QRadioButton Word_{i} not found")
     
-
+        for i in range(1, 6): 
+            LineEdit = self.findChild(QLineEdit, f"answer_ex{i}") 
+            if LineEdit:
+                self.Edit_Widgets.append(LineEdit) 
+            else: 
+                print(f"Warning: QLineEdit Word_{i} not found")
+                
     def popupwindows(self):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Information)

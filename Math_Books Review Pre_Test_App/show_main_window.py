@@ -25,7 +25,9 @@ from PySide6.QtWidgets import (
 #pyside6-uic Sinup_window.ui -o Sinup_window_ui.py
 #pyside6-uic Create_question_window.ui -o Create_question_window_ui.py
 #pyside6-uic Create_question_window_2.ui -o Create_question_window_2_ui.py
-#pyside6-uic Select_Type_Window.ui -o Select_Type_Window_ui.py
+#pyside6-uic user_question_window.ui -o user_question_window_ui.py
+#pyside6-uic Create_question_window_2.ui -o Create_question_window_2_ui.py
+#pyside6-uic user_question_window2.ui -o user_question_window2_ui.py
 #cd UI_save
 
 class Login_Windows(QMainWindow, Ui_Login_Window):

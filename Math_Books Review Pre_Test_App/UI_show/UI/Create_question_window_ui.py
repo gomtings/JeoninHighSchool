@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'Create_question_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.0
+## Created by: Qt User Interface Compiler version 6.7.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -56,7 +56,7 @@ class Ui_Create_question_window(object):
         self.answer_3.setFont(font1)
         self.answer_5 = QRadioButton(self.centralwidget)
         self.answer_5.setObjectName(u"answer_5")
-        self.answer_5.setGeometry(QRect(60, 600, 561, 31))
+        self.answer_5.setGeometry(QRect(60, 600, 681, 31))
         self.answer_5.setFont(font1)
         self.answer_4 = QRadioButton(self.centralwidget)
         self.answer_4.setObjectName(u"answer_4")
@@ -88,6 +88,21 @@ class Ui_Create_question_window(object):
         self.submit_btn.setObjectName(u"submit_btn")
         self.submit_btn.setGeometry(QRect(630, 250, 151, 71))
         self.submit_btn.setFont(font)
+        self.answer_ex1 = QLineEdit(self.centralwidget)
+        self.answer_ex1.setObjectName(u"answer_ex1")
+        self.answer_ex1.setGeometry(QRect(80, 440, 541, 31))
+        self.answer_ex2 = QLineEdit(self.centralwidget)
+        self.answer_ex2.setObjectName(u"answer_ex2")
+        self.answer_ex2.setGeometry(QRect(80, 480, 541, 31))
+        self.answer_ex3 = QLineEdit(self.centralwidget)
+        self.answer_ex3.setObjectName(u"answer_ex3")
+        self.answer_ex3.setGeometry(QRect(80, 520, 541, 31))
+        self.answer_ex4 = QLineEdit(self.centralwidget)
+        self.answer_ex4.setObjectName(u"answer_ex4")
+        self.answer_ex4.setGeometry(QRect(80, 560, 541, 31))
+        self.answer_ex5 = QLineEdit(self.centralwidget)
+        self.answer_ex5.setObjectName(u"answer_ex5")
+        self.answer_ex5.setGeometry(QRect(80, 600, 541, 31))
         Create_question_window.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(Create_question_window)
@@ -108,11 +123,11 @@ class Ui_Create_question_window(object):
 #if QT_CONFIG(tooltip)
         self.Edit_Description.setToolTip(QCoreApplication.translate("Create_question_window", u"<html><head/><body><p>\ubb38\uc81c \uc5d0 \ub300\ud55c \uc124\uba85\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694.</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
-        self.answer_1.setText(QCoreApplication.translate("Create_question_window", u"\uc815\ub2f5 1", None))
-        self.answer_2.setText(QCoreApplication.translate("Create_question_window", u"\uc815\ub2f5 2", None))
-        self.answer_3.setText(QCoreApplication.translate("Create_question_window", u"\uc815\ub2f5 3", None))
-        self.answer_5.setText(QCoreApplication.translate("Create_question_window", u"\uc815\ub2f5 5", None))
-        self.answer_4.setText(QCoreApplication.translate("Create_question_window", u"\uc815\ub2f5 4", None))
+        self.answer_1.setText("")
+        self.answer_2.setText("")
+        self.answer_3.setText("")
+        self.answer_5.setText("")
+        self.answer_4.setText("")
         self.label.setText(QCoreApplication.translate("Create_question_window", u"1.", None))
         self.label_2.setText(QCoreApplication.translate("Create_question_window", u"2.", None))
         self.label_3.setText(QCoreApplication.translate("Create_question_window", u"3.", None))
@@ -122,5 +137,20 @@ class Ui_Create_question_window(object):
         self.submit_btn.setToolTip(QCoreApplication.translate("Create_question_window", u"<html><head/><body><p>\ubb38\uc81c\ub97c \uc81c\ucd9c \ud569\ub2c8\ub2e4.</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
         self.submit_btn.setText(QCoreApplication.translate("Create_question_window", u"\ucd9c\uc81c\ud558\uae30", None))
+#if QT_CONFIG(tooltip)
+        self.answer_ex1.setToolTip(QCoreApplication.translate("Create_question_window", u"<html><head/><body><p>\ubb38\uc81c \uc5d0 \ub300\ud55c \uc124\uba85\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694.</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.answer_ex2.setToolTip(QCoreApplication.translate("Create_question_window", u"<html><head/><body><p>\ubb38\uc81c \uc5d0 \ub300\ud55c \uc124\uba85\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694.</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.answer_ex3.setToolTip(QCoreApplication.translate("Create_question_window", u"<html><head/><body><p>\ubb38\uc81c \uc5d0 \ub300\ud55c \uc124\uba85\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694.</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.answer_ex4.setToolTip(QCoreApplication.translate("Create_question_window", u"<html><head/><body><p>\ubb38\uc81c \uc5d0 \ub300\ud55c \uc124\uba85\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694.</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(tooltip)
+        self.answer_ex5.setToolTip(QCoreApplication.translate("Create_question_window", u"<html><head/><body><p>\ubb38\uc81c \uc5d0 \ub300\ud55c \uc124\uba85\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694.</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
     # retranslateUi
 
