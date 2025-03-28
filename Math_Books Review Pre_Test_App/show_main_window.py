@@ -43,7 +43,7 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
         
         # FTP 정보 로드
         try:
-            FTP_path = os.path.join(self.Base_path, "info", "Report_FTP.json")
+            FTP_path = os.path.join(self.Base_path, "info", "FTP.json")
             with open(FTP_path, "r", encoding="UTF-8") as f:
                 self.report_dist = json.load(f)
         except Exception as e:
