@@ -7,13 +7,16 @@ from cryptography.fernet import Fernet
 from UI_show.UI.User_Menu_window_ui import Ui_User_Menu_window
 from UI_show.User_question_window import Create_question_window as Type1
 from UI_show.User_question_window_2 import Create_question_window_2 as Type2
+
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
     QPushButton,
     QLabel,
     QMessageBox,
+    QFileDialog    
     )
+from PySide6.QtGui import QColor, QPixmap
 
 #pyside6-designer
 #pyside6-uic main.ui -o Main_window_ui.py
@@ -41,15 +44,18 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
         self.setFixedSize(self.size())
         self.parents = parents
         self.Base_path = Base_path
-        self.Workbook_path = self.Base_path + "/Workbook"
+        self.Workbook_path = self.Base_path + "/question_answer"
         self.name = name
         self.Workbook_ver = Workbook_ver
+        self.picture_view = self.findChild(QLabel, "picture_view")
 
         self.Create_question_window1 = None
         self.Create_question_window2 = None
+        self.User_question_window = None
+        self.User_question_window2 = None
 
         self.strat = self.findChild(QPushButton, "questions") # 시험 보기 
-        self.strat.clicked.connect(self.open_test_Window)
+        self.strat.clicked.connect(self.open_Windows)
 
         self.Select_test_range = self.findChild(QPushButton, "Recode") # 기록
         #self.Select_test_range.clicked.connect(self.open_record_window)
@@ -61,7 +67,7 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
         self.info.setText(f"{self.name} 님 로그인을 환영합니다.")
         self.version = self.findChild(QLabel, "version")
         self.version.setText(f"SW 버전 : {self.ver}  |  학습지 버전 : {self.Workbook_ver}")
-    
+
     def load_or_download_key(self):
         if os.path.exists(self.key_path):
             with open(self.key_path, 'rb') as key_file:
@@ -71,6 +77,13 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
             with open(self.key_path, 'rb') as key_file:
                 return key_file.read()
 
+    # def bring_in_image(self):
+        # file_name = "C:/Users/LG10/Pictures/과제1.png"
+        # pixmap = QPixmap(file_name)
+        # self.picture_view.setPixmap(pixmap)
+        # self.picture_view.setScaledContents(True)  # QLabel에 맞게 크기 조정
+        # self.selected_image_path = file_name  # 이미지 경로 저장
+
     def open_Windows(self):
         # 폴더 내 모든 파일 탐색
         num = 1#random.randrange(1,7)
@@ -78,11 +91,10 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
         for file_name in os.listdir(self.Workbook_path):
             if file_name.endswith(".json"):  # JSON 파일만 읽기
                 file_path = os.path.join(self.Workbook_path, file_name)    
-                
                 # 파일 이름에서 "_"를 기준으로 분리
                 prefix = file_name.split("_")[0]  # "Multiple" 또는 "Subjective" 추출
-                numver = int(file_name.split("_")[1]) # 문제 번호 추출
-
+                numver = (file_name.split("_")[-1]) # 문제 번호 추출
+                numver = int(numver.split(".")[0])
                 if numver == num:
                     break
         
@@ -91,6 +103,7 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
                 self.Create_question_window(file_path)
             elif prefix == "Subjective":
                 self.Create_question_window_2(file_path)
+
 
     def Create_question_window(self,file_path):
         if self.Create_question_window1 is None or not self.Create_question_window1.isVisible(): 
