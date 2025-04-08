@@ -15,14 +15,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QRadioButton,
-    QSizePolicy, QWidget)
+from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QPushButton,
+    QRadioButton, QSizePolicy, QWidget)
 
 class Ui_Create_question_window(object):
     def setupUi(self, Create_question_window):
         if not Create_question_window.objectName():
             Create_question_window.setObjectName(u"Create_question_window")
-        Create_question_window.resize(630, 633)
+        Create_question_window.resize(771, 633)
         self.centralwidget = QWidget(Create_question_window)
         self.centralwidget.setObjectName(u"centralwidget")
         self.picture_view = QLabel(self.centralwidget)
@@ -99,6 +99,12 @@ class Ui_Create_question_window(object):
         self.answer_ex5.setObjectName(u"answer_ex5")
         self.answer_ex5.setGeometry(QRect(90, 600, 531, 31))
         self.answer_ex5.setFont(font)
+        self.submitbtn = QPushButton(self.centralwidget)
+        self.submitbtn.setObjectName(u"submitbtn")
+        self.submitbtn.setGeometry(QRect(630, 310, 131, 71))
+        font2 = QFont()
+        font2.setPointSize(22)
+        self.submitbtn.setFont(font2)
         Create_question_window.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(Create_question_window)
@@ -128,5 +134,6 @@ class Ui_Create_question_window(object):
         self.answer_ex3.setText(QCoreApplication.translate("Create_question_window", u"\uc815\ub2f5 3", None))
         self.answer_ex4.setText(QCoreApplication.translate("Create_question_window", u"\uc815\ub2f5 4", None))
         self.answer_ex5.setText(QCoreApplication.translate("Create_question_window", u"\uc815\ub2f5 5", None))
+        self.submitbtn.setText(QCoreApplication.translate("Create_question_window", u"\uc81c\ucd9c\ud558\uae30", None))
     # retranslateUi
 

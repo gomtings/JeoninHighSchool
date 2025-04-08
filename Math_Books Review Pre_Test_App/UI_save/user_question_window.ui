@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>630</width>
+    <width>771</width>
     <height>633</height>
    </rect>
   </property>
@@ -325,6 +325,24 @@
     </property>
     <property name="text">
      <string>정답 5</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="submitbtn">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>310</y>
+      <width>131</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>22</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>제출하기</string>
     </property>
    </widget>
   </widget>

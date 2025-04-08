@@ -15,14 +15,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QSizePolicy,
-    QTextEdit, QWidget)
+from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QPushButton,
+    QSizePolicy, QTextEdit, QWidget)
 
 class Ui_Create_question_window(object):
     def setupUi(self, Create_question_window):
         if not Create_question_window.objectName():
             Create_question_window.setObjectName(u"Create_question_window")
-        Create_question_window.resize(630, 680)
+        Create_question_window.resize(771, 680)
         self.centralwidget = QWidget(Create_question_window)
         self.centralwidget.setObjectName(u"centralwidget")
         self.picture_view = QLabel(self.centralwidget)
@@ -46,6 +46,12 @@ class Ui_Create_question_window(object):
         self.input_Description.setObjectName(u"input_Description")
         self.input_Description.setGeometry(QRect(17, 410, 601, 21))
         self.input_Description.setFont(font)
+        self.submitbtn = QPushButton(self.centralwidget)
+        self.submitbtn.setObjectName(u"submitbtn")
+        self.submitbtn.setGeometry(QRect(630, 320, 131, 71))
+        font1 = QFont()
+        font1.setPointSize(22)
+        self.submitbtn.setFont(font1)
         Create_question_window.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(Create_question_window)
@@ -62,5 +68,6 @@ class Ui_Create_question_window(object):
         self.label.setText(QCoreApplication.translate("Create_question_window", u"\uc815\ub2f5.", None))
         self.label_2.setText(QCoreApplication.translate("Create_question_window", u"\uc11c\uc220\ud615.", None))
         self.input_Description.setText(QCoreApplication.translate("Create_question_window", u"\ubb38\uc81c :", None))
+        self.submitbtn.setText(QCoreApplication.translate("Create_question_window", u"\uc81c\ucd9c\ud558\uae30", None))
     # retranslateUi
 

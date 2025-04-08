@@ -28,7 +28,8 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
             self.data = json.load(json_file)
         self.picture_view = self.findChild(QLabel, "picture_view")
         self.exam = self.findChild(QLabel, "label_6")
-        # print("Loaded JSON data:", self.data)
+        self.submitbtn = self.findChild(QPushButton, "submitbtn")
+        self.submitbtn.clicked.connect(self.chk_answer)
         
         for i in range(1, 6): 
             RadioBtn = self.findChild(QRadioButton, f"answer_{i}") 
@@ -55,7 +56,10 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
         else:
             print(f"Error: Image file not found at {image_path}")
         
-        
+
+    def chk_answer(self):
+        pass
+                    
     def popupwindows(self):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Information)
