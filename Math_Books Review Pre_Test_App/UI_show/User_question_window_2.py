@@ -27,8 +27,12 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
         self.picture_view = self.findChild(QLabel, "picture_view")
         self.input_Description = self.findChild(QLabel, "input_Description")
         self.correc_answer = self.findChild(QTextEdit, "correc_answer_Edit")
+        self.submitbtn = self.findChild(QPushButton, "submitbtn")
+        self.submitbtn.clicked.connect(self.chk_answer)
 
-    
+    def chk_answer(self):
+        pass
+            
     def popupwindows(self):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Information)

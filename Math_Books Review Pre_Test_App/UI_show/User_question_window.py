@@ -28,7 +28,8 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
             self.data = json.load(json_file)
         self.picture_view = self.findChild(QLabel, "picture_view")
         self.exam = self.findChild(QLabel, "label_6")
-        # print("Loaded JSON data:", self.data)
+        self.submitbtn = self.findChild(QPushButton, "submitbtn")
+        self.submitbtn.clicked.connect(self.chk_answer)
         
         for i in range(1, 6): 
             RadioBtn = self.findChild(QRadioButton, f"answer_{i}") 
@@ -46,45 +47,19 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
                 
         self.show_image()
 
-
-    
-class Create_question_window(QMainWindow, Ui_Create_question_window):
-    def __init__(self, parent=None, file_path=None):
-        super(Create_question_window, self).__init__()
-        self.setupUi(self)
-        self.parents = parent
-        self.file_path = os.path.join(os.getcwd(), "question_answer")
-        self.Radio_Widgets = []
-        self.Label_Widgets = []
-        
-        self.setWindowTitle("객관식 문제 출제")
-
-        # JSON 파일 읽기
-        with open(file_path, "r", encoding="utf-8") as json_file:
-            self.data = json.load(json_file)
-        self.picture_view = self.findChild(QLabel, "picture_view")
-        self.exam = self.findChild(QLabel, "label_6")
-        print('ddd')
-        # show_image 메서드 호출
-        self.show_image()
-
     def show_image(self):
-        print('---')
-        image_path = self.data.get("image_path")
-        selected_answer = self.data.get("selected_answer")
-        entered_description = self.data.get("entered_description")
-        print(entered_description)
-        self.exam.setText(entered_description)
+        image_path = self.data.get("image_path") 
         if image_path and os.path.exists(image_path): 
             pixmap = QPixmap(image_path) 
             self.picture_view.setPixmap(pixmap)  
             self.picture_view.setScaledContents(True) 
-            print(10)
         else:
             print(f"Error: Image file not found at {image_path}")
-
-    
         
+
+    def chk_answer(self):
+        pass
+                    
     def popupwindows(self):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Information)
