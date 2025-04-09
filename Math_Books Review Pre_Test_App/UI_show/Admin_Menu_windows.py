@@ -97,7 +97,7 @@ class Admin_Menu_windows(QMainWindow, Ui_Admin_Menu_window):
 
     def Addition_window(self):
         if self.Select_Type_Window is None or not self.Select_Type_Window.isVisible(): 
-            self.Select_Type_Window = Select_Type_Window(self) 
+            self.Select_Type_Window = Select_Type_Window(self,self.Base_path) 
             self.hide()
             self.Select_Type_Window.show()
 

@@ -52,17 +52,21 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
         self.show_image()
 
     def show_image(self):
-        image_path = self.data.get("image_path")
-        entered_description = self.data.get("entered_description", "")
-        print(f"[문제 설명]: {entered_description}")
+        image_path = self.data.get("image_path",None)
+        entered_description = self.data.get("entered_description", None)
         self.exam.setText(entered_description)
-
-        if image_path and os.path.exists(image_path):
-            pixmap = QPixmap(image_path)
-            self.picture_view.setPixmap(pixmap)
-            self.picture_view.setScaledContents(True)
-        else:
-            print(f"[이미지 에러]: 파일을 찾을 수 없습니다 - {image_path}")
+        answer_ex = self.data.get("answer_ex", None)
+        if answer_ex:
+            for i, ex in enumerate(answer_ex):
+                if i < len(self.Label_Widgets):
+                    self.Label_Widgets[i].setText(ex)
+        if image_path != None:
+            if image_path and os.path.exists(image_path):
+                pixmap = QPixmap(image_path)
+                self.picture_view.setPixmap(pixmap)
+                self.picture_view.setScaledContents(True)
+            else:
+                print(f"[이미지 에러]: 파일을 찾을 수 없습니다 - {image_path}")
 
     def chk_answer(self):
         selected_index = None
@@ -78,16 +82,8 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
             return
 
         # JSON에서 정답 문자열: "답안 2" → 숫자만 추출
-        correct_answer_text = self.data.get("selected_answer", "").strip()
-        correct_index = None
-
-        if "답안" in correct_answer_text:
-            try:
-                correct_index = int(correct_answer_text.replace("답안", "").strip())
-            except ValueError:
-                print("정답 정보 형식 오류:", correct_answer_text)
-                return
-
+        correct_index = int(self.data.get("selected_answer", None))
+        print("selected_index"+str(selected_index)+"correct_index"+str(correct_index))
         if selected_index == correct_index:
             print("정답입니다")
         else:

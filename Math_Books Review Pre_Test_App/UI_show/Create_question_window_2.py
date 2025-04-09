@@ -16,11 +16,13 @@ from PySide6.QtGui import QPixmap
 from UI_show.UI.Create_question_window_2_ui import Ui_Create_question_window
 
 class Create_question_window_2(QMainWindow, Ui_Create_question_window):
-    def __init__(self, parent=None, book=None):
+    def __init__(self, parent=None, book=None,Base_path=None,num = 0):
         super(Create_question_window_2, self).__init__()
         self.setupUi(self)
         self.parents = parent
         self.book = book
+        self.Base_path = Base_path
+        self.num = num
         self.setWindowTitle("주관식 문제 출제")
         
         # UI 요소 가져오기
@@ -35,7 +37,7 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
         self.submit_btn.clicked.connect(self.submit_answer)
 
         # 이미지 경로 저장 변수
-        self.selected_image_path = None  
+        self.selected_image_path = None
 
     def select_image(self):
         """이미지 파일 선택 후 QLabel에 표시하는 함수"""
@@ -60,18 +62,19 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
             return
 
         # 파일 저장 경로 설정
-        save_directory = os.path.join(os.getcwd(), "question_answer")
+        save_directory = os.path.join(self.Base_path, "question_answer", self.book)
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)  # 디렉토리가 없으면 생성
-
-        timestamp = time.strftime("%Y%m%d_%H%M%S")  # 파일 이름에 타임스탬프 추가
-        file_name = os.path.join(save_directory, f"submission_{timestamp}.json")
-
+        
+        timestamp = time.strftime("%Y-%m-%d-%H.%M.%S")  # YYYYMMDD_HHMMSS 형식
+        file_name = os.path.join(save_directory, f"{timestamp}_Subjective_{self.num}.json")
+        image_name = f"Subjective_image{self.num}" + os.path.splitext(self.selected_image_path)[1]
+        image_dest = os.path.join(save_directory, image_name)
         # 저장할 데이터 구조
         submission_data = {
             "entered_description": entered_description,  # 문제 설명
             "entered_correct_answer": entered_correct_answer,  # 정답
-            "image_path": self.selected_image_path if self.selected_image_path else None,  # 이미지 경로 (선택 사항)
+            "image_path": image_dest,  # 이미지 경로 (선택 사항)
         }
 
         # JSON 파일로 저장
@@ -80,12 +83,13 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
 
         # 이미지 복사 (선택한 경우)
         if self.selected_image_path:
-            image_name = f"image_{timestamp}" + os.path.splitext(self.selected_image_path)[1]
-            image_dest = os.path.join(save_directory, image_name)
-            shutil.copy(self.selected_image_path, image_dest)
+            if self.selected_image_path != image_dest:
+                shutil.copy(self.selected_image_path, image_dest)
+        
 
         QMessageBox.information(self, "성공", "문제와 정답이 저장되었습니다.")
-
+        self.close()
+    
     def popupwindows(self):
         """권한 없음 알림창"""
         msg_box = QMessageBox()

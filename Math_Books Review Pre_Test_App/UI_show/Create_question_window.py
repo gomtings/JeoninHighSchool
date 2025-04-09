@@ -16,13 +16,17 @@ from PySide6.QtWidgets import (
 from PySide6.QtGui import QColor, QPixmap
 
 class Create_question_window(QMainWindow, Ui_Create_question_window):
-    def __init__(self, parent=None, book=None):
+    def __init__(self, parent=None, book=None,Base_path=None,num = 0):
         super(Create_question_window, self).__init__()
         self.setupUi(self)
         self.parents = parent
         self.book = book
+        self.Base_path = Base_path
+        self.num = num
         self.Radio_Widgets = []
+        self.LineEdit_Widgets = []
         self.selected_image_path = None  # 이미지 경로를 저장할 변수
+        
 
         self.setWindowTitle("객관식 문제 출제")
         self.picture_view = self.findChild(QLabel, "picture_view")
@@ -40,7 +44,14 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
             if RadioBtn: 
                 self.Radio_Widgets.append(RadioBtn) 
             else: 
-                print(f"Warning: QLineEdit Word_{i} not found")
+                print(f"Warning: answer_{i} not found")
+
+        for i in range(1, 6): 
+            LineEdit = self.findChild(QLineEdit, f"answer_ex{i}") 
+            if LineEdit: 
+                self.LineEdit_Widgets.append(LineEdit)
+            else: 
+                print(f"Warning: answer_ex{i} not found")
 
     def select_image(self):
         """이미지 파일 선택 후 QLabel에 표시하는 함수"""
@@ -61,51 +72,52 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
         selected_answer = None
         for i, radio_button in enumerate(self.Radio_Widgets):
             if radio_button.isChecked():
-                selected_answer = f"답안 {i+1}"  # "답안 1", "답안 2" 등으로 표시
+                selected_answer = f"{i+1}"  # "답안 1", "답안 2" 등으로 표시
                 break
+        
+        answer_ex = []
+        for LineEdit in self.LineEdit_Widgets:
+            text = LineEdit.text()
+            answer_ex.append(text)
 
         # 사용자가 입력한 텍스트 추출
         entered_description = self.Edit_Description.text()
 
-        if not selected_answer:
-            QMessageBox.warning(self, "경고", "답안을 선택해주세요.")
-            return
-
-        if not entered_description:
-            QMessageBox.warning(self, "경고", "설명을 입력해주세요.")
+        if not selected_answer or not entered_description or not answer_ex:
+            QMessageBox.warning(self, "경고", "입력안된 항목이 존재합니다.")
             return
 
         # 파일 저장 경로 설정
-        save_directory = os.path.join("/Users/LG10/Documents/GitHub/JeoninHighSchool/Math_Books Review Pre_Test_App/question_answer")
-        save_directory = os.getcwd() + "/question_answer/"
+        save_directory = os.path.join(self.Base_path, "question_answer", self.book)
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)  # 디렉토리가 없으면 생성
 
-        timestamp = time.strftime("%Y%m%d_%H%M%S")  # YYYYMMDD_HHMMSS 형식
-        file_name = os.path.join(save_directory, f"submission_{timestamp}.json")
-
+        timestamp = time.strftime("%Y-%m-%d-%H.%M.%S")  # YYYYMMDD_HHMMSS 형식
+        file_name = os.path.join(save_directory, f"{timestamp}_Multiple_{self.num}.json")
+        image_name = f"Multiple_image{self.num}" + os.path.splitext(self.selected_image_path)[1]
+        image_dest = os.path.join(save_directory, image_name)
         # file_name = os.path.join("submission.json")
             # 저장할 데이터 구조
         submission_data = {
+            "answer_ex": answer_ex,
             "selected_answer": selected_answer,
             "entered_description": entered_description,
-            "image_path": self.selected_image_path,
+            "image_path": image_dest,
         }
 
-            # 데이터 파일로 저장
+        # 데이터 파일로 저장
         with open(file_name, 'w', encoding='utf-8') as f:
             json.dump(submission_data, f, ensure_ascii=False, indent=4)
-
-            # 이미지 파일 복사 (선택한 이미지가 있다면)
-            if self.selected_image_path:
-                image_name = f"image_{timestamp}" + os.path.splitext(self.selected_image_path)[1]
-                # image_dest = os.path.join(save_directory, image_name)
-                image_dest = os.path.join(save_directory, image_name)
+        
+        # 이미지 파일 복사 (선택한 이미지가 있다면)
+        if self.selected_image_path:
+            if self.selected_image_path != image_dest:
                 shutil.copy(self.selected_image_path, image_dest)
             
 
-            QMessageBox.information(self, "성공", "답안과 이미지가 저장되었습니다.")
-        
+        QMessageBox.information(self, "성공", "답안과 이미지가 저장되었습니다.")
+        self.close()
+
     def popupwindows(self):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Information)

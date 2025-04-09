@@ -44,7 +44,7 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
         self.setFixedSize(self.size())
         self.parents = parents
         self.Base_path = Base_path
-        self.Workbook_path = self.Base_path + "/question_answer"
+        self.Workbook_path = os.path.join(self.Base_path, "question_answer")
         self.name = name
         self.Workbook_ver = Workbook_ver
         self.picture_view = self.findChild(QLabel, "picture_view")
@@ -85,19 +85,33 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
         # self.selected_image_path = file_name  # 이미지 경로 저장
 
     def open_Windows(self):
+        prefix  = None
+        folder_count = sum(1 for entry in os.scandir(self.Workbook_path) if entry.is_dir())
+        # 랜덤 숫자 생성
+        if folder_count == 1:
+            random_folder = 1  # 폴더가 1개라면 1로 고정
+        else:
+            random_folder = random.randrange(1, folder_count + 1)  # 범위를 1부터 folder_count까지 포함
+        book = f"{random_folder}권"
         # 폴더 내 모든 파일 탐색
-        num = 1#random.randrange(1,7)
-        prefix = None
-        for file_name in os.listdir(self.Workbook_path):
-            if file_name.endswith(".json"):  # JSON 파일만 읽기
-                file_path = os.path.join(self.Workbook_path, file_name)    
-                # 파일 이름에서 "_"를 기준으로 분리
-                prefix = file_name.split("_")[0]  # "Multiple" 또는 "Subjective" 추출
-                numver = (file_name.split("_")[-1]) # 문제 번호 추출
-                numver = int(numver.split(".")[0])
-                if numver == num:
-                    break
-        
+        save_directory = os.path.join(self.Workbook_path, book)
+        # .json 파일 갯수 계산
+        if os.path.exists(save_directory):
+            json_count = sum(1 for file in os.listdir(save_directory) if file.endswith('.json'))
+            if json_count == 1:
+                answer = 1  # 폴더가 1개라면 1로 고정
+            else:
+                answer = random.randrange(1, json_count + 1)  # 범위를 1부터 folder_count까지 포함
+            for file_name in os.listdir(save_directory):
+                if file_name.endswith(".json"):  # JSON 파일만 읽기
+                    file_path = os.path.join(save_directory, file_name)    
+                    # 파일 이름에서 "_"를 기준으로 분리
+                    prefix = file_name.split("_")[1]  # "Multiple" 또는 "Subjective" 추출
+                    numver = (file_name.split("_")[-1]) # 문제 번호 추출
+                    numver = int(numver.split(".")[0])
+                    if numver == answer:
+                        break
+        #print(""+prefix+","+str(numver))
         if prefix != None:
             if prefix == "Multiple":
                 self.Create_question_window(file_path)
