@@ -19,7 +19,7 @@ class Select_Type_Window(QMainWindow, Ui_Select_Type_Window):
         self.setupUi(self)
         self.parents = parent
         self.Base_path = Base_path
-        self.Workbook_path = os.path.join(self.Base_path, "question_answer")
+        self.Workbook_path = os.path.join(self.Base_path, "Workbook")
         self.Create_question_window1 = None
         self.Create_question_window2 = None
         self.num = 0

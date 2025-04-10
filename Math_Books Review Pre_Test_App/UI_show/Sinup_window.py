@@ -32,7 +32,7 @@ class Sinup_window(QMainWindow,Ui_Sinup_window):
         stunum = self.Edit_Password.text()
         if name or stunum:
             post = {'name': name, 'stunum': stunum}
-            response = requests.post('http://solimatics.dothome.co.kr/word_test_project/db/insert_id.php', data=post)
+            response = requests.post('http://solimatics.dothome.co.kr/Math_Books Review Pre_Test_App/db/insert_id.php', data=post)
             result = response.json()
             if result['result'] == 'success':
                 self.membership = True

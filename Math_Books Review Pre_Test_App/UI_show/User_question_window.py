@@ -16,7 +16,7 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
         super(Create_question_window, self).__init__()
         self.setupUi(self)
         self.parents = parent
-        self.file_path = os.path.join(os.getcwd(), "question_answer")
+        self.file_path = os.path.join(os.getcwd(), "Workbook")
         self.Radio_Widgets = []
         self.Label_Widgets = []
 
@@ -88,6 +88,7 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
             print("정답입니다")
         else:
             print("오답입니다")
+            
     def popupwindows(self):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Information)

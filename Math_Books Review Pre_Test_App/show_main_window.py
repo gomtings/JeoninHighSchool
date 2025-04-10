@@ -39,10 +39,11 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
         self.setFixedSize(self.size())
         self.Base_path = os.getcwd()
         self.key_path = os.path.join(self.Base_path, "info", "encryption_key.key")
-        
+        self.report_dist = None
+
         # FTP 정보 로드
         try:
-            FTP_path = os.path.join(self.Base_path, "info", "FTP.json")
+            FTP_path = os.path.join(self.Base_path, "info", "Report_FTP.json")
             with open(FTP_path, "r", encoding="UTF-8") as f:
                 self.report_dist = json.load(f)
         except Exception as e:
@@ -76,13 +77,15 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
         QPushButton:hover {background-color: #0090ff; color: black;}
         """
         )
+        Workbook_path = os.path.join(self.Base_path, "Workbook")
+        self.download_folder_from_ftp(Workbook_path)
     
     def login_windows(self):
         ID = self.Edit_ID.text()
         Password = self.Edit_Password.text()
         if ID or Password:
             post = {'name': ID, 'stunum': Password}
-            response = requests.post('http://solimatics.dothome.co.kr/word_test_project/db/login.php', data=post)
+            response = requests.post('http://solimatics.dothome.co.kr/Math_Books Review Pre_Test_App/db/login.php', data=post)
             # 응답이 성공 메시지일 때 팝업 창 띄우기
             result = response.json()
             if result['result'] == 'success':
@@ -157,51 +160,47 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
         finally:
             session.quit()
 
-    def download_Workbook(self):
+    def download_folder_from_ftp(self, local_folder):
         SERVER_IP = self.report_dist["SERVER_IP"]
         PORT = self.report_dist["PORT"]
         username = self.report_dist["username"]
         password = self.report_dist["password"]
         session = ftplib.FTP()
         try:
+            remote_folder = f"/html/Math_Books Review Pre_Test_App/Workbook"
             session.connect(SERVER_IP, PORT, timeout=10)
             session.login(username, password)
-            session.cwd("/html/Math_Books Review Pre_Test_App/Workbook/")
 
-            # 서버 버전 파일을 가져옴
-            server_version = []
-            session.retrlines("RETR version.txt", server_version.append)
-            server_version = ''.join(server_version).strip()
+            # 📂 로컬 폴더가 없으면 생성
+            if not os.path.exists(local_folder):
+                os.makedirs(local_folder)
 
-            # 로컬 버전 파일 읽기
-            Workbook_path = self.Base_path +"/Workbook/"
-            local_version_path = os.path.join(Workbook_path, "version.txt")
-            if os.path.exists(local_version_path):
-                with open(local_version_path, "r") as f:
-                    local_version = f.read().strip()
-            else:
-                local_version = ""
+            def download_recursive(remote_path, local_path):
+                try:
+                    session.cwd(remote_path)  # FTP 서버에서 해당 폴더로 이동
+                    items = session.nlst()  # 폴더 및 파일 목록 가져오기
 
-            # 버전 비교
-            if server_version != local_version:
-                files = session.nlst()  # 현재 디렉토리의 모든 파일 목록을 가져옴
-                
-                for file_name in files:
-                    Workbook_path = self.Base_path +"/Workbook/"
-                    local_path = os.path.join(Workbook_path, file_name)
-                    with open(local_path, "wb") as keyfile:
-                        session.encoding = "utf-8"
-                        session.retrbinary("RETR " + file_name, keyfile.write)
-                # 새로운 버전을 로컬에 저장
-                with open(local_version_path, "w") as f:
-                    f.write(server_version)
-                
-                self.Workbook_ver = server_version    
-            else:
-                self.Workbook_ver = local_version 
+                    for item in items:
+                        remote_item_path = f"{remote_path}/{item}"
+                        local_item_path = os.path.join(local_path, item)
+
+                        try:
+                            session.cwd(remote_item_path)  # 폴더인지 확인
+                            if not os.path.exists(local_item_path):
+                                os.makedirs(local_item_path)  # 로컬 폴더 생성
+                            download_recursive(remote_item_path, local_item_path)  # 내부 파일/폴더 재귀 다운로드
+                        except ftplib.error_perm:
+                            with open(local_item_path, "wb") as local_file:
+                                session.retrbinary(f"RETR {remote_item_path}", local_file.write)
+                            print(f"✅ 다운로드 완료: {local_item_path}")
+
+                except ftplib.error_perm as e:
+                    print(f"⚠️ {remote_path} 접근 중 오류 발생: {str(e)}")
+
+            download_recursive(remote_folder, local_folder)
 
         except ftplib.all_errors as e:
-            print(f"문제집 다운로드 중 오류가 발생했습니다: {str(e)}")
+            print(f"⚠️ 다운로드 중 오류 발생: {str(e)}")
         finally:
             session.quit()
 

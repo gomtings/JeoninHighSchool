@@ -3,6 +3,8 @@ import os
 import time
 import json
 import shutil
+import ftplib
+import datetime
 from PySide6.QtWidgets import (
     QMainWindow,
     QLabel,
@@ -23,8 +25,17 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
         self.book = book
         self.Base_path = Base_path
         self.num = num
+        self.report_dist = None
         self.setWindowTitle("주관식 문제 출제")
         
+        # FTP 정보 로드
+        try:
+            FTP_path = os.path.join(self.Base_path, "info", "Report_FTP.json")
+            with open(FTP_path, "r", encoding="UTF-8") as f:
+                self.report_dist = json.load(f)
+        except Exception as e:
+            print(f'FTP.json 데이터가 없습니다. {e}')
+
         # UI 요소 가져오기
         self.picture_view = self.findChild(QLabel, "picture_view")
         self.find_picture = self.findChild(QPushButton, "find_picture")
@@ -62,7 +73,7 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
             return
 
         # 파일 저장 경로 설정
-        save_directory = os.path.join(self.Base_path, "question_answer", self.book)
+        save_directory = os.path.join(self.Base_path, "Workbook", self.book)
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)  # 디렉토리가 없으면 생성
         
@@ -86,10 +97,72 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
             if self.selected_image_path != image_dest:
                 shutil.copy(self.selected_image_path, image_dest)
         
-
-        QMessageBox.information(self, "성공", "문제와 정답이 저장되었습니다.")
+        self.Save_version()
+        self.upload_folder_to_ftp(save_directory,self.book)
+        QMessageBox.information(self, "성공", "출제 되었습니다.")
         self.close()
-    
+
+
+    def upload_folder_to_ftp(self, local_folder, book):
+        SERVER_IP = self.report_dist["SERVER_IP"]
+        PORT = self.report_dist["PORT"]
+        username = self.report_dist["username"]
+        password = self.report_dist["password"]
+
+        session = ftplib.FTP()
+        try:
+            session.connect(SERVER_IP, PORT, timeout=10)
+            session.login(username, password)
+
+            # `book` 폴더를 명확하게 포함
+            remote_base_path = f"/html/Math_Books Review Pre_Test_App/Workbook/{book}"
+            base_local_folder = os.path.abspath(local_folder)
+
+            # 🚀 폴더 생성 (없다면 만들기)
+            try:
+                session.mkd(remote_base_path)
+                print(f"✅ '{book}' 폴더 생성 성공: {remote_base_path}")
+            except ftplib.error_perm:
+                print(f"⚠️ '{book}' 폴더가 이미 존재합니다.")
+
+            def upload_recursive(local_path):
+                relative_path = os.path.relpath(local_path, base_local_folder)
+                remote_path = f"{remote_base_path}/{relative_path.replace(os.sep, '/')}"
+                
+                if os.path.isdir(local_path):
+                    try:
+                        session.mkd(remote_path)
+                        print(f"✅ 폴더 생성 성공: {remote_path}")
+                    except ftplib.error_perm:
+                        print(f"⚠️ 폴더 생성 실패(이미 존재할 수도 있음): {remote_path}")
+
+                    for item in os.listdir(local_path):
+                        upload_recursive(os.path.join(local_path, item))
+                else:
+                    with open(local_path, "rb") as uploadfile:
+                        session.encoding = "utf-8"
+                        session.storbinary(f"STOR {remote_path}", uploadfile)
+                    print(f"✅ 업로드 완료: {remote_path}")
+
+            upload_recursive(local_folder)
+
+        except ftplib.all_errors as e:
+            print(f"⚠️ 업로드 중 오류 발생: {str(e)}")
+        finally:
+            session.quit()
+
+    def Save_version(self):
+        try:
+            now = datetime.now()
+            formatted_time = now.strftime("%Y-%m-%d %H:%M")
+            version_path = os.path.join(self.Base_path, "Workbook", "version.txt")
+            self.version = f"{formatted_time}"
+            with open(version_path, 'w', encoding='utf-8') as file:
+                file.write(self.version)
+            print(f"데이터가 파일에 저장되었습니다: {version_path}")
+        except Exception as e:
+            print(f"파일 저장 중 오류가 발생했습니다: {str(e)}")
+
     def popupwindows(self):
         """권한 없음 알림창"""
         msg_box = QMessageBox()
