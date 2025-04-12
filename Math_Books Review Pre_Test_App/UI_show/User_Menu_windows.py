@@ -44,7 +44,7 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
         self.setFixedSize(self.size())
         self.parents = parents
         self.Base_path = Base_path
-        self.Workbook_path = os.path.join(self.Base_path, "question_answer")
+        self.Workbook_path = os.path.join(self.Base_path, "Workbook")
         self.name = name
         self.Workbook_ver = Workbook_ver
         self.picture_view = self.findChild(QLabel, "picture_view")
