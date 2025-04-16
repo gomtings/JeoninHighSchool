@@ -80,7 +80,8 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
         timestamp = time.strftime("%Y-%m-%d-%H.%M.%S")  # YYYYMMDD_HHMMSS 형식
         file_name = os.path.join(save_directory, f"{timestamp}_Subjective_{self.num}.json")
         image_name = f"Subjective_image{self.num}" + os.path.splitext(self.selected_image_path)[1]
-        image_dest = os.path.join(save_directory, image_name)
+        image_dest = os.path.join("Workbook", self.book, image_name)
+        copy_dest = os.path.join(save_directory, image_name)
         # 저장할 데이터 구조
         submission_data = {
             "entered_description": entered_description,  # 문제 설명
@@ -94,16 +95,16 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
 
         # 이미지 복사 (선택한 경우)
         if self.selected_image_path:
-            if self.selected_image_path != image_dest:
-                shutil.copy(self.selected_image_path, image_dest)
+            if self.selected_image_path != copy_dest:
+                shutil.copy(self.selected_image_path, copy_dest)
         
-        self.Save_version()
-        self.upload_folder_to_ftp(save_directory,self.book)
+        version_path = self.Save_version()    
+        self.upload_folder_to_ftp(save_directory,version_path,self.book)
         QMessageBox.information(self, "성공", "출제 되었습니다.")
         self.close()
 
 
-    def upload_folder_to_ftp(self, local_folder, book):
+    def upload_folder_to_ftp(self, local_folder, version_path, book):
         SERVER_IP = self.report_dist["SERVER_IP"]
         PORT = self.report_dist["PORT"]
         username = self.report_dist["username"]
@@ -146,22 +147,33 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
 
             upload_recursive(local_folder)
 
+            # 🚀 version.txt 파일 업로드
+            if os.path.exists(version_path):
+                remote_version_path = f"{remote_base_path}/version.txt"
+                with open(version_path, "rb") as version_file:
+                    session.storbinary(f"STOR {remote_version_path}", version_file)
+                print(f"✅ version.txt 업로드 완료: {remote_version_path}")
+            else:
+                print(f"⚠️ version.txt 파일이 존재하지 않습니다: {version_path}")
+            
         except ftplib.all_errors as e:
             print(f"⚠️ 업로드 중 오류 발생: {str(e)}")
         finally:
             session.quit()
 
     def Save_version(self):
+        version_path = None
         try:
-            now = datetime.now()
-            formatted_time = now.strftime("%Y-%m-%d %H:%M")
-            version_path = os.path.join(self.Base_path, "Workbook", "version.txt")
+            now = datetime.datetime.now()  
+            formatted_time = now.strftime("%Y-%m-%d %H:%M")  
+            version_path = os.path.join(self.Base_path, "Workbook", "version.txt")  
             self.version = f"{formatted_time}"
             with open(version_path, 'w', encoding='utf-8') as file:
                 file.write(self.version)
             print(f"데이터가 파일에 저장되었습니다: {version_path}")
         except Exception as e:
             print(f"파일 저장 중 오류가 발생했습니다: {str(e)}")
+        return version_path
 
     def popupwindows(self):
         """권한 없음 알림창"""

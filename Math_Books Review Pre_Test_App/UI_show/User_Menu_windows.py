@@ -48,11 +48,17 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
         self.name = name
         self.Workbook_ver = Workbook_ver
         self.picture_view = self.findChild(QLabel, "picture_view")
-
+        
         self.Create_question_window1 = None
         self.Create_question_window2 = None
         self.User_question_window = None
         self.User_question_window2 = None
+
+        self.prefix_list = []
+        self.file_list = []
+        self.file_list = []
+        self.point = {}
+        self.current_index = 0  # 현재 문제 인덱스 저장
 
         self.strat = self.findChild(QPushButton, "questions") # 시험 보기 
         self.strat.clicked.connect(self.open_Windows)
@@ -76,58 +82,60 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
             self.download_key_file()
             with open(self.key_path, 'rb') as key_file:
                 return key_file.read()
-
-    # def bring_in_image(self):
-        # file_name = "C:/Users/LG10/Pictures/과제1.png"
-        # pixmap = QPixmap(file_name)
-        # self.picture_view.setPixmap(pixmap)
-        # self.picture_view.setScaledContents(True)  # QLabel에 맞게 크기 조정
-        # self.selected_image_path = file_name  # 이미지 경로 저장
-
+            
     def open_Windows(self):
-        prefix  = None
         folder_count = sum(1 for entry in os.scandir(self.Workbook_path) if entry.is_dir())
-        # 랜덤 숫자 생성
-        if folder_count == 1:
-            random_folder = 1  # 폴더가 1개라면 1로 고정
-        else:
-            random_folder = random.randrange(1, folder_count + 1)  # 범위를 1부터 folder_count까지 포함
+
+        # 랜덤 폴더 선택
+        random_folder = 1 if folder_count == 1 else random.randrange(1, folder_count + 1)
         book = f"{random_folder}권"
-        # 폴더 내 모든 파일 탐색
         save_directory = os.path.join(self.Workbook_path, book)
-        # .json 파일 갯수 계산
+        self.point["book"] = book
+        # 폴더 내 JSON 파일 리스트 생성
         if os.path.exists(save_directory):
-            json_count = sum(1 for file in os.listdir(save_directory) if file.endswith('.json'))
-            if json_count == 1:
-                answer = 1  # 폴더가 1개라면 1로 고정
-            else:
-                answer = random.randrange(1, json_count + 1)  # 범위를 1부터 folder_count까지 포함
             for file_name in os.listdir(save_directory):
-                if file_name.endswith(".json"):  # JSON 파일만 읽기
-                    file_path = os.path.join(save_directory, file_name)    
-                    # 파일 이름에서 "_"를 기준으로 분리
+                if file_name.endswith(".json"):
+                    file_path = os.path.join(save_directory, file_name)
+
+                    # 파일 이름에서 "_"를 기준으로 분리하여 문제 유형 저장
                     prefix = file_name.split("_")[1]  # "Multiple" 또는 "Subjective" 추출
-                    numver = (file_name.split("_")[-1]) # 문제 번호 추출
-                    numver = int(numver.split(".")[0])
-                    if numver == answer:
-                        break
-        #print(""+prefix+","+str(numver))
-        if prefix != None:
+                    self.file_list.append(file_path)
+                    self.prefix_list.append(prefix)
+
+        # ✅ 문제를 랜덤하게 섞기
+        combined_list = list(zip(self.file_list, self.prefix_list))
+        random.shuffle(combined_list)  # 문제를 섞어서 랜덤하게 출제
+        self.file_list, self.prefix_list = zip(*combined_list)  # 다시 분리하여 저장
+        self.point["total"] = len(self.file_list)
+
+        if self.file_list:  # JSON 파일이 있으면 실행
+            self.show_next_question(book,self.point)
+
+    def show_next_question(self,book,point):
+        """ 다음 문제를 출제하는 함수 """
+        if self.current_index < len(self.file_list):  # 아직 남은 문제가 있다면
+            file_path = self.file_list[self.current_index]
+            prefix = self.prefix_list[self.current_index]
+
+            # 문제 유형에 따라 창 열기
             if prefix == "Multiple":
-                self.Create_question_window(file_path)
+                self.Create_question_window(file_path,book,point)
             elif prefix == "Subjective":
-                self.Create_question_window_2(file_path)
+                self.Create_question_window_2(file_path,book,point)
 
+            self.current_index += 1  # 다음 문제로 이동
+        else:
+            print(f"✅ {book}의 모든 문제를 풀었습니다!")
 
-    def Create_question_window(self,file_path):
-        if self.Create_question_window1 is None or not self.Create_question_window1.isVisible(): 
-            self.Create_question_window1 = Type1(self,file_path) 
+    def Create_question_window(self, file_path, book, point):
+        if self.Create_question_window1 is None or not self.Create_question_window1.isVisible():
+            self.Create_question_window1 = Type1(self, self.Base_path, file_path, book, point)
             self.hide()
             self.Create_question_window1.show()
 
-    def Create_question_window_2(self,file_path):
-        if self.Create_question_window2 is None or not self.Create_question_window2.isVisible(): 
-            self.Create_question_window2 = Type2(self,file_path)
+    def Create_question_window_2(self, file_path, book, point):
+        if self.Create_question_window2 is None or not self.Create_question_window2.isVisible():
+            self.Create_question_window2 = Type2(self, self.Base_path, file_path, book, point)
             self.hide()
             self.Create_question_window2.show()
             

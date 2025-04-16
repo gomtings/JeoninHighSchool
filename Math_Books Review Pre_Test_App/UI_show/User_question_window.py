@@ -13,11 +13,14 @@ from PySide6.QtGui import QPixmap
 
 
 class Create_question_window(QMainWindow, Ui_Create_question_window):
-    def __init__(self, parent=None, file_path=None):
+    def __init__(self, parent=None,Base_path = None,file_path=None, book = None, point = None):
         super().__init__()
         self.setupUi(self)  # ✅ UI 연결 필수
         self.parents = parent
         self.file_path = file_path
+        self.Base_path = Base_path
+        self.book = book
+        self.point = point
         self.Radio_Widgets = []
         self.Label_Widgets = []
 
@@ -57,6 +60,7 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
 
     def show_image(self):
         image_path_str = self.data.get("image_path", None)
+        image_path_str = os.path.join(self.Base_path,image_path_str)
         entered_description = self.data.get("entered_description", "")
         self.exam.setText(f"문제: {entered_description}")
 
@@ -100,16 +104,21 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
 
         print(f"📝 선택한 답: {selected_index} / 정답: {correct_index}")
         if selected_index == correct_index:
-            print("✅ 정답입니다!")
+            self.point['correct'] = self.point.get('correct',0) + 1
+            self.show_message("✅ 정답입니다!", "green")
         else:
-            print("❌ 오답입니다.")
+            self.point['wrong'] = self.point.get('wrong',0) + 1
+            self.show_message(f"❌ 오답입니다!","red")
+        
+        # ✅ 창이 닫히면 다음 문제 출제
+        self.close()
+        self.parents.show_next_question(self.book,self.point)
 
-    def popupwindows(self):
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Information)
-        msg_box.setWindowTitle("권한 없음")
-        msg_box.setText("마스터 계정은 변경이 불가 합니다.")
-        msg_box.setStandardButtons(QMessageBox.Ok)
+
+    def show_message(self, text, color="black"):
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle("채점 결과")
+        msg_box.setText(f"<p style='color:{color}'>{text}</p>")
         msg_box.exec()
 
     def closeEvent(self, event):

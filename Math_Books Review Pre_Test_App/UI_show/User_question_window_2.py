@@ -1,5 +1,6 @@
 from UI_show.UI.user_question_window2_ui import Ui_Create_question_window
 import json
+import os
 from pathlib import Path
 from PySide6.QtWidgets import (
     QMainWindow,
@@ -12,11 +13,14 @@ from PySide6.QtGui import QPixmap
 
 
 class Create_question_window_2(QMainWindow, Ui_Create_question_window):
-    def __init__(self, parent=None, file_path=None):
+    def __init__(self, parent=None, Base_path = None, file_path=None, book = None, point = None):
         super().__init__()
         self.setupUi(self)
         self.parents = parent
         self.file_path = file_path
+        self.Base_path = Base_path
+        self.book = book
+        self.point = point
         self.setWindowTitle("주관식 문제 출제")
 
         try:
@@ -42,6 +46,7 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
         self.input_Description.setText(f"문제: {question_text}")
 
         image_path_str = self.data.get("image_path", "")
+        image_path_str = os.path.join(self.Base_path,image_path_str)
         image_path = Path(image_path_str)
 
         # 디버깅 정보 출력
@@ -70,15 +75,17 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
             return
 
         if user_answer == correct_answer:
+            self.point['correct'] = self.point.get('correct',0) + 1
             self.show_message("✅ 정답입니다!", "green")
         else:
-            self.show_message(
-                f"❌ 오답입니다.<br>정답: <b>{self.data.get('entered_correct_answer')}</b>",
-                "red"
-            )
+            self.point['wrong'] = self.point.get('wrong',0) + 1
+            self.show_message(f"❌ 오답입니다!","red")
 
         self.correct_answer_edit.clear()
-
+        # ✅ 창이 닫히면 다음 문제 출제
+        self.close()
+        self.parents.show_next_question(self.book,self.point)
+    
     def show_message(self, text, color="black"):
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle("채점 결과")
