@@ -1,0 +1,11 @@
+class Foo:
+  def func1():
+    print("function 1")
+
+  def func2(self):
+    print("function 2")
+    print("self =", id(self))
+
+foo = Foo()
+foo.func2()
+print("foo = ",id(foo))
