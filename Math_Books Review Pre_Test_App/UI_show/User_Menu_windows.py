@@ -125,6 +125,10 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
 
             self.current_index += 1  # 다음 문제로 이동
         else:
+            # 데이터 파일로 저장
+            file_name = os.path.join(self.Base_path, "Management", self.name, f"{self.name}_{book}.json")
+            with open(file_name, 'w', encoding='utf-8') as f:
+                json.dump(point, f, ensure_ascii=False, indent=4)
             print(f"✅ {book}의 모든 문제를 풀었습니다!")
 
     def Create_question_window(self, file_path, book, point):
