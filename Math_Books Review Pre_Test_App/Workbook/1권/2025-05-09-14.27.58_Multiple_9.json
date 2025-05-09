@@ -1,0 +1,12 @@
+{
+    "answer_ex": [
+        "8",
+        "10",
+        "6",
+        "12",
+        "7"
+    ],
+    "selected_answer": "2",
+    "entered_description": "집합 A = {x | x는 3의 배수, x ≤ 20인 자연수}, B = {x | x는 4의 배수, x ≤ 20인 자연수}의 합집합이 C일 때 n(C)를 구하시오",
+    "image_path": "Workbook\\1권\\Multiple_image9.jpg"
+}
