@@ -8,12 +8,12 @@
 # nltk.download('stopwords')
 
 # # 정답 문장과 사용자 입력
-# answer = "전인고등학교 미래공학"
+# answer = "hello world"
 # user_input = input("문장을 입력하세요: ")
 
 # # 전처리 함수
 # def preprocess(text):
-#     stop_words = set(stopwords.words('korean'))
+#     stop_words = set(stopwords.words('english'))
 #     tokens = word_tokenize(text.lower())
 #     return [word for word in tokens if word.isalpha() and word not in stop_words]
 
@@ -52,7 +52,7 @@ def calculate_similarity(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
 # 정답과 입력
-answer = "사과를들었다."
+answer = "두 변수의 x, y에 대하여 x의 값이 정해짐에에 따라 y의 값이 하나로 통해 정해지는 관계가 있는 것"
 user_input = input("당신의 문장을 입력하세요: ")
 
 # 전처리
