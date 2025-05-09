@@ -106,28 +106,43 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
         combined_list = list(zip(self.file_list, self.prefix_list))
         random.shuffle(combined_list)  # 문제를 섞어서 랜덤하게 출제
         self.file_list, self.prefix_list = zip(*combined_list)  # 다시 분리하여 저장
-        self.point["total"] = len(self.file_list)
-
+        # self.point["total"] = len(self.file_list)
+        self.file_list = list(self.file_list)         # 튜플을 리스트로 변환
+        self.prefix_list = list(self.prefix_list)  
         if self.file_list:  # JSON 파일이 있으면 실행
             self.show_next_question(book,self.point)
 
-    def show_next_question(self,book,point):
+    def show_next_question(self, book, point):
         """ 다음 문제를 출제하는 함수 """
         if self.current_index < len(self.file_list):  # 아직 남은 문제가 있다면
-            file_path = self.file_list[self.current_index]
+            file_path = self.file_list[self.current_index]  # 파일 경로
             prefix = self.prefix_list[self.current_index]
 
             # 문제 유형에 따라 창 열기
             if prefix == "Multiple":
-                self.Create_question_window(file_path,book,point)
+                self.Create_question_window(file_path, book, point)
             elif prefix == "Subjective":
-                self.Create_question_window_2(file_path,book,point)
+                self.Create_question_window_2(file_path, book, point)
 
             self.current_index += 1  # 다음 문제로 이동
         else:
             # 데이터 파일로 저장
-            file_name = os.path.join(self.Base_path, "Management", self.name, f"{self.name}_{book}.json")
-            with open(file_name, 'w', encoding='utf-8') as f:
+            if not self.file_list:
+                print("파일 목록이 비어있습니다!")
+                return
+
+            # 마지막 문제의 파일 경로를 file_name으로 설정
+            file_name = self.file_list[-1]  # 마지막 문제 파일 경로
+            dir_path = os.path.dirname(file_name)  # 파일 경로에서 디렉토리 부분 추출
+            os.makedirs(dir_path, exist_ok=True)
+
+            # 파일 이름 설정
+            save_path = os.path.join(self.Base_path, "Management", self.name, f"{self.name}_{book}.json")
+            
+            os.makedirs(os.path.dirname(save_path), exist_ok=True)
+
+
+            with open(save_path, 'w', encoding='utf-8') as f:
                 json.dump(point, f, ensure_ascii=False, indent=4)
             print(f"✅ {book}의 모든 문제를 풀었습니다!")
 

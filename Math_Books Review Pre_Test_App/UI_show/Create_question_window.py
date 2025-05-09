@@ -104,18 +104,25 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
 
         timestamp = time.strftime("%Y-%m-%d-%H.%M.%S")  # YYYYMMDD_HHMMSS 형식
         file_name = os.path.join(save_directory, f"{timestamp}_Multiple_{self.num}.json")
-        image_name = f"Multiple_image{self.num}" + os.path.splitext(self.selected_image_path)[1]
-        image_dest = os.path.join("Workbook", self.book, image_name)
-        copy_dest = os.path.join(save_directory, image_name)
-        # file_name = os.path.join("submission.json")
-            # 저장할 데이터 구조
+        # image_name = f"Multiple_image{self.num}" + os.path.splitext(self.selected_image_path)[1]
+        # image_dest = os.path.join("Workbook", self.book, image_name)
+        # copy_dest = os.path.join(save_directory, image_name)
+        if self.selected_image_path:
+            image_ext = os.path.splitext(self.selected_image_path)[1]
+            image_name = f"Multiple_image{self.num}{image_ext}"
+            image_dest = os.path.join("Workbook", self.book, image_name)
+            copy_dest = os.path.join(save_directory, image_name)
+        else:
+            image_dest = ""
+            copy_dest = ""
+                # file_name = os.path.join("submission.json")
+                    # 저장할 데이터 구조
         submission_data = {
             "answer_ex": answer_ex,
             "selected_answer": selected_answer,
             "entered_description": entered_description,
-            "image_path": image_dest,
+            "image_path": image_dest if image_dest else "",  # 빈 문자열로 저장하거나 None 처리
         }
-
         # 데이터 파일로 저장
         with open(file_name, 'w', encoding='utf-8') as f:
             json.dump(submission_data, f, ensure_ascii=False, indent=4)
