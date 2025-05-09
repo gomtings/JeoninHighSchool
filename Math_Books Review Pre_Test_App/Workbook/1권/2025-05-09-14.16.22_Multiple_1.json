@@ -1,0 +1,12 @@
+{
+    "answer_ex": [
+        "ㄱ",
+        "ㄴ",
+        "ㄱ,ㄴ",
+        "ㄴ,ㄷ",
+        "ㄱ,ㄴ,ㄷ"
+    ],
+    "selected_answer": "3",
+    "entered_description": "전체 집합 U의 두 부분 집합 A, B에 대한 벤 다이어그램에서 어두운 부분을 집합으로 바르게 나타낸 것을 <보기>에서 모두 고르시오.",
+    "image_path": "Workbook\\1권\\Multiple_image1.png"
+}

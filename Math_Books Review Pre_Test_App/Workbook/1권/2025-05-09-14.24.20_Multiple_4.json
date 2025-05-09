@@ -1,0 +1,12 @@
+{
+    "answer_ex": [
+        "512",
+        "511",
+        "1024",
+        "1023",
+        "256"
+    ],
+    "selected_answer": "4",
+    "entered_description": "{1, 2, 3, 4, 5, 6. 7, 8, 9, 10}의 부분 집합의 개수는?(단, 공집합은 제외한다.)",
+    "image_path": "Workbook\\1권\\Multiple_image4.jpg"
+}

@@ -1,0 +1,12 @@
+{
+    "answer_ex": [
+        "{3, 2, 4, 9, 10}",
+        "{10, 1, 6, 3, 2, 19, 5}",
+        "{4}",
+        "{21, 24, 111, 3, 301}",
+        "{3, 6, 9, 12, 15}"
+    ],
+    "selected_answer": "2",
+    "entered_description": "집합 A = {1, 3, 5}가 있고 집합 X가 아래의 번호 중 하나일 때 를 만족하는 집합 X는?",
+    "image_path": "Workbook\\1권\\Multiple_image4.jpg"
+}
