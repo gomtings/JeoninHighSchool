@@ -66,7 +66,7 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
         language = self.detect_language_with_threshold(text)
         
         model_dict = {
-            "Korean": "nunlp/KR-SBERT-V40K-klueNLI-augSTS",
+            "Korean": "snunlp/KR-SBERT-V40K-klueNLI-augSTS",
             "English": "all-mpnet-base-v2",
             "Mixed": "paraphrase-MiniLM-L6-v2"
         }
@@ -135,13 +135,16 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
         self.correct_answer_edit.clear()
         # ✅ 창이 닫히면 다음 문제 출제
         self.close()
-        self.parents.show_next_question(self.book,self.point)
+        self.parents.show_next_question(self.book, self.point)
     
     def show_message(self, text, color="black"):
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle("채점 결과")
         msg_box.setText(f"<p style='color:{color}'>{text}</p>")
         msg_box.exec()
+
+
+
 
     def closeEvent(self, event):
         if self.parents:
