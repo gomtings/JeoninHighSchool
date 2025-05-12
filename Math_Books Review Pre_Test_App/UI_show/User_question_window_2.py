@@ -15,7 +15,7 @@ from PySide6.QtGui import QPixmap
 
 
 class Create_question_window_2(QMainWindow, Ui_Create_question_window):
-    def __init__(self, parent=None, Base_path = None, file_path=None, book = None, point = None):
+    def __init__(self, parent=None, Base_path = None, file_path=None, book = None, point = None, name = None):
         super().__init__()
         self.setupUi(self)
         self.parents = parent
@@ -23,6 +23,7 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
         self.Base_path = Base_path
         self.book = book
         self.point = point
+        self.name = name
         self.setWindowTitle("주관식 문제 출제")
 
         try:
@@ -40,7 +41,8 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
         self.input_Description = self.input_Description
 
         self.submitbtn.clicked.connect(self.chk_answer)
-
+        self.point['이름'] = self.name
+        self.point['과제'] = self.book
         self.load_question()
 
     def detect_language_with_threshold(self,text, threshold=0.7):
@@ -123,13 +125,13 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
         
         if language == detected_lang:
             if point >= 0.8:
-                self.point['correct'] = self.point.get('correct',0) + 1
+                self.point['맞춘 갯수'] = self.point.get('맞춘 갯수',0) + 1
                 self.show_message("✅ 정답입니다!", "green")
             else:
-                self.point['wrong'] = self.point.get('wrong',0) + 1
+                self.point['틀린 갯수'] = self.point.get('틀린 갯수',0) + 1
                 self.show_message(f"❌ 오답입니다!","red")
         else:
-            self.point['wrong'] = self.point.get('wrong',0) + 1
+            self.point['틀린 갯수'] = self.point.get('틀린 갯수',0) + 1
             self.show_message(f"❌ 오답입니다!","red") 
 
         self.correct_answer_edit.clear()

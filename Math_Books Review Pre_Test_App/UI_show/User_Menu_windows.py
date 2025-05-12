@@ -148,13 +148,13 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
 
     def Create_question_window(self, file_path, book, point):
         if self.Create_question_window1 is None or not self.Create_question_window1.isVisible():
-            self.Create_question_window1 = Type1(self, self.Base_path, file_path, book, point)
+            self.Create_question_window1 = Type1(self, self.Base_path, file_path, book, point,self.name)
             self.hide()
             self.Create_question_window1.show()
 
     def Create_question_window_2(self, file_path, book, point):
         if self.Create_question_window2 is None or not self.Create_question_window2.isVisible():
-            self.Create_question_window2 = Type2(self, self.Base_path, file_path, book, point)
+            self.Create_question_window2 = Type2(self, self.Base_path, file_path, book, point,self.name)
             self.hide()
             self.Create_question_window2.show()
             

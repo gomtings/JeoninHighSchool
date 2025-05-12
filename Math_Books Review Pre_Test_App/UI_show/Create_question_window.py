@@ -40,6 +40,7 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
             print(f'Report_FTP.json 데이터가 없습니다. {e}')
 
         self.picture_view = self.findChild(QLabel, "picture_view")
+        self.picture_view.setWordWrap(True)
         self.find_picture = self.findChild(QPushButton, "find_picture")
         self.submit_btn = self.findChild(QPushButton, "submit_btn")
         self.Edit_Description = self.findChild(QLineEdit, "Edit_Description")

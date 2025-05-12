@@ -38,6 +38,7 @@ class Create_question_window_2(QMainWindow, Ui_Create_question_window):
 
         # UI 요소 가져오기
         self.picture_view = self.findChild(QLabel, "picture_view")
+        self.picture_view.setWordWrap(True)
         self.find_picture = self.findChild(QPushButton, "find_picture")
         self.submit_btn = self.findChild(QPushButton, "submit_btn")
         self.Edit_Description = self.findChild(QLineEdit, "Edit_Description")
