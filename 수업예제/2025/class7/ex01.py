@@ -3,13 +3,19 @@ import threading
 import time
 
 class BankAccount:
+    #모든 객체가 공유하는 변수
+    total_accounts = 0  # 생성된 총 계좌 수
+    strongbox = 100000  # 전체 은행 자금 (잔액 합계)
     def __init__(self, owner, password):
         self.account_number = str(uuid.uuid4())[:8]  # 8자리 계좌 번호 생성
         self.owner = owner
         self.password = password  # 비밀번호 저장
-        self.balance = 0.0
+        self.balance = 0
+        self.loan = 0
         self.transaction_history = []
-
+        
+        BankAccount.total_accounts += 1
+        
     def verify_password(self, input_password):
         return self.password == input_password  # 비밀번호 검증
 
@@ -22,18 +28,48 @@ class BankAccount:
             print("올바른 금액을 입력하세요.")
 
     def withdraw(self, amount):
-        if 0 < amount <= self.balance:
+        total = self.loan + self.balance
+        if 0 < amount <= total:
             self.balance -= amount
-            self.transaction_history.append(f"출금: {amount}원 | 잔액: {self.balance}원")
-            print(f"{amount}원이 출금되었습니다. 현재 잔액: {self.balance}원")
+            self.transaction_history.append(f"출금: {amount}원 | 잔액: {total}원")
+            print(f"{amount}원이 출금되었습니다. 현재 잔액: {total}원")
         else:
             print("출금 금액이 잔액보다 많거나 올바르지 않습니다.")
 
+    def Loans(self, loan):
+        if 0 < loan and loan < BankAccount.strongbox and loan <= self.balance and loan <= self.loan:
+            self.loan += loan
+            BankAccount.strongbox -= loan
+            self.transaction_history.append(f"대출: {loan}원 | 잔액: {self.loan}원")
+            total = self.loan + self.balance
+            print(f"{loan}원 을 대출이 승인 되었습니다. 현재 잔액: {total}원")
+        else:
+            print("대출이 불가능 합니다.")
+
+    def Repayment(self, amount):
+        if self.loan > 0:
+            if amount > 0 and amount <= self.balance and amount <= self.loan:
+                self.loan -= amount
+                BankAccount.strongbox += amount
+                self.transaction_history.append(f"상환: {amount}원 | 상환 후 잔액: {self.loan}원")
+                print(f"{amount}원이 입금되었습니다. 현재 잔액: {self.balance}원")
+            else:
+                print("상환 할 금액을 다시 입력해 주세요!")
+        else:
+            print("상환 할 대출금이 존재하지 않습니다.")
+                        
     def apply_interest(self, interest_rate):
         interest = self.balance * (interest_rate / 100)
         self.balance += interest
         self.transaction_history.append(f"이자 지급: {interest:.2f}원 | 잔액: {self.balance:.2f}원")
 
+    def apply_loan_interest(self, loan_rate):
+        if self.loan > 0:
+            interest = self.balance * (loan_rate / 100)
+            self.balance -= interest
+            BankAccount.strongbox += interest
+            self.transaction_history.append(f"이자 출금: {interest:.2f}원 | 잔액: {self.balance:.2f}원")
+        
     def show_balance(self):
         print(f"{self.owner}님의 잔액: {self.balance:.2f}원")
 
@@ -48,6 +84,7 @@ class BankSystem:
         self.customers = {}  # 고객 이름을 키로 사용
         self.admin_password = "admin1234"  # 관리자 비밀번호
         self.interest_rate = 1.0  # 기본 이자율 (1%)
+        self.loan_rate = 4.0  # 기본 이자율 (1%)
         self.start_interest_system()  # 자동 이자 시스템 실행
 
     def create_account(self):
@@ -98,7 +135,7 @@ class BankSystem:
                 total_balance += account.balance
                 print(f"이름: {owner}, 계좌번호: {account.account_number}, 잔액: {account.balance}원")
 
-            print(f"\n총 고객 수: {total_customers}명 , 은행 전체 잔액: {total_balance}원")
+            print(f"\n총 고객 수: {total_customers}명 , 은행 예금 잔액: {total_balance}원 , 은행 금고 잔액: {BankAccount.strongbox}원")
 
     def delete_account(self):
         if self.admin_login():
@@ -125,7 +162,9 @@ class BankSystem:
     def apply_interest_to_all(self):
         for account in self.customers.values():
             account.apply_interest(self.interest_rate)
+            account.apply_loan_interest(self.loan_rate)
 
+            
     def start_interest_system(self):
         def interest_loop():
             while True:
@@ -144,14 +183,16 @@ class BankSystem:
             print("3. 출금")
             print("4. 잔액 조회")
             print("5. 거래 내역 확인")
-            print("6. 관리자 로그인")
-            print("7. 종료")
-
+            print("6. 대출")
+            print("7. 상환")
+            print("8. 관리자 로그인")
+            print("9. 종료")
+            
             choice = input("원하는 기능을 선택하세요: ")
 
             if choice == "1":
                 self.create_account()
-            elif choice in ["2", "3", "4", "5"]:
+            elif choice in ["2", "3", "4", "5", "6", "7"]:
                 account = self.get_account()
                 if account:
                     if choice == "2":
@@ -164,7 +205,13 @@ class BankSystem:
                         account.show_balance()
                     elif choice == "5":
                         account.show_transaction_history()
-            elif choice == "6":
+                    elif choice == "6":
+                        amount = int(input("대출할 금액을 입력하세요: "))
+                        account.Loans(amount)
+                    elif choice == "7":
+                        amount = int(input("상환할 금액을 입력하세요: "))
+                        account.Repayment(amount)
+            elif choice == "8":
                 print("\n=== 관리자 기능 ===")
                 print("1. 모든 계좌 조회")
                 print("2. 계좌 삭제")
@@ -179,7 +226,7 @@ class BankSystem:
                     self.set_interest_rate()
                 else:
                     print("올바른 번호를 입력하세요.")
-            elif choice == "7":
+            elif choice == "9":
                 print("은행 시스템을 종료합니다.")
                 break
             else:
