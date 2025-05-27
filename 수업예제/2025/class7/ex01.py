@@ -1,16 +1,20 @@
 import uuid
 import threading
 import time
+import random
 
 class BankAccount:
     #모든 객체가 공유하는 변수
     total_accounts = 0  # 생성된 총 계좌 수
     strongbox = 100000  # 전체 은행 자금 (잔액 합계)
+    exchange = 1000 #  환전은 기본 달러로만.
+
     def __init__(self, owner, password):
         self.account_number = str(uuid.uuid4())[:8]  # 8자리 계좌 번호 생성
         self.owner = owner
         self.password = password  # 비밀번호 저장
         self.balance = 0
+        self.foreign_balance = 0
         self.loan = 0
         self.transaction_history = []
         
@@ -35,6 +39,16 @@ class BankAccount:
             print(f"{amount}원이 출금되었습니다. 현재 잔액: {total}원")
         else:
             print("출금 금액이 잔액보다 많거나 올바르지 않습니다.")
+
+    def exchange_system(self, amount):
+        if 0 < amount:
+            won = amount * BankAccount.exchange
+            self.balance -= won
+            self.foreign_balance = amount
+            self.transaction_history.append(f"출금: {amount}원 | 잔액: {self.balance}원 | USD: {self.foreign_balance}원")
+            print(f"{amount}원이 환전전되었습니다. 현재 잔액: {self.balance}원")
+        else:
+            print("환전 금액이이 올바르지 않습니다.")
 
     def account_transfer(self, amount,transfer):
         total = self.loan + self.balance
@@ -81,7 +95,7 @@ class BankAccount:
             self.transaction_history.append(f"이자 출금: {interest:.2f}원 | 잔액: {self.balance:.2f}원")
         
     def show_balance(self):
-        print(f"{self.owner}님의 잔액: {self.balance:.2f}원")
+        print(f"{self.owner}님의 잔액: {self.balance:.2f}원 / USD : {self.foreign_balance}")
 
     def show_transaction_history(self):
         print(f"\n{self.owner}님의 거래 내역:")
@@ -190,6 +204,7 @@ class BankSystem:
                 time.sleep(60)  # 1분마다 실행
                 self.apply_interest_to_all()
                 print("\n계좌에 이자가 지급되었습니다!\n")
+                BankAccount.exchange = random.random(1000,2000)
 
         interest_thread = threading.Thread(target=interest_loop, daemon=True)
         interest_thread.start()
@@ -205,14 +220,15 @@ class BankSystem:
             print("6. 대출")
             print("7. 상환")
             print("8. 계좌이체")
-            print("9. 관리자 로그인")
-            print("10. 종료")
+            print("9. 환전")
+            print("10. 관리자 로그인")
+            print("11. 종료")
             
             choice = input("원하는 기능을 선택하세요: ")
 
             if choice == "1":
                 self.create_account()
-            elif choice in ["2", "3", "4", "5", "6", "7", "8"]:
+            elif choice in ["2", "3", "4", "5", "6", "7", "8", "9"]:
                 account = self.get_account()
                 if account:
                     if choice == "2":
@@ -238,8 +254,10 @@ class BankSystem:
                             account.account_transfer(amount,transfer)
                         else:
                             print("이체할 계좌가 존재하지 않습니다.")
-                            
-            elif choice == "9":
+                    elif choice == "9":
+                        amount = int(input("환전할 금액을 입력하세요(USD 로 입력력): "))
+                        account.exchange_system(amount)
+            elif choice == "10":
                 print("\n=== 관리자 기능 ===")
                 print("1. 모든 계좌 조회")
                 print("2. 계좌 삭제")
@@ -254,7 +272,7 @@ class BankSystem:
                     self.set_interest_rate()
                 else:
                     print("올바른 번호를 입력하세요.")
-            elif choice == "10":
+            elif choice == "11":
                 print("은행 시스템을 종료합니다.")
                 break
             else:
