@@ -36,6 +36,16 @@ class BankAccount:
         else:
             print("출금 금액이 잔액보다 많거나 올바르지 않습니다.")
 
+    def account_transfer(self, amount,transfer):
+        total = self.loan + self.balance
+        if 0 < amount <= total:
+            self.balance -= amount
+            self.transaction_history.append(f"출금: {amount}원 | 잔액: {total}원")
+            print(f"{amount}원이 이체 되었습니다. 현재 잔액: {total}원")
+            transfer.deposit(amount)
+        else:
+            print("출금 금액이 잔액보다 많거나 올바르지 않습니다.")
+
     def Loans(self, loan):
         if 0 < loan and loan < BankAccount.strongbox and loan <= self.balance and loan <= self.loan:
             self.loan += loan
@@ -114,6 +124,15 @@ class BankSystem:
             print("해당 고객의 계좌를 찾을 수 없습니다.")
             return None
 
+    def transfer_owner(self):
+        owner = input("계좌를 조회할 고객 이름을 입력하세요: ")
+        account = self.customers.get(owner)
+        if account:
+            return account
+        else:
+            print("해당 고객의 계좌를 찾을 수 없습니다.")
+            return None
+        
     def admin_login(self):
         password = input("관리자 비밀번호를 입력하세요: ")
         if password == self.admin_password:
@@ -185,14 +204,15 @@ class BankSystem:
             print("5. 거래 내역 확인")
             print("6. 대출")
             print("7. 상환")
-            print("8. 관리자 로그인")
-            print("9. 종료")
+            print("8. 계좌이체")
+            print("9. 관리자 로그인")
+            print("10. 종료")
             
             choice = input("원하는 기능을 선택하세요: ")
 
             if choice == "1":
                 self.create_account()
-            elif choice in ["2", "3", "4", "5", "6", "7"]:
+            elif choice in ["2", "3", "4", "5", "6", "7", "8"]:
                 account = self.get_account()
                 if account:
                     if choice == "2":
@@ -211,7 +231,15 @@ class BankSystem:
                     elif choice == "7":
                         amount = int(input("상환할 금액을 입력하세요: "))
                         account.Repayment(amount)
-            elif choice == "8":
+                    elif choice == "8":
+                        transfer = self.transfer_owner()
+                        if transfer:
+                            amount = int(input("이체할 금액을 입력하세요: "))
+                            account.account_transfer(amount,transfer)
+                        else:
+                            print("이체할 계좌가 존재하지 않습니다.")
+                            
+            elif choice == "9":
                 print("\n=== 관리자 기능 ===")
                 print("1. 모든 계좌 조회")
                 print("2. 계좌 삭제")
@@ -226,7 +254,7 @@ class BankSystem:
                     self.set_interest_rate()
                 else:
                     print("올바른 번호를 입력하세요.")
-            elif choice == "9":
+            elif choice == "10":
                 print("은행 시스템을 종료합니다.")
                 break
             else:
