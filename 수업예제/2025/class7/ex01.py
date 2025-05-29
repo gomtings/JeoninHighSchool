@@ -3,6 +3,100 @@ import threading
 import time
 import random
 
+class PropertyManager:
+    def __init__(self):
+        self.properties = []
+
+    def add_property(self, real_estate):# 부동산 추가
+        self.properties.append(real_estate)
+        print(f"{real_estate.owner}님의 {real_estate.property_type}이(가) 추가되었습니다.")
+
+    def remove_property(self, real_estate):
+        """ 부동산 제거 """
+        if real_estate in self.properties:
+            self.properties.remove(real_estate)
+            print(f"{real_estate.owner}님의 {real_estate.property_type}이(가) 삭제되었습니다.")
+        else:
+            print("해당 부동산을 찾을 수 없습니다.")
+
+    def list_properties(self):# 등록된 부동산 목록 출력
+        print("현재 관리 중인 부동산 목록:")
+        for idx, prop in enumerate(self.properties, start=1):
+            print(f"{idx}. {prop}")
+
+    def buy_property(self,account, property): # 구매 기능
+        name = account.owner
+        budget = account.balance
+        if property in self.properties:
+            if budget >= property.price:
+                budget -= property.price
+                property.transfer_ownership(name)
+                self.remove_property(property)  # 거래 완료 후 목록에서 삭제
+                account.add_property(property) # 고객 재산 목록에 추가....
+                print(f"{name}님이 {property.property_type}을(를) 구매했습니다!")
+            else:
+                print("예산이 부족합니다.")
+        else:
+            print("🚫 해당 매물이 존재하지 않습니다.")
+
+    def sell_property(self,account,property, price): # 판매 기능
+        if property in self.properties and property.owner == account.owner:
+            property.price = price
+            account.balance += price
+            account.remove_property(property)
+            #estate1 = Property(owners, area, price, type)
+            #self.add_property(estate1)
+            print(f"🛒 {account.owner}님이 {property.property_type}을(를) {price:,}₩에 판매 하였습니다.")
+        else:
+            print("부동산을 판매할 수 없습니다.")
+    
+    def simulate_transaction(self):
+        """ 랜덤 부동산 거래 시뮬레이션 """
+        if self.properties:
+            property_to_sell = random.choice(self.properties)  # 랜덤 매물 선택
+            
+            # 랜덤 구매자 생성
+            buyers = str(uuid.uuid4())[:8]
+            # 랜덤 예산
+            budget = random.randint(1000000, 200000000000)
+            
+            # 거래 금액을 면적 × 평당 가격으로 계산
+            transaction_price = property_to_sell.area * property_to_sell.price
+            
+            if budget >= transaction_price :
+                property_to_sell.transfer_ownership(buyers)
+                self.remove_property(property_to_sell)  # 구매 후 목록에서 제거
+            else:
+                print(f"{buyers}님은 {property_to_sell.property_type}을 구매할 예산이 부족합니다.")
+                            
+class Property:
+    def __init__(self, owner, area, price, property_type):
+        self.owner = owner
+        self.area = area  # 면적 (㎡)
+        self.price = price  # 가격 (₩)
+        self.property_type = property_type  # 유형 (아파트, 빌라 등)
+
+    def __str__(self):
+        return f"{self.owner}님의 {self.property_type} (면적: {self.area}㎡, 가격: {self.price:,}₩)"
+
+    def update_price(self, new_price):
+        """ 가격 변경 기능 """
+        self.price = new_price
+        print(f"{self.owner}님의 부동산 가격이 {new_price:,}₩으로 변경되었습니다.")
+
+    def price_per_area(self):
+        """ 면적당 가격 계산 """
+        return self.price / self.area if self.area > 0 else 0
+
+    def is_affordable(self, budget):
+        """ 거래 가능 여부 확인 """
+        return self.price <= budget
+
+    def transfer_ownership(self, new_owner):
+        """ 소유권 변경 """
+        self.owner = new_owner
+        print(f"부동산의 소유권이 {new_owner}님으로 변경되었습니다.")
+        
 class BankAccount:
     #모든 객체가 공유하는 변수
     total_accounts = 0  # 생성된 총 계좌 수
@@ -17,9 +111,27 @@ class BankAccount:
         self.foreign_balance = 0
         self.loan = 0
         self.transaction_history = []
+        self.Property = []
         
         BankAccount.total_accounts += 1
-        
+
+    def add_property(self, real_estate):# 부동산 추가
+        self.Property.append(real_estate)
+        print(f"{real_estate.owner}님의 {real_estate.property_type}이(가) 추가되었습니다.")
+    
+    def remove_property(self, real_estate):
+        """ 부동산 제거 """
+        if real_estate in self.properties:
+            self.properties.remove(real_estate)
+            print(f"{real_estate.owner}님의 {real_estate.property_type}이(가) 삭제되었습니다.")
+        else:
+            print("해당 부동산을 찾을 수 없습니다.")
+
+    def list_properties(self):# 등록된 부동산 목록 출력
+        print("현재 관리 중인 부동산 목록:")
+        for idx, prop in enumerate(self.Property, start=1):
+            print(f"{idx}. {prop}")
+                                        
     def verify_password(self, input_password):
         return self.password == input_password  # 비밀번호 검증
 
@@ -41,12 +153,12 @@ class BankAccount:
             print("출금 금액이 잔액보다 많거나 올바르지 않습니다.")
 
     def exchange_system(self, amount):
-        if 0 < amount:
-            won = amount * BankAccount.exchange
+        won = amount * BankAccount.exchange
+        if 0 < won < self.balance:
             self.balance -= won
             self.foreign_balance = amount
-            self.transaction_history.append(f"출금: {amount}원 | 잔액: {self.balance}원 | USD: {self.foreign_balance}원")
-            print(f"{amount}원이 환전전되었습니다. 현재 잔액: {self.balance}원")
+            self.transaction_history.append(f"한화 {won}을 USD {amount}로 환전전되었습니다. 현재 잔액: {self.balance}원 이고 보유 달러는 {self.foreign_balance} 입니다.")
+            print(f"한화 {int(won)}을 USD {amount}로 환전전되었습니다. 현재 잔액: {self.balance}원 이고 보유 달러는 {self.foreign_balance} 입니다.")
         else:
             print("환전 금액이이 올바르지 않습니다.")
 
@@ -83,9 +195,11 @@ class BankAccount:
             print("상환 할 대출금이 존재하지 않습니다.")
                         
     def apply_interest(self, interest_rate):
-        interest = self.balance * (interest_rate / 100)
-        self.balance += interest
-        self.transaction_history.append(f"이자 지급: {interest:.2f}원 | 잔액: {self.balance:.2f}원")
+        if self.balance > 0:
+            interest = self.balance * (interest_rate / 100)
+            self.balance += interest
+            self.transaction_history.append(f"이자 지급: {interest:.2f}원 | 잔액: {self.balance:.2f}원")
+            print("\n계좌에 이자가 지급되었습니다!\n")
 
     def apply_loan_interest(self, loan_rate):
         if self.loan > 0:
@@ -103,14 +217,15 @@ class BankAccount:
             print(transaction)
 
 class BankSystem:
+    manager = PropertyManager()
     def __init__(self):
         self.accounts = {}  # 계좌번호를 키로 사용
         self.customers = {}  # 고객 이름을 키로 사용
         self.admin_password = "admin1234"  # 관리자 비밀번호
         self.interest_rate = 1.0  # 기본 이자율 (1%)
         self.loan_rate = 4.0  # 기본 이자율 (1%)
-        self.start_interest_system()  # 자동 이자 시스템 실행
-
+        self.start_interest_system(BankSystem.manager)  # 자동 이자 시스템 실행
+        
     def create_account(self):
         owner = input("사용자의 이름을 입력하세요: ")
 
@@ -139,7 +254,7 @@ class BankSystem:
             return None
 
     def transfer_owner(self):
-        owner = input("계좌를 조회할 고객 이름을 입력하세요: ")
+        owner = input("이체 할 고객 이름을 입력하세요: ")
         account = self.customers.get(owner)
         if account:
             return account
@@ -198,86 +313,136 @@ class BankSystem:
             account.apply_loan_interest(self.loan_rate)
 
             
-    def start_interest_system(self):
+    def start_interest_system(self,PropertyManager):
         def interest_loop():
+            manager = PropertyManager
+            property_types = ["아파트", "빌라", "주택", "상가"]
             while True:
                 time.sleep(60)  # 1분마다 실행
+                # 이자 지급
                 self.apply_interest_to_all()
-                print("\n계좌에 이자가 지급되었습니다!\n")
-                BankAccount.exchange = random.random(1000,2000)
-
+                # 환율 조정
+                BankAccount.exchange = random.uniform(1000, 2000)
+                
+                # 부동산 
+                owners = str(uuid.uuid4())[:8]
+                area = random.randint(20, 5000) # 평
+                price = random.randint(100000, 30000000)  # 가격 랜덤 (10만원~3천)
+                type = random.choice(property_types)
+                estate1 = Property(owners, area, price, type)
+                manager.add_property(estate1)
+                
+                # 부동산 거래 시뮬레이션
+                manager.simulate_transaction()
+            
         interest_thread = threading.Thread(target=interest_loop, daemon=True)
         interest_thread.start()
 
     def run(self):
         while True:
             print("\n=== 은행 시스템 메뉴 ===")
-            print("1. 계좌 생성")
-            print("2. 입금")
-            print("3. 출금")
-            print("4. 잔액 조회")
-            print("5. 거래 내역 확인")
-            print("6. 대출")
-            print("7. 상환")
-            print("8. 계좌이체")
-            print("9. 환전")
-            print("10. 관리자 로그인")
-            print("11. 종료")
-            
+            print("1. 은행")
+            print("2. 부동산")
             choice = input("원하는 기능을 선택하세요: ")
-
+            
             if choice == "1":
-                self.create_account()
-            elif choice in ["2", "3", "4", "5", "6", "7", "8", "9"]:
-                account = self.get_account()
-                if account:
-                    if choice == "2":
-                        amount = int(input("입금할 금액을 입력하세요: "))
-                        account.deposit(amount)
-                    elif choice == "3":
-                        amount = int(input("출금할 금액을 입력하세요: "))
-                        account.withdraw(amount)
-                    elif choice == "4":
-                        account.show_balance()
-                    elif choice == "5":
-                        account.show_transaction_history()
-                    elif choice == "6":
-                        amount = int(input("대출할 금액을 입력하세요: "))
-                        account.Loans(amount)
-                    elif choice == "7":
-                        amount = int(input("상환할 금액을 입력하세요: "))
-                        account.Repayment(amount)
-                    elif choice == "8":
-                        transfer = self.transfer_owner()
-                        if transfer:
-                            amount = int(input("이체할 금액을 입력하세요: "))
-                            account.account_transfer(amount,transfer)
-                        else:
-                            print("이체할 계좌가 존재하지 않습니다.")
-                    elif choice == "9":
-                        amount = int(input("환전할 금액을 입력하세요(USD 로 입력력): "))
-                        account.exchange_system(amount)
-            elif choice == "10":
-                print("\n=== 관리자 기능 ===")
-                print("1. 모든 계좌 조회")
-                print("2. 계좌 삭제")
-                print("3. 이자율 설정")
+                print("\n=== 은행 시스템 메뉴 ===")
+                print("1. 계좌 생성")
+                print("2. 입금")
+                print("3. 출금")
+                print("4. 잔액 조회")
+                print("5. 거래 내역 확인")
+                print("6. 대출")
+                print("7. 상환")
+                print("8. 계좌이체")
+                print("9. 환전")
+                print("10. 관리자 로그인")
+                print("11. 종료")
+                
+                choice = input("원하는 기능을 선택하세요: ")
+                if choice == "1":
+                    self.create_account()
+                elif choice in ["2", "3", "4", "5", "6", "7", "8", "9"]:
+                    account = self.get_account()
+                    if account:
+                        if choice == "2":
+                            amount = int(input("입금할 금액을 입력하세요: "))
+                            account.deposit(amount)
+                        elif choice == "3":
+                            amount = int(input("출금할 금액을 입력하세요: "))
+                            account.withdraw(amount)
+                        elif choice == "4":
+                            account.show_balance()
+                        elif choice == "5":
+                            account.show_transaction_history()
+                        elif choice == "6":
+                            amount = int(input("대출할 금액을 입력하세요: "))
+                            account.Loans(amount)
+                        elif choice == "7":
+                            amount = int(input("상환할 금액을 입력하세요: "))
+                            account.Repayment(amount)
+                        elif choice == "8": # 계좌 이체
+                            transfer = self.transfer_owner()
+                            if transfer:
+                                amount = int(input("이체할 금액을 입력하세요: "))
+                                account.account_transfer(amount,transfer)
+                            else:
+                                print("이체할 계좌가 존재하지 않습니다.")
+                        elif choice == "9":
+                            amount = float(input("환전할 금액을 입력하세요(USD 로 입력력): "))
+                            account.exchange_system(amount)
+                elif choice == "10":
+                    print("\n=== 관리자 기능 ===")
+                    print("1. 모든 계좌 조회")
+                    print("2. 계좌 삭제")
+                    print("3. 이자율 설정")
 
-                admin_choice = input("원하는 기능을 선택하세요: ")
-                if admin_choice == "1":
-                    self.show_all_accounts()
-                elif admin_choice == "2":
-                    self.delete_account()
-                elif admin_choice == "3":
-                    self.set_interest_rate()
+                    admin_choice = input("원하는 기능을 선택하세요: ")
+                    if admin_choice == "1":
+                        self.show_all_accounts()
+                    elif admin_choice == "2":
+                        self.delete_account()
+                    elif admin_choice == "3":
+                        self.set_interest_rate()
+                    else:
+                        print("올바른 번호를 입력하세요.")
+                elif choice == "11":
+                    print("은행 시스템을 종료합니다.")
+                    break
                 else:
                     print("올바른 번호를 입력하세요.")
-            elif choice == "11":
-                print("은행 시스템을 종료합니다.")
-                break
-            else:
-                print("올바른 번호를 입력하세요.")
+            elif choice == "2":
+                print("\n=== 부동산 시스템 메뉴 ===")
+                print("1. 매물 목록 출력")
+                print("2. 부동산 구매")
+                print("2. 부동산 판매")
+                choice = input("원하는 기능을 선택하세요: ")
+                if choice == "1":
+                    BankSystem.manager.list_properties()
+                elif choice == "2":
+                    BankSystem.manager.list_properties()  # 현재 매물 목록 출력
+                    property_index = int(input("\n구매할 부동산 번호를 입력하세요: ")) - 1
 
+                    if 0 <= property_index < len(BankSystem.manager.properties):
+                        account = self.get_account()
+                        Property = BankSystem.manager.properties[property_index]
+                        BankSystem.manager.buy_property(account, Property)
+                    else:
+                        print("올바른 번호를 입력하세요.")
+                elif choice == "3":
+                    account = self.get_account()
+                    account.list_properties()  # 현재 매물 목록 출력
+                    property_index = int(input("\n판매할 부동산 번호를 입력하세요: ")) - 1
+                    if 0 <= property_index < len(BankSystem.manager.properties):
+                        Property = BankSystem.manager.properties[property_index]
+                        # 거래 금액을 면적 × 평당 가격으로 계산
+                        transaction_price = Property.area * Property.price
+                        price = int(input(f"판매 가격을 입력하세요 최초 구매 가격은 {transaction_price} 입니다. "))
+                        BankSystem.manager.sell_property(account, transaction_price, price)
+                else:
+                    print("올바른 번호를 입력하세요.")
+                
+                
 # 시스템 실행
 bank_system = BankSystem()
 bank_system.run()
