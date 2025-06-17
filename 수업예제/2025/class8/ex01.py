@@ -5,7 +5,7 @@ from mqtt_module import MQTTClient
 
 class Chat:
     def __init__(self):
-        self.local = MQTTClient(True)  # 관리 프로그램과 통신 할 MQTT 로컬연결..
+        self.local = MQTTClient(False)  # 관리 프로그램과 통신 할 MQTT 로컬연결..
         self.local.localconnect()  # MQTT 서버 연결
         self.local.loop_start()  # MQTT 시작
         self.local.subscribe("Event/State/")
