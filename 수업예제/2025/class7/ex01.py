@@ -152,15 +152,25 @@ class BankAccount:
         else:
             print("출금 금액이 잔액보다 많거나 올바르지 않습니다.")
 
-    def exchange_system(self, amount):
-        won = amount * BankAccount.exchange
-        if 0 < won < self.balance:
-            self.balance -= won
-            self.foreign_balance = amount
-            self.transaction_history.append(f"한화 {won}을 USD {amount}로 환전전되었습니다. 현재 잔액: {self.balance}원 이고 보유 달러는 {self.foreign_balance} 입니다.")
-            print(f"한화 {int(won)}을 USD {amount}로 환전전되었습니다. 현재 잔액: {self.balance}원 이고 보유 달러는 {self.foreign_balance} 입니다.")
-        else:
-            print("환전 금액이이 올바르지 않습니다.")
+    def exchange_system(self, amount,type):
+        if type == "WON":
+            usd = amount / BankAccount.exchange
+            if 0 < usd < self.balance:
+                self.balance -= amount
+                self.foreign_balance += amount
+                self.transaction_history.append(f"한화 {amount}을 USD {usd}로 환전전되었습니다. 현재 잔액: {self.balance}원 이고 보유 달러는 {self.foreign_balance} 입니다.")
+                print(f"한화 {amount}을 USD {usd}로 환전전되었습니다. 현재 잔액: {self.balance}원 이고 보유 달러는 {self.foreign_balance} 입니다.")
+            else:
+                print("환전 금액이이 올바르지 않습니다.")
+        elif type == "USD":
+            won = amount * BankAccount.exchange
+            if 0 < amount < self.foreign_balance:
+                self.balance += won
+                self.foreign_balance -= amount
+                self.transaction_history.append(f"usd {amount}을 won : {won}로 환전 되었습니다. 현재 잔액: {self.balance}원 이고 보유 달러는 {self.foreign_balance} 입니다.")
+                print(f"usd {amount}을 won : {won}로 환전 되었습니다. 현재 잔액: {self.balance}원 이고 보유 달러는 {self.foreign_balance} 입니다.")
+            else:
+                print("환전 금액이이 올바르지 않습니다.")
 
     def account_transfer(self, amount,transfer):
         total = self.loan + self.balance
@@ -202,8 +212,8 @@ class BankAccount:
             print("\n계좌에 이자가 지급되었습니다!\n")
 
     def apply_loan_interest(self, loan_rate):
-        if self.loan > 0:
-            interest = self.balance * (loan_rate / 100)
+        if self.loan > 0 and self.balance >0:
+            interest = self.loan * (loan_rate / 100)
             self.balance -= interest
             BankAccount.strongbox += interest
             self.transaction_history.append(f"이자 출금: {interest:.2f}원 | 잔액: {self.balance:.2f}원")
@@ -389,8 +399,16 @@ class BankSystem:
                             else:
                                 print("이체할 계좌가 존재하지 않습니다.")
                         elif choice == "9":
-                            amount = float(input("환전할 금액을 입력하세요(USD 로 입력력): "))
-                            account.exchange_system(amount)
+                            print("\n=== 환전소  ===")
+                            print("1. Won -> USD")
+                            print("2. USD -> Won")
+                            choice = input("원하는 기능을 선택하세요: ")
+                            if choice == "1":
+                                amount = int(input("환전할 금액을 입력하세요(WON 로 입력): "))
+                                account.exchange_system(amount,"WON")
+                            elif choice == "2":
+                                amount = float(input("환전할 금액을 입력하세요(USD 로 입력): "))
+                                account.exchange_system(amount,"USD")
                 elif choice == "10":
                     print("\n=== 관리자 기능 ===")
                     print("1. 모든 계좌 조회")
