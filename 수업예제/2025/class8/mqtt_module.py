@@ -10,10 +10,14 @@ class MQTTClient:
         self.Mqtt_Connection = False
         self.State = None
         self.friend = {}
+        self.ChatMsg = None
         
     def get_State_message(self):
         return self.State
-        
+    
+    def get_Chat_message(self):
+        return self.ChatMsg
+           
     def mqtt_connecting(self):
         return self.Mqtt_Connection
 
@@ -44,7 +48,7 @@ class MQTTClient:
             self.State = json.loads(str_msg)
         for friend in self.friend:
             if msg.topic == f"Event/Chat/{friend}" :
-                self.State = json.loads(str_msg)
+                self.ChatMsg = json.loads(str_msg)
             
     def msg(self,topics,message):
         self.client.publish(topics,message, 1) #Event/T-MDS/YJSensing/
