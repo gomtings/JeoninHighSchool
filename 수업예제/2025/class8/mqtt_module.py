@@ -3,12 +3,11 @@ import json
 import queue
 import uuid
 class MQTTClient:
-    def __init__(self,islocal = False):
+    def __init__(self):
         # 새로운 클라이언트 생성
         client_id = str(uuid.uuid4())  # 고유한 클라이언트 ID 생성
         self.client = mqtt.Client(client_id=client_id) # 고유한 클라이언트 ID 설정
         self.Mqtt_Connection = False
-        self.islocal = islocal
         self.State = None
         self.friend = {}
         
@@ -62,17 +61,8 @@ class MQTTClient:
         self.client.on_publish = self.on_publish
         self.client.on_subscribe = self.on_subscribe
         self.client.on_message = self.on_message
-        self.client.username_pw_set('ari_mqtt', "25846ec82")
-        self.client.connect('211.169.215.170', 53200, keepalive=120)
-    
-    def localconnect(self):
-        self.client.on_connect = self.on_connect
-        self.client.on_disconnect = self.on_disconnect
-        self.client.on_publish = self.on_publish
-        self.client.on_subscribe = self.on_subscribe
-        self.client.on_message = self.on_message
-        self.client.username_pw_set('admin', "solimatics")
-        self.client.connect('Solimatics.iptime.org', 53200, keepalive=300)
+        self.client.username_pw_set('sol_mqtt', "solimatics")
+        self.client.connect('211.188.48.74', 53200, keepalive=120)
         
     def loop_start(self):
         self.client.loop_start()
