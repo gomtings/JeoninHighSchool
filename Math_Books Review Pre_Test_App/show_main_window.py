@@ -140,7 +140,7 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
         session = ftplib.FTP()  
         new_version = None
         try:
-            remote_folder = "/html/Math_Books Review Pre_Test_App/Workbook"
+            remote_folder = r"C:\JeoninHighSchool\Math_Books Review Pre_Test_App\Workbook"
             remote_version_path = f"{remote_folder}/version.txt"
             local_version_path = os.path.join(local_folder, "version.txt")
 
