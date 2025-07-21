@@ -16,7 +16,7 @@ from UI_show.UI.Login_Window_ui import Ui_Login_Window
 from UI_show.friend_list_window import friend_list_window
 from UI_show.Sinup_window import Sinup_window
 from UI_show.Modules.mqtt_module import MQTTClient       
-from UI_show.Modules.Thread import InterestThread
+
 # cd Chat/
 # pyside6-uic friend_list_window.ui -o friend_list_window_ui.py
 # pyside6-uic Setting_Window.ui -o Setting_Window_ui.py

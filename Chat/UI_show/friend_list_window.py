@@ -17,7 +17,7 @@ import re
 import os
 import threading
 import time
-from PySide6.QtWidgets import QMainWindow,QWidget, QLabel, QLineEdit, QVBoxLayout, QHBoxLayout, QScrollArea,QPushButton,QMessageBox
+from PySide6.QtWidgets import QMainWindow,QWidget, QApplication, QVBoxLayout, QScrollArea,QPushButton,QMessageBox
 from UI_show.UI.friend_list_window_ui import Ui_friend_list_window
 from UI_show.Setting_Window import Setting_Window
 from UI_show.Modules.Thread import InterestThread
@@ -37,7 +37,7 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
         self.setting_window = None
         self.interest_thread = None
         self.running = None
-        self.friend = {}
+
         self.config_path = r"info\friend_list.json"
         try:
             if os.path.exists(self.config_path):
@@ -61,10 +61,11 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
          
     def start_interest_system(self):
         # 기존 쓰레드 종료
-        if hasattr(self, "interest_thread") and self.interest_thread.isRunning():
+        if hasattr(self, "interest_thread") and self.interest_thread is not None:
             self.interest_thread.stop()
             self.interest_thread.quit()
             self.interest_thread.wait()
+            self.interest_thread = None
             print("쓰레드가 중단되었습니다.")
 
         # 새로운 쓰레드 시작
@@ -73,9 +74,9 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
         print("새로운 QThread 쓰레드가 시작되었습니다.")
 
     def closeEvent(self, event):
-        if self.Parent:
-            self.Parent.close()
+        self.Parent.close()
         event.accept()  # 이벤트를 수락해서 현재 창 닫기
+        QApplication.quit()
 
     def init_ui(self):
         container_widget = QWidget()
@@ -106,7 +107,6 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
     def handle_button_click(self, friend_name):
         print(f"{friend_name} 버튼이 클릭되었습니다!")
         # 또는 메시지 박스를 띄우거나 다른 UI 로직을 수행할 수 있어요
-
             
     def setting(self):
         if self.setting_window is None or not self.setting_window.isVisible():

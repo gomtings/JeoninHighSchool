@@ -9,7 +9,7 @@ class MQTTClient:
         self.client = mqtt.Client(client_id=client_id) # 고유한 클라이언트 ID 설정
         self.Mqtt_Connection = False
         self.State = None
-        self.friend = {}
+        self.friend = []
         self.ChatMsg = None
         
     def get_State_message(self):
@@ -35,7 +35,7 @@ class MQTTClient:
         pass
     
     def on_publish(self,client, userdata, mid):
-        print("In on_pub callback mid= ", mid)
+        pass
         
     def on_subscribe(self,client, userdata, mid, granted_qos):
         #print("subscribed: " + str(mid) + " " + str(granted_qos))

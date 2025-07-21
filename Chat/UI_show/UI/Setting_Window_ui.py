@@ -24,6 +24,7 @@ class Ui_Setting_Window(object):
         if not Setting_Window.objectName():
             Setting_Window.setObjectName(u"Setting_Window")
         Setting_Window.resize(276, 300)
+        Setting_Window.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.centralwidget = QWidget(Setting_Window)
         self.centralwidget.setObjectName(u"centralwidget")
         self.Allow_search = QPushButton(self.centralwidget)

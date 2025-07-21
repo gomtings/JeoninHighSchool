@@ -12,25 +12,30 @@ class InterestThread(QThread):
             self.sleep(1)  # 1초마다 실행
             self.parent.local.msg("Event/State/", self.name)  # 닉네임 발송
 
+    def isRunning(self):
+        return self.running
+
     def stop(self):
         self.running = False
 
 class getfriendThread(QThread):
-    update_signal = Signal(dict)  # 친구 목록 업데이트 시그널
+    update_signal = Signal(object)  # 친구 목록 업데이트 시그널
+    search_signal = Signal(object)  # 친구 목록 업데이트 시그널
 
     def __init__(self, parent, name):
         super().__init__(parent)
         self.running = True
         self.parent = parent
         self.name = name
-        self.friend = {}
+        self.friend = []
 
     def run(self):
         while self.running:
             msg = self.parent.local.get_State_message()
-            if msg != self.name:
-                self.friend[msg] = msg
+            if msg != self.name and msg not in self.friend:
+                self.friend.append(msg)
                 self.update_signal.emit(self.friend)  # 친구 목록 업데이트 시그널 송신
+                self.search_signal.emit(self.friend)
 
     def stop(self):
         self.running = False
