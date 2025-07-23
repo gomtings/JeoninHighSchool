@@ -20,6 +20,7 @@ from UI_show.Modules.mqtt_module import MQTTClient
 # cd Chat/
 # pyside6-uic friend_list_window.ui -o friend_list_window_ui.py
 # pyside6-uic Setting_Window.ui -o Setting_Window_ui.py
+# pyside6-uic Chat_Window.ui -o Chat_Window_ui.py
 class Login_Windows(QMainWindow, Ui_Login_Window):
     def __init__(self):
         super(Login_Windows, self).__init__()
