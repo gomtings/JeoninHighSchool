@@ -15,8 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QLineEdit, QListWidget, QListWidgetItem,
-    QMainWindow, QPushButton, QSizePolicy, QWidget)
+from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QListWidget,
+    QListWidgetItem, QMainWindow, QPushButton, QSizePolicy,
+    QWidget)
 
 class Ui_Chat_Window(object):
     def setupUi(self, Chat_Window):
@@ -32,9 +33,21 @@ class Ui_Chat_Window(object):
         self.transmit = QPushButton(self.centralwidget)
         self.transmit.setObjectName(u"transmit")
         self.transmit.setGeometry(QRect(284, 540, 91, 51))
+        self.transmit.setStyleSheet(u"background-color: rgb(227, 227, 227);")
         self.ChatListWidget = QListWidget(self.centralwidget)
         self.ChatListWidget.setObjectName(u"ChatListWidget")
-        self.ChatListWidget.setGeometry(QRect(0, 0, 371, 521))
+        self.ChatListWidget.setGeometry(QRect(0, 30, 371, 491))
+        font = QFont()
+        font.setPointSize(14)
+        self.ChatListWidget.setFont(font)
+        self.ChatListWidget.setStyleSheet(u"background-color: rgb(189, 232, 255);")
+        self.chat_name = QLabel(self.centralwidget)
+        self.chat_name.setObjectName(u"chat_name")
+        self.chat_name.setGeometry(QRect(0, 0, 181, 31))
+        font1 = QFont()
+        font1.setPointSize(16)
+        self.chat_name.setFont(font1)
+        self.chat_name.setStyleSheet(u"background-color: rgb(189, 232, 255);")
         Chat_Window.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(Chat_Window)
@@ -45,5 +58,6 @@ class Ui_Chat_Window(object):
     def retranslateUi(self, Chat_Window):
         Chat_Window.setWindowTitle(QCoreApplication.translate("Chat_Window", u"MainWindow", None))
         self.transmit.setText(QCoreApplication.translate("Chat_Window", u"\uc804\uc1a1", None))
+        self.chat_name.setText(QCoreApplication.translate("Chat_Window", u"\uc9f1\uad6c", None))
     # retranslateUi
 

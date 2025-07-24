@@ -17,7 +17,7 @@ class Setting_Window(QMainWindow,Ui_Setting_Window):
     def __init__(self, parent=None,descendent = None,Name=None,Base_path = None):
         super(Setting_Window, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle("회원가입")
+        self.setWindowTitle("설정")
         self.Parent = parent # Login_Windows
         self.descendent = descendent # friend_list_window
         self.Name = Name

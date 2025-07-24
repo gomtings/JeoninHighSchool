@@ -20,13 +20,14 @@ import time
 from PySide6.QtWidgets import QMainWindow,QWidget, QApplication, QVBoxLayout, QScrollArea,QPushButton,QMessageBox
 from UI_show.UI.friend_list_window_ui import Ui_friend_list_window
 from UI_show.Setting_Window import Setting_Window
+from UI_show.Chat_Window import Chat_Window
 from UI_show.Modules.Thread import InterestThread
 
 class friend_list_window(QMainWindow, Ui_friend_list_window):
     def __init__(self, parent=None,Name=None,Base_path = None):
         super(friend_list_window, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle("설정")
+        self.setWindowTitle("친구 목록")
         self.setFixedSize(self.size())
         self.Parent = parent
         self.Name = Name
@@ -35,6 +36,7 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
         self.position_data = {}
         self.friend_list = None
         self.setting_window = None
+        self.Chat_Window = None
         self.interest_thread = None
         self.running = None
 
@@ -105,8 +107,9 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
         self.Scroll_Area.setWidgetResizable(True)
 
     def handle_button_click(self, friend_name):
-        print(f"{friend_name} 버튼이 클릭되었습니다!")
-        # 또는 메시지 박스를 띄우거나 다른 UI 로직을 수행할 수 있어요
+        if self.Chat_Window is None or not self.Chat_Window.isVisible():
+            self.Chat_Window = Chat_Window(self.Parent,self.Base_path,friend_name)
+            self.Chat_Window.show()
             
     def setting(self):
         if self.setting_window is None or not self.setting_window.isVisible():

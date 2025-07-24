@@ -6,16 +6,21 @@ from PySide6.QtWidgets import (
     QPushButton,
     QLineEdit,
     QMessageBox,
-    QListWidget
+    QListWidget,
+    QLabel
 )
 class Chat_Window(QMainWindow,Ui_Chat_Window):
-    def __init__(self,parents):
+    def __init__(self,parents,Base_path,name):
         super(Chat_Window, self).__init__(parents)
         self.setupUi(self)
-        self.setWindowTitle("회원가입")
+        self.setWindowTitle(f"{name}")
         # 창 크기를 고정 
         self.setFixedSize(self.size())
         self.parents = parents
+        self.Base_path = Base_path
+        self.name = name
+        self.chat_name = self.findChild(QLabel,"chat_name") #  메시지 전송
+        self.chat_name.setText(self.name)
         self.transmit = self.findChild(QPushButton,"transmit") #  메시지 전송
         self.transmit.clicked.connect(self.Send_message)
         self.transmit.setStyleSheet(
@@ -29,6 +34,7 @@ class Chat_Window(QMainWindow,Ui_Chat_Window):
     
     def Send_message(self):
         Message = self.Message.text()
+        self.Message.clear()
     
     def popupwindows(self,title,msg):
         msg_box = QMessageBox()
@@ -39,5 +45,5 @@ class Chat_Window(QMainWindow,Ui_Chat_Window):
         msg_box.exec()
 
     def closeEvent(self, event):
-        self.parents.show()
+        super().closeEvent(event)
         event.accept()
