@@ -1,32 +1,28 @@
 import paho.mqtt.client as mqtt
 import json
-import queue
 import uuid
 class MQTTClient:
-    def __init__(self):
+    def __init__(self,islocal = False):
         # 새로운 클라이언트 생성
         client_id = str(uuid.uuid4())  # 고유한 클라이언트 ID 생성
         self.client = mqtt.Client(client_id=client_id) # 고유한 클라이언트 ID 설정
         self.Mqtt_Connection = False
+        self.islocal = islocal
         self.State = None
         self.friend = {}
-        self.ChatMsg = None
         
     def get_State_message(self):
         return self.State
-    
-    def get_Chat_message(self):
-        return self.ChatMsg
-           
+        
     def mqtt_connecting(self):
         return self.Mqtt_Connection
 
     def update_friend(self,friend):
+        print(friend)
         self.friend = friend
         
     def on_connect(self,client, userdata, flags, rc):
         if rc == 0:
-            print("on_connect")
             self.Mqtt_Connection = True
         else:
             self.Mqtt_Connection = False
@@ -36,19 +32,31 @@ class MQTTClient:
         pass
     
     def on_publish(self,client, userdata, mid):
-        print("In on_pub callback mid= ", mid)
+        #print("In on_pub callback mid= ", mid)
+        pass
         
     def on_subscribe(self,client, userdata, mid, granted_qos):
         #print("subscribed: " + str(mid) + " " + str(granted_qos))
         pass    
     
-    def on_message(self,client,userdata,msg):
+    def on_message(self, client, userdata, msg):
         str_msg = msg.payload.decode("utf-8")
-        if msg.topic == "Event/State/" :
-            self.State = json.loads(str_msg)
-        for friend in self.friend:
-            if msg.topic == f"Event/Chat/{friend}" :
-                self.ChatMsg = json.loads(str_msg)
+        # topic 확인
+        if msg.topic == "Event/Chat/State/":
+            try:
+                self.State = str_msg
+            except ValueError as e:
+                print(f"JSON 파싱 오류 (State): {e}")
+                return
+        
+        if isinstance(self.friend, list):
+            for friend in self.friend:
+                if msg.topic == f"Event/Chat/{friend}":
+                    try:
+                        self.State = json.loads(str_msg)
+                    except ValueError as e:
+                        print(f"JSON 파싱 오류 (Friend): {e}")
+                        return
             
     def msg(self,topics,message):
         self.client.publish(topics,message, 1) #Event/T-MDS/YJSensing/

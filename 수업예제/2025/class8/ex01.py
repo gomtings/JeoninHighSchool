@@ -8,7 +8,7 @@ class Chat:
         self.local = MQTTClient()  # 관리 프로그램과 통신 할 MQTT 로컬연결..
         self.local.connecting()  # MQTT 서버 연결
         self.local.loop_start()  # MQTT 시작
-        self.local.subscribe("Event/State/")
+        self.local.subscribe("Event/Chat/State/")
         self.name = None
         self.friend = {}
         self.subscribe = {}
@@ -46,8 +46,8 @@ class Chat:
                 
     def interest_loop(self):
         while self.running:
-            time.sleep(10)  # 1분마다 실행
-            self.local.msg("Event/State/", self.name)  # 주변에 내 닉네임을 발송함.
+            time.sleep(1)  # 1분마다 실행
+            self.local.msg("Event/Chat/State/", self.name)  # 주변에 내 닉네임을 발송함.
             
             msg = self.local.get_State_message()
             if msg !=self.name:
