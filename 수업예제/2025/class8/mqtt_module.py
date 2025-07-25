@@ -72,7 +72,7 @@ class MQTTClient:
         self.client.on_subscribe = self.on_subscribe
         self.client.on_message = self.on_message
         self.client.username_pw_set('admin', "solimatics")
-        self.client.connect('Solimatics.iptime.org', 53200, keepalive=300)
+        self.client.connect('Solimatics.iptime.org', 53200, keepalive=60)
         
     def loop_start(self):
         self.client.loop_start()

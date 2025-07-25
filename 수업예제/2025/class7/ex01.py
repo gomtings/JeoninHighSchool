@@ -247,7 +247,7 @@ class BankSystem:
         account = BankAccount(owner, password)
         self.accounts[account.account_number] = account
         self.customers[owner] = account  # 고객 이름을 키로 계좌 저장
-        print(f"계좌가 생성되었습니다! 계좌번호: {account.account_number}")
+        print(f"계좌가 생성되었습니다get_account! 계좌번호: {account.account_number}")
 
     def get_account(self):
         owner = input("계좌를 조회할 고객 이름을 입력하세요: ")
