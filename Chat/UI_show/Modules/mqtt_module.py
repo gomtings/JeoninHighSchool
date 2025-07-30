@@ -9,14 +9,14 @@ class MQTTClient:
         self.client = mqtt.Client(client_id=client_id) # 고유한 클라이언트 ID 설정
         self.Mqtt_Connection = False
         self.State = None
+        self.Chat_msg = {}
         self.friend = []
-        self.ChatMsg = None
         
     def get_State_message(self):
         return self.State
     
     def get_Chat_message(self):
-        return self.ChatMsg
+        return self.Chat_msg
            
     def mqtt_connecting(self):
         return self.Mqtt_Connection
@@ -41,13 +41,25 @@ class MQTTClient:
         #print("subscribed: " + str(mid) + " " + str(granted_qos))
         pass    
     
-    def on_message(self,client,userdata,msg):
+    def on_message(self, client, userdata, msg):
         str_msg = msg.payload.decode("utf-8")
-        if msg.topic == "Event/State/" :
-            self.State = json.loads(str_msg)
-        for friend in self.friend:
-            if msg.topic == f"Event/Chat/{friend}" :
-                self.ChatMsg = json.loads(str_msg)
+        # topic 확인
+        if msg.topic == "Event/Chat/State/":
+            try:
+                self.State = str_msg
+            except ValueError as e:
+                print(f"JSON 파싱 오류 (State): {e}")
+                return
+        
+        if isinstance(self.friend, list):
+            for friend in self.friend:
+                if msg.topic == f"Event/Chat/{friend}":
+                    try:
+                        msg = json.loads(str_msg)
+                        self.Chat_msg[friend] = msg.get(friend,None)
+                    except ValueError as e:
+                        print(f"JSON 파싱 오류 (Friend): {e}")
+                        return
             
     def msg(self,topics,message):
         self.client.publish(topics,message, 1) #Event/T-MDS/YJSensing/

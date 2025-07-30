@@ -21,7 +21,7 @@ from PySide6.QtWidgets import QMainWindow,QWidget, QApplication, QVBoxLayout, QS
 from UI_show.UI.friend_list_window_ui import Ui_friend_list_window
 from UI_show.Setting_Window import Setting_Window
 from UI_show.Chat_Window import Chat_Window
-from UI_show.Modules.Thread import InterestThread
+from UI_show.Modules.Thread import InterestThread , get_ChatMsg_Thread
 
 class friend_list_window(QMainWindow, Ui_friend_list_window):
     def __init__(self, parent=None,Name=None,Base_path = None):
@@ -36,9 +36,16 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
         self.position_data = {}
         self.friend_list = None
         self.setting_window = None
-        self.Chat_Window = None
+        self.Chat_Window = {}
         self.interest_thread = None
+        self.get_ChatMsg_Thread = None
         self.running = None
+        self.Chat_msg = {}
+
+        # 새로운 쓰레드 시작
+        self.get_ChatMsg_Thread = get_ChatMsg_Thread(self.Parent, self.Name)
+        self.get_ChatMsg_Thread.update_signal.connect(self.Chat_Msg_update)
+        self.get_ChatMsg_Thread.start()
 
         self.config_path = r"info\friend_list.json"
         try:
@@ -73,7 +80,6 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
         # 새로운 쓰레드 시작
         self.interest_thread = InterestThread(self.Parent, self.Name)
         self.interest_thread.start()
-        print("새로운 QThread 쓰레드가 시작되었습니다.")
 
     def closeEvent(self, event):
         self.Parent.close()
@@ -106,10 +112,18 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
         self.Scroll_Area.setWidget(container_widget)
         self.Scroll_Area.setWidgetResizable(True)
 
+
+    def Chat_Msg_update(self,msg):
+        self.Chat_msg = msg
+        for name in self.friend_list:
+            chetmsg = self.Chat_msg.get(name)
+
     def handle_button_click(self, friend_name):
-        if self.Chat_Window is None or not self.Chat_Window.isVisible():
-            self.Chat_Window = Chat_Window(self.Parent,self.Base_path,friend_name)
-            self.Chat_Window.show()
+        chat_win = self.Chat_Window.get(friend_name)
+        if chat_win is None or not chat_win.isVisible():
+            chat_win = Chat_Window(self,self.Parent, self.Base_path, self.Name, friend_name)
+            self.Chat_Window[friend_name] = chat_win
+            chat_win.show()
             
     def setting(self):
         if self.setting_window is None or not self.setting_window.isVisible():

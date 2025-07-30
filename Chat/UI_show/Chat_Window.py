@@ -9,18 +9,22 @@ from PySide6.QtWidgets import (
     QListWidget,
     QLabel
 )
+from PySide6.QtCore import QTimer
+
 class Chat_Window(QMainWindow,Ui_Chat_Window):
-    def __init__(self,parents,Base_path,name):
+    def __init__(self,parents,Ancestor,Base_path,Myname,friend_name):
         super(Chat_Window, self).__init__(parents)
         self.setupUi(self)
-        self.setWindowTitle(f"{name}")
+        self.setWindowTitle(f"{self.friend_name}")
         # 창 크기를 고정 
         self.setFixedSize(self.size())
+        self.Ancestor = Ancestor
         self.parents = parents
         self.Base_path = Base_path
-        self.name = name
+        self.Myname = Myname
+        self.friend_name = friend_name
         self.chat_name = self.findChild(QLabel,"chat_name") #  메시지 전송
-        self.chat_name.setText(self.name)
+        self.chat_name.setText(self.friend_name)
         self.transmit = self.findChild(QPushButton,"transmit") #  메시지 전송
         self.transmit.clicked.connect(self.Send_message)
         self.transmit.setStyleSheet(
@@ -31,9 +35,20 @@ class Chat_Window(QMainWindow,Ui_Chat_Window):
         )
         self.Message = self.findChild(QLineEdit,"Message") #  전송할 메시지
         self.ChatListWidget = self.findChild(QListWidget,"ChatListWidget")
-    
+        
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.Update_Msg)  # 타임아웃마다 함수 호출
+        self.timer.start(100)  # 100ms = .1초 간격
+
+    def Update_Msg(self):
+        msg = self.parents.Chat_msg.pop(self.Myname,None)
+        if msg is not None:
+            self.ChatListWidget.addItem(f"{self.friend_name}: {msg}")
+
     def Send_message(self):
         Message = self.Message.text()
+        self.Ancestor.msg(f"Event/Chat/{self.friend_name}",Message)
+        self.ChatListWidget.addItem(f"{self.Myname}: {Message}")
         self.Message.clear()
     
     def popupwindows(self,title,msg):
