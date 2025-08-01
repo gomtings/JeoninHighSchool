@@ -31,10 +31,11 @@ class getfriendThread(QThread):
 
     def run(self):
         while self.running:
+            self.sleep(1)
             msg = self.parent.local.get_State_message()
             if msg != self.name and msg not in self.friend:
                 self.friend.append(msg)
-                self.update_signal.emit(self.friend)  # 친구 목록 업데이트 시그널 송신
+                self.update_signal.emit(self.name)  # 친구 목록 업데이트 시그널 송신
                 self.search_signal.emit(self.friend)
 
     def stop(self):
@@ -52,6 +53,7 @@ class get_ChatMsg_Thread(QThread):
 
     def run(self):
         while self.running:
+            self.sleep(1)
             msg = self.parent.local.get_Chat_message()
             self.Chat_msg = msg
             self.update_Msg_signal.emit(self.Chat_msg)  # 친구 목록 업데이트 시그널 송신

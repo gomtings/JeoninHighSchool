@@ -42,11 +42,6 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
         self.running = None
         self.Chat_msg = {}
 
-        # 새로운 쓰레드 시작
-        self.get_ChatMsg_Thread = get_ChatMsg_Thread(self.Parent, self.Name)
-        self.get_ChatMsg_Thread.update_signal.connect(self.Chat_Msg_update)
-        self.get_ChatMsg_Thread.start()
-
         self.config_path = r"info\friend_list.json"
         try:
             if os.path.exists(self.config_path):
@@ -67,7 +62,12 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
         QPushButton:hover {background-color: #c5c5c5; color: black;}
         """
         )
-         
+        
+        # 새로운 쓰레드 시작
+        self.get_ChatMsg_Thread = get_ChatMsg_Thread(self.Parent, self.Name)
+        self.get_ChatMsg_Thread.update_Msg_signal.connect(self.Chat_Msg_update)
+        self.get_ChatMsg_Thread.start()
+        
     def start_interest_system(self):
         # 기존 쓰레드 종료
         if hasattr(self, "interest_thread") and self.interest_thread is not None:
@@ -115,8 +115,9 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
 
     def Chat_Msg_update(self,msg):
         self.Chat_msg = msg
-        for name in self.friend_list:
-            chetmsg = self.Chat_msg.get(name)
+        if self.friend_list:
+            for name in self.friend_list:
+                chetmsg = self.Chat_msg.get(name)
 
     def handle_button_click(self, friend_name):
         chat_win = self.Chat_Window.get(friend_name)

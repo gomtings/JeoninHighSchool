@@ -1,28 +1,28 @@
 import paho.mqtt.client as mqtt
 import json
-import queue
 import uuid
 class MQTTClient:
-    def __init__(self):
+    def __init__(self,islocal = False):
         # 새로운 클라이언트 생성
         client_id = str(uuid.uuid4())  # 고유한 클라이언트 ID 생성
         self.client = mqtt.Client(client_id=client_id) # 고유한 클라이언트 ID 설정
         self.Mqtt_Connection = False
+        self.islocal = islocal
         self.State = None
         self.Chat_msg = {}
-        self.friend = []
+        self.name = None
         
     def get_State_message(self):
         return self.State
-    
+        
     def get_Chat_message(self):
         return self.Chat_msg
-           
+    
     def mqtt_connecting(self):
         return self.Mqtt_Connection
 
-    def update_friend(self,friend):
-        self.friend = friend
+    def update_friend(self,name):
+        self.name = name
         
     def on_connect(self,client, userdata, flags, rc):
         if rc == 0:
@@ -35,6 +35,7 @@ class MQTTClient:
         pass
     
     def on_publish(self,client, userdata, mid):
+        #print("In on_pub callback mid= ", mid)
         pass
         
     def on_subscribe(self,client, userdata, mid, granted_qos):
@@ -50,11 +51,20 @@ class MQTTClient:
             except ValueError as e:
                 print(f"JSON 파싱 오류 (State): {e}")
                 return
-        for friend in self.friend:
-            if msg.topic == f"Event/Chat/{friend}":
-                msg = json.loads(str_msg)
-                print(msg)
-                self.Chat_msg[friend] = msg.get(friend,None)
+        
+        if msg.topic.startswith("Event/Chat/Msg"):
+            friend_name = msg.topic.split("/")[-1]
+            if friend_name == self.name:
+                msg_data = json.loads(str_msg)
+                sender = msg_data.get("from")
+                to = msg_data.get("to")
+                message = msg_data.get("msg")
+                if sender and message:
+                    result = json.dumps({
+                        "from": sender,   # 보내는 사람
+                        "msg": message       # 메시지 내용
+                    })
+                    self.Chat_msg[to] = result
             
     def msg(self,topics,message):
         self.client.publish(topics,message, 1) #Event/T-MDS/YJSensing/

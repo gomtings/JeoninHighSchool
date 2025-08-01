@@ -23,6 +23,7 @@ class Setting_Window(QMainWindow,Ui_Setting_Window):
         self.Name = Name
         self.Base_path = Base_path
         self.friend = []
+        self.friend_list = {}
         # 창 크기를 고정 
         self.setFixedSize(self.size())
         self.settings = QSettings("Simple Talk", "Talk")
@@ -48,13 +49,15 @@ class Setting_Window(QMainWindow,Ui_Setting_Window):
                     self.friend_list = json.load(f)
         except Exception as e:
             print(f"friend_list.json 읽기 실패({str(e)})")
-        for value in self.friend_list:
-            self.friendlist.addItem(value)
+        
+        if self.friend_list:
+            for value in self.friend_list:
+                self.friendlist.addItem(value)
 
         # 새로운 쓰레드 시작
         self.interest_thread = getfriendThread(self.Parent,self.Name)
         self.interest_thread.update_signal.connect(self.Parent.local.update_friend)
-        self.interest_thread.update_signal.connect(self.update_friend)
+        self.interest_thread.search_signal.connect(self.update_friend)
         self.interest_thread.start()
 
     def Set_Allow_search(self):
