@@ -1,5 +1,6 @@
 import threading
 import time
+import json
 from mqtt_module import MQTTClient
 #pip install paho-mqtt
 
@@ -19,29 +20,38 @@ class Chat:
         self.get_msg_thread.start()
 
     def Change_name(self):
+        if self.name:
+            topic = f"Event/Chat/Msg/{self.name}"
+            self.local.unsubscribe(self.name)
         owner = input("사용자의 이름을 입력해 주세요.")
         self.name = owner
         print(f"사용자 이름을 변경 하였습니다.{self.name}")
+        topic = f"Event/Chat/Msg/{self.name}"
+        self.local.subscribe(topic)
+        self.local.update_friend(self.friend,self.name)
 
     def ChatMsg(self):
-        owner = input("체팅할 사용자의 이름을 입력해 주세요.")
+        owner = input("채팅할 사용자의 이름을 입력해 주세요.")
         friend = self.friend.get(owner,None)
         if friend:
-            subscribe = self.subscribe.get(friend,None)
-            if not subscribe:
-                msg = f"Event/Chat/{friend}"
-                self.subscribe[friend] = msg 
-                self.local.subscribe(msg)
+            msg = input("보낼 메시지 입력")
+            topic = f"Event/Chat/Msg/{friend}"
+            result = json.dumps({
+                "from": self.name,   # 보내는 사람
+                "to": friend,    # 받는 사람
+                "msg": msg       # 메시지 내용
+            })
+            self.local.msg(topic,result)
         else:
             print(f"{owner} 검색된 사용자가 없습니다.")
 
     def CloseChat(self):
-        owner = input("체팅할 사용자의 이름을 입력해 주세요.")
+        owner = input("채팅할 사용자의 이름을 입력해 주세요.")
         friend = self.friend.get(owner,None)
         if friend:
             subscribe = self.subscribe.get(friend,None)
             if not subscribe:
-                msg = f"Event/Chat/{friend}"
+                msg = f"Event/Chat/Msg/{friend}"
                 del self.subscribe[friend]
                 self.local.unsubscribe(msg)
         else:
@@ -49,13 +59,15 @@ class Chat:
 
     def Get_Msg_loop(self):
         while True:
-            time.sleep(0.1)       
+            time.sleep(0.1)
             msg = self.local.get_Chat_message()
             if msg:
-                for name in self.friend:
-                    result = msg.pop(name,None)
-                    if result:
-                        print(f"{name} -> {result}")
+                result = json.loads(msg.pop(self.name,None))
+                if result:
+                    sender = result.get("from")
+                    message = result.get("msg")
+                    if sender and message:
+                        print(f"{sender} -> {message}")
 
     def interest_loop(self):
         while self.running:
@@ -63,9 +75,9 @@ class Chat:
             self.local.msg("Event/Chat/State/", self.name)  # 주변에 내 닉네임을 발송함.
             
             msg = self.local.get_State_message()
-            if msg !=self.name:
+            if msg  != self.name:
                 self.friend[msg] = msg
-                self.local.update_friend(self.friend)
+                self.local.update_friend(self.friend,self.name)
                 
     def start_interest_system(self):
         # 실행 중이면 중단

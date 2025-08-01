@@ -11,6 +11,7 @@ class MQTTClient:
         self.State = None
         self.friend = {}
         self.Chat_msg = {}
+        self.name = None
         
     def get_State_message(self):
         return self.State
@@ -21,7 +22,8 @@ class MQTTClient:
     def mqtt_connecting(self):
         return self.Mqtt_Connection
 
-    def update_friend(self,friend):
+    def update_friend(self,friend,name):
+        self.name = name
         self.friend = friend
         
     def on_connect(self,client, userdata, flags, rc):
@@ -51,11 +53,20 @@ class MQTTClient:
             except ValueError as e:
                 print(f"JSON 파싱 오류 (State): {e}")
                 return
-        if msg.topic.startswith("Event/Chat/"):
+        
+        if msg.topic.startswith("Event/Chat/Msg"):
             friend_name = msg.topic.split("/")[-1]
-            if friend_name in self.friend:
+            if friend_name == self.name:
                 msg_data = json.loads(str_msg)
-                self.Chat_msg[friend_name] = msg_data.get(friend_name, None)
+                sender = msg_data.get("from")
+                to = msg_data.get("to")
+                message = msg_data.get("msg")
+                if sender and message:
+                    result = json.dumps({
+                        "from": sender,   # 보내는 사람
+                        "msg": message       # 메시지 내용
+                    })
+                    self.Chat_msg[to] = result
             
     def msg(self,topics,message):
         self.client.publish(topics,message, 1) #Event/T-MDS/YJSensing/
