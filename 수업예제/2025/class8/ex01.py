@@ -15,6 +15,9 @@ class Chat:
         self.interest_thread = None
         self.running = False  # 쓰레드 실행 상태 관리
         
+        self.get_msg_thread = threading.Thread(target=self.Get_Msg_loop, daemon=True)
+        self.get_msg_thread.start()
+
     def Change_name(self):
         owner = input("사용자의 이름을 입력해 주세요.")
         self.name = owner
@@ -43,7 +46,17 @@ class Chat:
                 self.local.unsubscribe(msg)
         else:
             print(f"{owner} 검색된 사용자가 없습니다.")
-                
+
+    def Get_Msg_loop(self):
+        while True:
+            time.sleep(0.1)       
+            msg = self.local.get_Chat_message()
+            if msg:
+                for name in self.friend:
+                    result = msg.pop(name,None)
+                    if result:
+                        print(f"{name} -> {result}")
+
     def interest_loop(self):
         while self.running:
             time.sleep(1)  # 1분마다 실행
@@ -83,7 +96,8 @@ class Chat:
             elif choice == "3":
                 self.ChatMsg()                
             elif choice == "4":
-                self.CloseChat()                  
+                self.CloseChat()
+
 # 시스템 실행
 bank_system = Chat()
 bank_system.Change_name()

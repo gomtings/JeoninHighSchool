@@ -50,16 +50,11 @@ class MQTTClient:
             except ValueError as e:
                 print(f"JSON 파싱 오류 (State): {e}")
                 return
-        
-        if isinstance(self.friend, list):
-            for friend in self.friend:
-                if msg.topic == f"Event/Chat/{friend}":
-                    try:
-                        msg = json.loads(str_msg)
-                        self.Chat_msg[friend] = msg.get(friend,None)
-                    except ValueError as e:
-                        print(f"JSON 파싱 오류 (Friend): {e}")
-                        return
+        for friend in self.friend:
+            if msg.topic == f"Event/Chat/{friend}":
+                msg = json.loads(str_msg)
+                print(msg)
+                self.Chat_msg[friend] = msg.get(friend,None)
             
     def msg(self,topics,message):
         self.client.publish(topics,message, 1) #Event/T-MDS/YJSensing/
