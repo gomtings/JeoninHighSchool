@@ -1,6 +1,8 @@
 import paho.mqtt.client as mqtt
 import json
 import uuid
+import chardet
+
 class MQTTClient:
     def __init__(self,islocal = False):
         # 새로운 클라이언트 생성
@@ -43,7 +45,16 @@ class MQTTClient:
         pass    
     
     def on_message(self, client, userdata, msg):
-        str_msg = msg.payload.decode("utf-8")
+        def smart_decode(payload: bytes) -> str:
+            encodings_to_try = ["utf-8", "cp949", "euc-kr", "latin1"]
+
+            for enc in encodings_to_try:
+                try:
+                    return payload.decode(enc)
+                except UnicodeDecodeError:
+                    continue
+
+        str_msg =smart_decode(msg.payload)
         # topic 확인
         if msg.topic == "Event/Chat/State/":
             try:
@@ -56,8 +67,8 @@ class MQTTClient:
             friend_name = msg.topic.split("/")[-1]
             if friend_name == self.name:
                 msg_data = json.loads(str_msg)
-                sender = msg_data.get("from")
-                to = msg_data.get("to")
+                sender = msg_data.get("from") # 보내는 사람
+                to = msg_data.get("to") # 받는 사람
                 message = msg_data.get("msg")
                 if sender and message:
                     result = json.dumps({

@@ -29,6 +29,8 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
         self.ver = "25-01-22.01"
         self.setFixedSize(self.size())
         self.local = MQTTClient()  # 관리 프로그램과 통신 할 MQTT 로컬연결..
+        self.local.connecting()  # MQTT 서버 연결
+        self.local.loop_start()  # MQTT 시작
         self.Base_path = os.getcwd()
         self.key_path = os.path.join(self.Base_path, "info", "encryption_key.key")
 
@@ -92,17 +94,16 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
 
     def Open_Admin_Menu_window(self):
         if self.friend_list_window is None or not self.friend_list_window.isVisible():
+            self.local.update_friend(self.name)
             self.friend_list_window = friend_list_window(self,self.name,self.Base_path)
             self.hide()
-            self.local.connecting()  # MQTT 서버 연결
-            self.local.loop_start()  # MQTT 시작
             self.friend_list_window.show()
 
     def closeEvent(self, event):
         pass
 
     def popupwindows(self, title, msg):
-        msg_box = QMessageBox()
+        msg_box = QMessageBox(self)
         msg_box.setIcon(QMessageBox.Warning)
         msg_box.setWindowTitle(title)
         msg_box.setText(msg)

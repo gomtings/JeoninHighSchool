@@ -41,8 +41,9 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
         self.get_ChatMsg_Thread = None
         self.running = None
         self.Chat_msg = {}
-
-        self.config_path = r"info\friend_list.json"
+        self.Parent.local.subscribe("Event/Chat/State/")
+        self.Parent.local.subscribe(f"Event/Chat/Msg/{self.Name}")
+        self.config_path = os.path.join(self.Base_path, "info", "friend_list.json")
         try:
             if os.path.exists(self.config_path):
                 with open(self.config_path, "r", encoding='utf-8') as f:
@@ -52,7 +53,7 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
 
         if self.friend_list:
             self.init_ui()
-            
+    
         self.Scroll_Area = self.findChild(QScrollArea, 'Scroll_Area')
         self.setupBtn = self.findChild(QPushButton, 'setupBtn')
         self.setupBtn.clicked.connect(self.setting)
@@ -62,28 +63,38 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
         QPushButton:hover {background-color: #c5c5c5; color: black;}
         """
         )
-        
+
         # 새로운 쓰레드 시작
         self.get_ChatMsg_Thread = get_ChatMsg_Thread(self.Parent, self.Name)
         self.get_ChatMsg_Thread.update_Msg_signal.connect(self.Chat_Msg_update)
         self.get_ChatMsg_Thread.start()
         
-    def start_interest_system(self):
+    def stop_interest_system(self):
         # 기존 쓰레드 종료
         if hasattr(self, "interest_thread") and self.interest_thread is not None:
             self.interest_thread.stop()
             self.interest_thread.quit()
             self.interest_thread.wait()
             self.interest_thread = None
-            print("쓰레드가 중단되었습니다.")
-
-        # 새로운 쓰레드 시작
+            #print("쓰레드가 중단되었습니다.")
+    
+    def start_interest_system(self):
+       # print("쓰레드가 시작되었습니다.")
+         # 검색 쓰래드
         self.interest_thread = InterestThread(self.Parent, self.Name)
         self.interest_thread.start()
 
     def closeEvent(self, event):
         self.Parent.close()
         event.accept()  # 이벤트를 수락해서 현재 창 닫기
+        if self.interest_thread:
+            self.interest_thread.stop()
+            self.interest_thread.quit()
+            self.interest_thread.wait()
+        if self.get_ChatMsg_Thread:
+            self.get_ChatMsg_Thread.stop()
+            self.get_ChatMsg_Thread.quit()
+            self.get_ChatMsg_Thread.wait()
         QApplication.quit()
 
     def init_ui(self):
@@ -113,22 +124,27 @@ class friend_list_window(QMainWindow, Ui_friend_list_window):
         self.Scroll_Area.setWidgetResizable(True)
 
 
-    def Chat_Msg_update(self,msg):
-        self.Chat_msg = msg
-        if self.friend_list:
-            for name in self.friend_list:
-                chetmsg = self.Chat_msg.get(name)
+    def update_ui(self,friend_list):
+        self.friend_list = friend_list
+        self.init_ui()
+    
+    def Chat_Msg_update(self,friend):
+        for name in self.friend_list:
+            if name in friend:
+                chetmsg = friend.get(name,None)
+                self.handle_button_click(name)
 
     def handle_button_click(self, friend_name):
         chat_win = self.Chat_Window.get(friend_name)
         if chat_win is None or not chat_win.isVisible():
             chat_win = Chat_Window(self,self.Parent, self.Base_path, self.Name, friend_name)
+            self.get_ChatMsg_Thread.update_Msg_signal.connect(chat_win.Chat_Msg_update)
             self.Chat_Window[friend_name] = chat_win
             chat_win.show()
             
     def setting(self):
         if self.setting_window is None or not self.setting_window.isVisible():
-            self.setting_window = Setting_Window(self.Parent,self,self.Name,self.Base_path)
+            self.setting_window = Setting_Window(self.Parent,self,self.Name,self.Base_path,self.friend_list)
             self.setting_window.show()
 
 """                           

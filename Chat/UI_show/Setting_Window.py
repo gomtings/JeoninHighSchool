@@ -14,16 +14,16 @@ from PySide6.QtCore import QSettings
 from UI_show.Modules.Thread import getfriendThread
 
 class Setting_Window(QMainWindow,Ui_Setting_Window):
-    def __init__(self, parent=None,descendent = None,Name=None,Base_path = None):
+    def __init__(self, parent=None,descendent = None,Name=None,Base_path = None,friend_list = None):
         super(Setting_Window, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle("설정")
         self.Parent = parent # Login_Windows
         self.descendent = descendent # friend_list_window
-        self.Name = Name
+        self.name = Name
         self.Base_path = Base_path
-        self.friend = []
-        self.friend_list = {}
+        self.friend_list = friend_list
+        self.config_path = os.path.join(self.Base_path, "info", "friend_list.json")
         # 창 크기를 고정 
         self.setFixedSize(self.size())
         self.settings = QSettings("Simple Talk", "Talk")
@@ -42,42 +42,46 @@ class Setting_Window(QMainWindow,Ui_Setting_Window):
         self.addlist = self.findChild(QPushButton,"addlist") 
         self.addlist.clicked.connect(self.search_friend)
         
-        self.config_path = r"info\friend_list.json"
-        try:
-            if os.path.exists(self.config_path):
-                with open(self.config_path, "r", encoding='utf-8') as f:
-                    self.friend_list = json.load(f)
-        except Exception as e:
-            print(f"friend_list.json 읽기 실패({str(e)})")
-        
         if self.friend_list:
             for value in self.friend_list:
                 self.friendlist.addItem(value)
 
         # 새로운 쓰레드 시작
-        self.interest_thread = getfriendThread(self.Parent,self.Name)
-        self.interest_thread.update_signal.connect(self.Parent.local.update_friend)
+        self.interest_thread = getfriendThread(self.Parent,self.name)
         self.interest_thread.search_signal.connect(self.update_friend)
         self.interest_thread.start()
 
     def Set_Allow_search(self):
         self.Allow = self.settings.value("Allow_search", False, type=bool)
         if self.Allow:
-            self.Allow_search.setText("친구 검색 허용(불허)")
+            self.Allow_search.setText("친구 검색 허용")
             self.settings.setValue("Allow_search", False)
+            self.descendent.start_interest_system()
+            self.Allow_search.setStyleSheet(
+            """
+            QPushButton {background-color: #0090ff; color: black;}
+            QPushButton:hover {background-color: #b0b0b0; color: black;}
+            """
+            )
         else:
-            self.Allow_search.setText("친구 검색 허용(허용)")
+            self.Allow_search.setText("친구 검색 거부")
             self.settings.setValue("Allow_search", True)
-        self.descendent.start_interest_system()
-
+            self.descendent.stop_interest_system()
+            self.Allow_search.setStyleSheet(
+            """
+            QPushButton {background-color: #b0b0b0; color: black;}
+            QPushButton:hover {background-color: #0090ff; color: black;}
+            """
+            )
+    
     def update_friend(self,friend):
-        self.friend = friend
-
+        if friend not in self.friend_list:
+            self.friend_list.append(friend)
 
     def search_friend(self):
         add_list = False
         nmae = self.friend_input.text()
-        if nmae in self.friend:
+        if nmae in self.friend_list:
             if not self.is_already_in_listwidget(self.friendlist, nmae):
                 self.friendlist.addItem(nmae)
                 self.popupwindows(f"{nmae} 추가 성공","친구가 추가 되었습니다.")
@@ -104,7 +108,7 @@ class Setting_Window(QMainWindow,Ui_Setting_Window):
 
 
     def popupwindows(self,title,msg):
-        msg_box = QMessageBox()
+        msg_box = QMessageBox(self)
         msg_box.setIcon(QMessageBox.Warning)
         msg_box.setWindowTitle(title)
         msg_box.setText(msg)
@@ -114,4 +118,5 @@ class Setting_Window(QMainWindow,Ui_Setting_Window):
     def closeEvent(self, event):
         super().closeEvent(event)
         self.interest_thread.stop()
+        self.descendent.update_ui(self.friend_list)
         event.accept()  # 이벤트를 수락해서 현재 창 닫기

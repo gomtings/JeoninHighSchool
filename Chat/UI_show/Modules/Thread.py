@@ -10,7 +10,7 @@ class InterestThread(QThread):
     def run(self):
         while self.running:
             self.sleep(1)  # 1초마다 실행
-            self.parent.local.msg("Event/Chat/State/", self.name)  # 닉네임 발송
+            self.parent.local.msg("Event/Chat/State/", self.name.encode("utf-8"))  # 닉네임 발송
 
     def isRunning(self):
         return self.running
@@ -19,7 +19,6 @@ class InterestThread(QThread):
         self.running = False
 
 class getfriendThread(QThread):
-    update_signal = Signal(object)  # 친구 목록 업데이트 시그널
     search_signal = Signal(object)  # 친구 목록 업데이트 시그널
 
     def __init__(self, parent, name):
@@ -27,16 +26,13 @@ class getfriendThread(QThread):
         self.running = True
         self.parent = parent
         self.name = name
-        self.friend = []
 
     def run(self):
         while self.running:
-            self.sleep(1)
+            self.sleep(0.5)
             msg = self.parent.local.get_State_message()
-            if msg != self.name and msg not in self.friend:
-                self.friend.append(msg)
-                self.update_signal.emit(self.name)  # 친구 목록 업데이트 시그널 송신
-                self.search_signal.emit(self.friend)
+            if msg and msg != self.name:
+                self.search_signal.emit(msg)
 
     def stop(self):
         self.running = False
