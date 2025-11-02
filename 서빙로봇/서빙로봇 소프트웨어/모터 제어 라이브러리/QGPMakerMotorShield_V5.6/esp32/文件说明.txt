@@ -1,0 +1,7 @@
+﻿关于驱动器详细资料访问：https://www.7gp.cn/archives/308
+
+libs 库程序，是电机驱动板的驱动程序。
+example：包含了完整的程序示例
+    Demo4WD_8Servo：ps2手柄遥控4电机、8舵机示例
+    MecanumCarKitsV2Ut：麦克纳姆轮巡线示例，巡线传感器资料详见 https://www.7gp.cn/archives/665
+    UartJoystick: 接收串口数据，控制4个电机和4个舵机转动，适合做串口透传
