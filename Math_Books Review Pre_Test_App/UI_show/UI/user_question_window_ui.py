@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'user_question_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.1
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -77,7 +77,7 @@ class Ui_Create_question_window(object):
         self.label_5.setFont(font1)
         self.label_6 = QLabel(self.centralwidget)
         self.label_6.setObjectName(u"label_6")
-        self.label_6.setGeometry(QRect(10, 400, 611, 21))
+        self.label_6.setGeometry(QRect(10, 390, 611, 41))
         self.label_6.setFont(font)
         self.answer_ex1 = QLabel(self.centralwidget)
         self.answer_ex1.setObjectName(u"answer_ex1")
@@ -127,8 +127,8 @@ class Ui_Create_question_window(object):
         self.label_2.setText(QCoreApplication.translate("Create_question_window", u"2.", None))
         self.label_3.setText(QCoreApplication.translate("Create_question_window", u"3.", None))
         self.label_4.setText(QCoreApplication.translate("Create_question_window", u"4.", None))
-        self.label_5.setText(QCoreApplication.translate("Create_question_window", u"4.", None))
-        self.label_6.setText(QCoreApplication.translate("Create_question_window", u" \ubb38\uc81c. : ", None))
+        self.label_5.setText(QCoreApplication.translate("Create_question_window", u"5.", None))
+        self.label_6.setText(QCoreApplication.translate("Create_question_window", u" \ubb38\uc81c.", None))
         self.answer_ex1.setText(QCoreApplication.translate("Create_question_window", u"\uc815\ub2f5 1", None))
         self.answer_ex2.setText(QCoreApplication.translate("Create_question_window", u"\uc815\ub2f5 2", None))
         self.answer_ex3.setText(QCoreApplication.translate("Create_question_window", u"\uc815\ub2f5 3", None))

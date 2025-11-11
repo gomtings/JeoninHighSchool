@@ -25,6 +25,7 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
         self.Base_path = Base_path
         self.book = book
         self.point = point
+        self.name = name
         self.setWindowTitle("주관식 문제 출제")
 
         try:
@@ -40,12 +41,8 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
         self.picture_view = self.picture_view
         self.input_Description = self.input_Description
         self.submitbtn.clicked.connect(self.chk_answer)
-
-        self.model_cache = {}
-        self.nli_tokenizer = AutoTokenizer.from_pretrained("klue/roberta-large")
-        self.nli_model = AutoModelForSequenceClassification.from_pretrained("klue/roberta-large")
-        self.nli_model.eval()
-
+        self.point['이름'] = self.name
+        self.point['과제'] = self.book
         self.load_question()
 
     def detect_language_with_threshold(self, text, threshold=0.7):
@@ -111,31 +108,33 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
         embedding1 = model.encode(user_answer, convert_to_tensor=True)
         embedding2 = model.encode(correct_answer, convert_to_tensor=True)
         similarity = util.pytorch_cos_sim(embedding1, embedding2)
-        score = similarity.item()
-        print(f"[유사도 점수]: {score:.4f}")
-
-        if language == detected_lang and score >= 0.8:
-            entailment_result = self.check_entailment(user_answer, correct_answer)
-            print(f"[NLI 결과]: {entailment_result}")
-            if entailment_result == "entailment":
-                self.point['correct'] = self.point.get('correct', 0) + 1
+        point = similarity.item()
+        # ✅ 5. 결과 출력
+        print(f"문장 유사도 (코사인 유사도): {similarity.item():.4f}")
+        
+        if language == detected_lang:
+            if point >= 0.8:
+                self.point['맞춘 갯수'] = self.point.get('맞춘 갯수',0) + 1
                 self.show_message("✅ 정답입니다!", "green")
             else:
-                self.point['wrong'] = self.point.get('wrong', 0) + 1
-                self.show_message("❌ 문장은 비슷하지만 의미가 달라 오답입니다.", "red")
+                self.point['틀린 갯수'] = self.point.get('틀린 갯수',0) + 1
+                self.show_message(f"❌ 오답입니다!","red")
         else:
-            self.point['wrong'] = self.point.get('wrong', 0) + 1
-            self.show_message("❌ 오답입니다!", "red")
+            self.point['틀린 갯수'] = self.point.get('틀린 갯수',0) + 1
+            self.show_message(f"❌ 오답입니다!","red") 
 
         self.correct_answer_edit.clear()
         self.close()
         self.parents.show_next_question(self.book, self.point)
-
+    
     def show_message(self, text, color="black"):
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle("채점 결과")
         msg_box.setText(f"<p style='color:{color}'>{text}</p>")
         msg_box.exec()
+
+
+
 
     def closeEvent(self, event):
         if self.parents:

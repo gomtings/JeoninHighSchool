@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'user_question_window2.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.1
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -44,7 +44,7 @@ class Ui_Create_question_window(object):
         self.label_2.setFont(font)
         self.input_Description = QLabel(self.centralwidget)
         self.input_Description.setObjectName(u"input_Description")
-        self.input_Description.setGeometry(QRect(17, 410, 601, 21))
+        self.input_Description.setGeometry(QRect(17, 400, 601, 41))
         self.input_Description.setFont(font)
         self.submitbtn = QPushButton(self.centralwidget)
         self.submitbtn.setObjectName(u"submitbtn")

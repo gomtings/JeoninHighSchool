@@ -13,7 +13,7 @@ from PySide6.QtGui import QPixmap
 
 
 class Create_question_window(QMainWindow, Ui_Create_question_window):
-    def __init__(self, parent=None,Base_path = None,file_path=None, book = None, point = None):
+    def __init__(self, parent=None,Base_path = None,file_path=None, book = None, point = None, name = None):
         super().__init__()
         self.setupUi(self)  # ✅ UI 연결 필수
         self.parents = parent
@@ -21,6 +21,7 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
         self.Base_path = Base_path
         self.book = book
         self.point = point
+        self.name = name
         self.Radio_Widgets = []
         self.Label_Widgets = []
 
@@ -32,6 +33,7 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
 
         # UI 요소 연결
         self.picture_view = self.findChild(QLabel, "picture_view")
+        self.picture_view.setWordWrap(True)
         self.exam = self.findChild(QLabel, "label_6")
         self.submitbtn = self.findChild(QPushButton, "submitbtn")
 
@@ -56,6 +58,8 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
             else:
                 print(f"⚠️ answer_ex{i} 레이블을 찾을 수 없습니다.")
 
+        self.point['이름'] = self.name
+        self.point['과제'] = self.book
         self.show_image()
 
     def show_image(self):
@@ -104,10 +108,10 @@ class Create_question_window(QMainWindow, Ui_Create_question_window):
 
         print(f"📝 선택한 답: {selected_index} / 정답: {correct_index}")
         if selected_index == correct_index:
-            self.point['correct'] = self.point.get('correct',0) + 1
+            self.point['맞춘 갯수'] = self.point.get('맞춘 갯수',0) + 1
             self.show_message("✅ 정답입니다!", "green")
         else:
-            self.point['wrong'] = self.point.get('wrong',0) + 1
+            self.point['틀린 갯수'] = self.point.get('틀린 갯수',0) + 1
             self.show_message(f"❌ 오답입니다!","red")
         
         # ✅ 창이 닫히면 다음 문제 출제

@@ -11,11 +11,12 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QLineEdit,
 )
+
 from UI_show.UI.Login_Window_ui import Ui_Login_Window
 from UI_show.Admin_Menu_windows import Admin_Menu_windows
 from UI_show.User_Menu_windows import User_Menu_windows
-from UI_show.Sinup_window import Sinup_window
-
+from UI_show.Sinup_window import Sinup_window       
+from UI_show.Modules.Thread import singleThread, Worker, AnalysisThread, ExtractThread
 
 class Login_Windows(QMainWindow, Ui_Login_Window):
     def __init__(self):
@@ -70,8 +71,13 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
 
         # ✅ Workbook 폴더가 없거나 비어 있을 경우만 FTP에서 다운로드
         Workbook_path = os.path.join(self.Base_path, "Workbook")
-        if not os.path.exists(Workbook_path) or not os.listdir(Workbook_path):
-            self.Workbook_ver = self.download_folder_from_ftp(Workbook_path)
+        self.download_thread = singleThread(Workbook_path, self.download_folder_from_ftp)
+        self.download_thread.result_signal.connect(self.get_Workbook_ver)  # 결과 받기
+        self.download_thread.start()  # 쓰레드 시작
+
+    def get_Workbook_ver(self,ver):
+        print(f"Workbook_ver = {ver}")
+        self.Workbook_ver = ver  # ⬅️ 결과 업데이트
 
     def login_windows(self):
         ID = self.Edit_ID.text()
@@ -131,7 +137,7 @@ class Login_Windows(QMainWindow, Ui_Login_Window):
         PORT = self.report_dist["PORT"]
         username = self.report_dist["username"]
         password = self.report_dist["password"]
-        session = ftplib.FTP()
+        session = ftplib.FTP()  
         new_version = None
         try:
             remote_folder = "/html/Math_Books Review Pre_Test_App/Workbook"
