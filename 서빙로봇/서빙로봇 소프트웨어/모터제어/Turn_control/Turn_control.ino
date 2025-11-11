@@ -21,9 +21,9 @@ int targetRPM_RR = 0;
 
 // PID 계수 (조정 필요)
 // 메카넘 휠은 정교한 제어가 필요하므로, 이 값들을 신중하게 튜닝해야 합니다.
-float Kp = 0.8;   // 이전보다 조금 더 높게 설정 (초기 반응성)
-float Ki = 0.05;  // 잔류 오차 제거
-float Kd = 0.2;   // 오버슈트 방지 및 안정화
+float Kp = 0.1;   // 이전보다 조금 더 높게 설정 (초기 반응성)
+float Ki = 0.001;  // 잔류 오차 제거
+float Kd = 0.001;   // 오버슈트 방지 및 안정화
 
 // PID 변수 (각 모터별로 유지)
 float error_FL, error_FR, error_RL, error_RR;
