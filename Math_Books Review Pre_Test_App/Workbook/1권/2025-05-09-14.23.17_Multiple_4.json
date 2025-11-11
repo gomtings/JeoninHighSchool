@@ -1,0 +1,12 @@
+{
+    "answer_ex": [
+        "{x | x는 2000의 약수}",
+        "{x | x는 x^2 + 3x + 2 = 0의 실근}",
+        "{x | 1 ≤ x ≤ 1000}",
+        "{x | x는 1 ≤ x ≤ 2를 만족하는 전체 실수}",
+        "{x | x = 1}"
+    ],
+    "selected_answer": "4",
+    "entered_description": "다음 집합 중 무한 집합은?",
+    "image_path": "Workbook\\1권\\Multiple_image4.jpg"
+}
