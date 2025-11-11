@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QDoubleValidator
+# Remove-Item -Recurse -Force venv_pid #  가상환경 삭제
 #python -m venv venv_pid
 #./venv_pid/Scripts/activate  # Windows
 #pip install PySide6
@@ -78,7 +79,7 @@ class Form(QWidget):
         # 2. PID 계수 설정
         gbox = QGridLayout()
         gb2.setLayout(gbox)
-        _txt = ('갱신시간(sec)', '최소', '최대', '목표치', '비례게인(kp):', '적분게인(ki):', '미분게인(kd):')
+        _txt = ('갱신시간(ms)', '최소', '최대', '목표치', '비례게인(kp):', '적분게인(ki):', '미분게인(kd):')
         self.def_Coef = (0.1, -200., 200., 50., 0.1, 0.5, 0.01)
         self.coef = []
         self.lineEdits = []
@@ -167,7 +168,8 @@ class Form(QWidget):
 
     def initPlot(self):
         _dt, _min, _max, _sv, _kp, _ki, _kd = self.resetCoefficient(False)
-        self.pid = PID_Control(_dt, _min, _max, _kp, _ki, _kd)
+        _dt_sec_for_pid = _dt / 1000.0
+        self.pid = PID_Control(_dt_sec_for_pid, _min, _max, _kp, _ki, _kd)
         self.pv = _min
         self.x = deque([], 100)
         self.y = deque([], 100)
