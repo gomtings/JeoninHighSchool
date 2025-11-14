@@ -57,19 +57,6 @@
      <string>찾기</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="Edit_Description">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>400</y>
-      <width>611</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;문제 에 대한 설명을 입력해 주세요.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="submit_btn">
     <property name="geometry">
      <rect>
@@ -95,9 +82,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>470</y>
+      <y>480</y>
       <width>611</width>
-      <height>201</height>
+      <height>191</height>
      </rect>
     </property>
    </widget>
@@ -105,7 +92,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>450</y>
+      <y>460</y>
       <width>131</width>
       <height>21</height>
      </rect>
@@ -130,6 +117,16 @@
     </property>
     <property name="text">
      <string>서술형.</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="Edit_Description">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>400</y>
+      <width>611</width>
+      <height>51</height>
+     </rect>
     </property>
    </widget>
   </widget>

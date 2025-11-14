@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'Create_question_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.1
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,13 +16,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QMainWindow,
-    QPushButton, QRadioButton, QSizePolicy, QWidget)
+    QPushButton, QRadioButton, QSizePolicy, QTextEdit,
+    QWidget)
 
 class Ui_Create_question_window(object):
     def setupUi(self, Create_question_window):
         if not Create_question_window.objectName():
             Create_question_window.setObjectName(u"Create_question_window")
-        Create_question_window.resize(786, 633)
+        Create_question_window.resize(786, 639)
         self.centralwidget = QWidget(Create_question_window)
         self.centralwidget.setObjectName(u"centralwidget")
         self.picture_view = QLabel(self.centralwidget)
@@ -36,9 +37,6 @@ class Ui_Create_question_window(object):
         font = QFont()
         font.setPointSize(20)
         self.find_picture.setFont(font)
-        self.Edit_Description = QLineEdit(self.centralwidget)
-        self.Edit_Description.setObjectName(u"Edit_Description")
-        self.Edit_Description.setGeometry(QRect(10, 390, 611, 41))
         self.answer_1 = QRadioButton(self.centralwidget)
         self.answer_1.setObjectName(u"answer_1")
         self.answer_1.setGeometry(QRect(60, 440, 561, 31))
@@ -103,6 +101,9 @@ class Ui_Create_question_window(object):
         self.answer_ex5 = QLineEdit(self.centralwidget)
         self.answer_ex5.setObjectName(u"answer_ex5")
         self.answer_ex5.setGeometry(QRect(80, 600, 541, 31))
+        self.Edit_Description = QTextEdit(self.centralwidget)
+        self.Edit_Description.setObjectName(u"Edit_Description")
+        self.Edit_Description.setGeometry(QRect(10, 390, 611, 41))
         Create_question_window.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(Create_question_window)
@@ -120,9 +121,6 @@ class Ui_Create_question_window(object):
         self.find_picture.setToolTip(QCoreApplication.translate("Create_question_window", u"<html><head/><body><p>\ubb38\uc81c\uc5d0 \ub123\uc744 \uc0ac\uc9c4\uc744 \uc120\ud0dd \ud569\ub2c8\ub2e4.</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
         self.find_picture.setText(QCoreApplication.translate("Create_question_window", u"\ucc3e\uae30", None))
-#if QT_CONFIG(tooltip)
-        self.Edit_Description.setToolTip(QCoreApplication.translate("Create_question_window", u"<html><head/><body><p>\ubb38\uc81c \uc5d0 \ub300\ud55c \uc124\uba85\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694.</p></body></html>", None))
-#endif // QT_CONFIG(tooltip)
         self.answer_1.setText("")
         self.answer_2.setText("")
         self.answer_3.setText("")
@@ -132,11 +130,11 @@ class Ui_Create_question_window(object):
         self.label_2.setText(QCoreApplication.translate("Create_question_window", u"2.", None))
         self.label_3.setText(QCoreApplication.translate("Create_question_window", u"3.", None))
         self.label_4.setText(QCoreApplication.translate("Create_question_window", u"4.", None))
-        self.label_5.setText(QCoreApplication.translate("Create_question_window", u"4.", None))
+        self.label_5.setText(QCoreApplication.translate("Create_question_window", u"5.", None))
 #if QT_CONFIG(tooltip)
         self.submit_btn.setToolTip(QCoreApplication.translate("Create_question_window", u"<html><head/><body><p>\ubb38\uc81c\ub97c \uc81c\ucd9c \ud569\ub2c8\ub2e4.</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
-        self.submit_btn.setText(QCoreApplication.translate("Create_question_window", u"\ucd9c\uc81c\ud558\uae30", None))
+        self.submit_btn.setText(QCoreApplication.translate("Create_question_window", u"\uc81c\ucd9c\ud558\uae30", None))
 #if QT_CONFIG(tooltip)
         self.answer_ex1.setToolTip(QCoreApplication.translate("Create_question_window", u"<html><head/><body><p>\ubb38\uc81c \uc5d0 \ub300\ud55c \uc124\uba85\uc744 \uc785\ub825\ud574 \uc8fc\uc138\uc694.</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)

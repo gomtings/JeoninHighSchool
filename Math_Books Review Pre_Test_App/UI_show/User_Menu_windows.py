@@ -110,23 +110,36 @@ class User_Menu_windows(QMainWindow, Ui_User_Menu_window):
 
             self.current_index += 1
         else:
-            save_path = os.path.join(self.Base_path, "Management", self.name)
-            os.makedirs(save_path, exist_ok=True)
-            file_name = os.path.join(save_path, f"{self.name}_{book}.json")
-            with open(file_name, 'w', encoding='utf-8') as f:
+            # 데이터 파일로 저장
+            if not self.file_list:
+                print("파일 목록이 비어있습니다!")
+                return
+
+            # 마지막 문제의 파일 경로를 file_name으로 설정
+            file_name = self.file_list[-1]  # 마지막 문제 파일 경로
+            dir_path = os.path.dirname(file_name)  # 파일 경로에서 디렉토리 부분 추출
+            os.makedirs(dir_path, exist_ok=True)
+
+            # 파일 이름 설정
+            save_path = os.path.join(self.Base_path, "Management", self.name, f"{self.name}_{book}.json")
+            
+            os.makedirs(os.path.dirname(save_path), exist_ok=True)
+
+
+            with open(save_path, 'w', encoding='utf-8') as f:
                 json.dump(point, f, ensure_ascii=False, indent=4)
             print(f"✅ {book}의 모든 문제를 풀었습니다!")
             self.popup_message("모든 문제를 완료했습니다!", "확인")
 
     def Create_question_window(self, file_path, book, point):
         if self.Create_question_window1 is None or not self.Create_question_window1.isVisible():
-            self.Create_question_window1 = Type1(self, self.Base_path, file_path, book, point)
+            self.Create_question_window1 = Type1(self, self.Base_path, file_path, book, point,self.name)
             self.hide()
             self.Create_question_window1.show()
 
     def Create_question_window_2(self, file_path, book, point):
         if self.Create_question_window2 is None or not self.Create_question_window2.isVisible():
-            self.Create_question_window2 = Type2(self, self.Base_path, file_path, book, point)
+            self.Create_question_window2 = Type2(self, self.Base_path, file_path, book, point,self.name)
             self.hide()
             self.Create_question_window2.show()
 
