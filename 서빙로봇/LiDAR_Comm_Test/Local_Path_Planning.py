@@ -26,7 +26,7 @@ class NavigationThread(QThread):
             print(f"Connecting to Lidar on {PORT_NAME}...")
             lidar = RPLidar(PORT_NAME, baudrate=BAUDRATE)
             lidar.start_motor()
-            lidar.clean_input()
+            #lidar.clean_input()
             print("Lidar motor started. Waiting for scans...")
 
             for scan in lidar.iter_scans(max_buf_meas=1000):
