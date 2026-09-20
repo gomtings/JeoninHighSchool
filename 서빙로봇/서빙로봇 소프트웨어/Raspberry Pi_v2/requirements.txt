@@ -1,0 +1,26 @@
+# 서빙 로봇 장애물 회피 시스템 의존성
+# 설치 명령어: pip install -r "Raspberry Pi/requirements.txt"
+
+# OAK-D-Lite AI 카메라 (실제 하드웨어 연결 시)
+depthai>=2.24.0
+
+# 2D LiDAR (RPLIDAR A1/A2/A3)
+rplidar>=0.9.3
+# YDLIDAR 사용 시: ydlidar-sdk
+
+# Bluetooth Low Energy (Arduino Nano 33 BLE 무선 통신)
+bleak>=0.21.0
+
+# 음성(TTS) 안내 시스템 (멀티프로세싱)
+pyttsx3>=2.90
+
+# 수치 계산 / 이미지 처리 및 GUI 대시보드
+numpy>=1.24.0
+opencv-python>=4.8.0
+scipy>=1.11.0
+
+# 선택: 시리얼 통신 (USB 직접 유선 연결 시)
+# pyserial>=3.5
+
+# 선택: ROS2 연동 시
+# rclpy
