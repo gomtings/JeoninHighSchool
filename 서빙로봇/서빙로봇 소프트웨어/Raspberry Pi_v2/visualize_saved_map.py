@@ -2,12 +2,21 @@
 visualize_saved_map.py
 saved_map.npz 맵 데이터 분석 및 고대비 컬러 시각화 도구
 """
+# cd "c:\GitHub\JeoninHighSchool\서빙로봇\서빙로봇 소프트웨어\Raspberry Pi_v2"
+# .\.venv\Scripts\python.exe visualize_saved_map.py
 
 import os
 import sys
 import numpy as np
 import cv2
-from mapper import OccupancyMap, CELL_UNKNOWN, CELL_FREE, CELL_WALL, CELL_OBSTACLE, CELL_GLASS_WALL
+from mapper import (
+    OccupancyMap,
+    CELL_UNKNOWN,
+    CELL_FREE,
+    CELL_WALL,
+    CELL_OBSTACLE,
+    CELL_GLASS_WALL,
+)
 from console_utils import safe_print
 
 
@@ -40,7 +49,7 @@ def main():
     unknown_cells = int(np.sum(grid == CELL_UNKNOWN))
 
     # 탐색된 영역 바운딩 박스
-    explored_mask = (grid != CELL_UNKNOWN)
+    explored_mask = grid != CELL_UNKNOWN
     if np.any(explored_mask):
         rows, cols = np.where(explored_mask)
         w_m = (np.max(cols) - np.min(cols) + 1) * res
@@ -51,11 +60,17 @@ def main():
     safe_print("=" * 60)
     safe_print("        [saved_map.npz 맵 정밀 분석 및 시각화 결과]")
     safe_print("=" * 60)
-    safe_print(f" * 전체 격자 규격     : {grid.shape[1]} x {grid.shape[0]} 셀 (20.0m x 20.0m, 해상도 {res*100:.0f}cm/셀)")
+    safe_print(
+        f" * 전체 격자 규격     : {grid.shape[1]} x {grid.shape[0]} 셀 (20.0m x 20.0m, 해상도 {res * 100:.0f}cm/셀)"
+    )
     safe_print(f" * 실제 탐색 바운딩박스 : 가로 {w_m:.2f}m x 세로 {h_m:.2f}m")
-    safe_print(f" * 주행 가능 빈 공간   : {free_cells} 셀 ({free_cells * (res**2):.2f} m^2)")
+    safe_print(
+        f" * 주행 가능 빈 공간   : {free_cells} 셀 ({free_cells * (res**2):.2f} m^2)"
+    )
     safe_print(f" * 감지된 벽(경계)     : {wall_cells} 셀")
-    safe_print(f" * 미탐색 배경 구역    : {unknown_cells} 셀 ({unknown_cells / total_cells * 100:.1f}%)")
+    safe_print(
+        f" * 미탐색 배경 구역    : {unknown_cells} 셀 ({unknown_cells / total_cells * 100:.1f}%)"
+    )
     safe_print(f" * 고대비 컬러 이미지  : saved_map.png 저장 완료!")
     safe_print("=" * 60)
 

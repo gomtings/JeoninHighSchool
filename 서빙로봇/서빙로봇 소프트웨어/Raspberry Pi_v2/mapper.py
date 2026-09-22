@@ -518,16 +518,34 @@ class OccupancyMap:
         self.static_grid[valid_free] = CELL_FREE
 
         # [외곽 벽 vs 실내 장애물 기하학적 분리]
-        # 미탐색 영역(Unknown)과 맞닿은 40cm 경계면은 외곽 벽(CELL_WALL), 실내 빈 공간 한가운데 고립된 점들은 장애물(CELL_OBSTACLE)
+        # 미탐색 영역(Unknown)과 맞닿은 60cm 경계면 및 연결된 모든 벽체는 외곽 벽(CELL_WALL),
+        # 실내 빈 공간 한가운데 완전히 고립된 독립 점들만 실내 장애물(CELL_OBSTACLE)로 분류
         try:
             import cv2
             unknown_mask = (self.static_grid == CELL_UNKNOWN) & (~valid_hits) & (~valid_free)
+            # 미탐색 영역 60cm 마진 팽창 (5x5 커널 5회 반복 = 10셀 = 50~60cm)
             kernel = np.ones((5, 5), np.uint8)
-            unknown_dilated = cv2.dilate(unknown_mask.astype(np.uint8), kernel, iterations=2)
+            unknown_dilated = cv2.dilate(unknown_mask.astype(np.uint8), kernel, iterations=5)
             is_outer = (unknown_dilated > 0)
 
-            wall_mask = valid_hits & is_outer
-            obs_mask  = valid_hits & (~is_outer)
+            # 벽면 연결 요소(Connected Components) 분석:
+            # 틈새/유리/몰딩 등으로 끊긴 벽면을 3x3 클로징으로 묶은 후, 외곽 마진과 연결된 모든 벽체는 CELL_WALL로 승격
+            k_conn = np.ones((3, 3), np.uint8)
+            hits_closed = cv2.morphologyEx(valid_hits.astype(np.uint8), cv2.MORPH_CLOSE, k_conn)
+            num_labels, labels, _, _ = cv2.connectedComponentsWithStats(hits_closed, connectivity=8)
+
+            wall_mask = np.zeros_like(valid_hits, dtype=bool)
+            obs_mask  = np.zeros_like(valid_hits, dtype=bool)
+
+            for i in range(1, num_labels):
+                cluster_mask = (labels == i) & valid_hits
+                if not np.any(cluster_mask):
+                    continue
+                # 해당 클러스터의 일부분이라도 외곽 미탐색 마진과 닿아 있으면 외곽 벽체로 판정
+                if np.any(is_outer & (labels == i)):
+                    wall_mask[cluster_mask] = True
+                else:
+                    obs_mask[cluster_mask] = True
 
             self.static_grid[wall_mask] = CELL_WALL
             self.static_grid[obs_mask]  = CELL_OBSTACLE
@@ -545,6 +563,7 @@ class OccupancyMap:
                 height_m=self.height_m,
                 robot_col=self.robot_col,
                 robot_row=self.robot_row,
+                robot_heading=float(self.robot_heading_deg),
                 timestamp=time.time(),
             )
         except Exception as e:
@@ -587,34 +606,107 @@ class OccupancyMap:
             obs_scaled = cv2.resize(obs_dilated, (W * scale, H * scale), interpolation=cv2.INTER_NEAREST)
             rendered[obs_scaled > 0] = (30, 80, 245)
 
-            # 5. 로봇 위치 표시 (원점/현재 위치)
+            # [거리 보조 링] 로봇 원점 기준 1m, 2m, 3m 거리 가이드 링 (연한 보조선)
             rc_x = int(self.robot_col * scale)
             rc_y = int(self.robot_row * scale)
+            px_per_m = int(round(1.0 / self.resolution * scale))
             if 0 <= rc_x < rendered.shape[1] and 0 <= rc_y < rendered.shape[0]:
-                cv2.circle(rendered, (rc_x, rc_y), 6, (240, 200, 30), -1)  # 네온 시안
-                cv2.circle(rendered, (rc_x, rc_y), 8, (255, 255, 255), 1)
+                for dist_m in [1.0, 2.0, 3.0]:
+                    r_px = int(round(dist_m * px_per_m))
+                    cv2.circle(rendered, (rc_x, rc_y), r_px, (42, 50, 64), 1, cv2.LINE_AA)
+                    # 링 상단에 거리 텍스트 살짝 표기
+                    if rc_y - r_px > 10:
+                        cv2.putText(rendered, f"{dist_m:.0f}m", (rc_x + 3, rc_y - r_px - 2),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.28, (90, 105, 125), 1, cv2.LINE_AA)
 
-            # 범례(Legend) 추가
+            # 5. 로봇 위치 및 진행 방향(헤딩) 표시
+            if 0 <= rc_x < rendered.shape[1] and 0 <= rc_y < rendered.shape[0]:
+                # 로봇 반경 (약 25cm) 가이드 원
+                body_r = max(4, int(round(0.25 * px_per_m)))
+                cv2.circle(rendered, (rc_x, rc_y), body_r, (100, 180, 240), 1, cv2.LINE_AA)
+                cv2.circle(rendered, (rc_x, rc_y), 4, (240, 200, 30), -1)  # 네온 옐로우 코어
+                cv2.circle(rendered, (rc_x, rc_y), 6, (255, 255, 255), 1)
+
+                # 로봇 헤딩 화살표 (0도=전방/-Y, +90도=우측/+X)
+                rad = math.radians(self.robot_heading_deg)
+                arrow_len = max(24, int(round(0.6 * px_per_m)))  # 약 60cm 길이 화살표
+                tip_x = int(round(rc_x + arrow_len * math.sin(rad)))
+                tip_y = int(round(rc_y - arrow_len * math.cos(rad)))
+                cv2.arrowedLine(rendered, (rc_x, rc_y), (tip_x, tip_y),
+                                (0, 230, 255), 2, tipLength=0.35, line_type=cv2.LINE_AA)
+
+            # 6. 범례(Legend) 추가 (좌측 상단)
             legend_x, legend_y = 15, 15
-            cv2.rectangle(rendered, (legend_x - 5, legend_y - 5), (legend_x + 195, legend_y + 135), (10, 12, 16), -1)
-            cv2.rectangle(rendered, (legend_x - 5, legend_y - 5), (legend_x + 195, legend_y + 135), (50, 60, 80), 1)
+            cv2.rectangle(rendered, (legend_x - 5, legend_y - 5), (legend_x + 205, legend_y + 135), (10, 12, 16), -1)
+            cv2.rectangle(rendered, (legend_x - 5, legend_y - 5), (legend_x + 205, legend_y + 135), (50, 60, 80), 1)
 
+            heading_str = f"{self.robot_heading_deg:+.0f} deg"
             items = [
                 ("Free Space (Walkable)", (240, 242, 245)),
                 ("Outer Wall Boundary", (35, 40, 60)),
-                ("Obstacle (Table / Chair)", (30, 80, 245)),
+                ("Obstacle (Table/Chair)", (30, 80, 245)),
                 ("Unknown Background", (18, 22, 28)),
-                ("Robot Origin", (240, 200, 30)),
+                (f"Robot & Head ({heading_str})", (0, 230, 255)),
             ]
             for i, (label, col) in enumerate(items):
                 iy = legend_y + i * 24 + 14
                 cv2.rectangle(rendered, (legend_x + 6, iy - 8), (legend_x + 22, iy + 5), col, -1)
                 cv2.rectangle(rendered, (legend_x + 6, iy - 8), (legend_x + 22, iy + 5), (140, 150, 160), 1)
-                cv2.putText(rendered, label, (legend_x + 28, iy + 2), cv2.FONT_HERSHEY_SIMPLEX, 0.36, (220, 225, 235), 1, cv2.LINE_AA)
+                cv2.putText(rendered, label, (legend_x + 28, iy + 2),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.35, (220, 225, 235), 1, cv2.LINE_AA)
 
-            # 해상도 및 크기 정보 표시
-            info_txt = f"Map: {self.width_m:.1f}m x {self.height_m:.1f}m (Res: {self.resolution*100:.0f}cm)"
-            cv2.putText(rendered, info_txt, (15, rendered.shape[0] - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (160, 175, 195), 1, cv2.LINE_AA)
+            # 7. 맵 좌표축 인디케이터 (우측 상단: 로봇 주행 좌표계 기준 ▲ Front +X, ▶ Right -Y)
+            ax_box_w, ax_box_h = 115, 82
+            ax_x0 = rendered.shape[1] - ax_box_w - 15
+            ax_y0 = 15
+            cv2.rectangle(rendered, (ax_x0, ax_y0), (ax_x0 + ax_box_w, ax_y0 + ax_box_h), (10, 12, 16), -1)
+            cv2.rectangle(rendered, (ax_x0, ax_y0), (ax_x0 + ax_box_w, ax_y0 + ax_box_h), (50, 60, 80), 1)
+
+            origin_ax = (ax_x0 + 26, ax_y0 + ax_box_h - 22)
+            # 전방 (직진 / Robot +X) 축
+            cv2.arrowedLine(rendered, origin_ax, (origin_ax[0], origin_ax[1] - 38),
+                            (80, 220, 130), 2, tipLength=0.3, line_type=cv2.LINE_AA)
+            cv2.putText(rendered, "Front (+X)", (origin_ax[0] - 22, origin_ax[1] - 42),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.32, (180, 235, 200), 1, cv2.LINE_AA)
+            # 우측 (Robot -Y) 축
+            cv2.arrowedLine(rendered, origin_ax, (origin_ax[0] + 38, origin_ax[1]),
+                            (80, 170, 255), 2, tipLength=0.3, line_type=cv2.LINE_AA)
+            cv2.putText(rendered, "Right (-Y)", (origin_ax[0] + 42, origin_ax[1] + 4),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.32, (180, 210, 255), 1, cv2.LINE_AA)
+
+            # 8. 거리 스케일 바 (우측 하단: 1.0m 또는 2.0m 축척 바)
+            scale_bar_m = 2.0 if (px_per_m * 2 <= 160) else 1.0
+            bar_len_px = int(scale_bar_m * px_per_m)
+            sb_w, sb_h = bar_len_px + 36, 44
+            sb_x0 = rendered.shape[1] - sb_w - 15
+            sb_y0 = rendered.shape[0] - sb_h - 15
+            cv2.rectangle(rendered, (sb_x0, sb_y0), (sb_x0 + sb_w, sb_y0 + sb_h), (10, 12, 16), -1)
+            cv2.rectangle(rendered, (sb_x0, sb_y0), (sb_x0 + sb_w, sb_y0 + sb_h), (50, 60, 80), 1)
+
+            bx1 = sb_x0 + 18
+            bx2 = bx1 + bar_len_px
+            by = sb_y0 + 28
+            # 스케일 바 라인 및 눈금 틱
+            cv2.line(rendered, (bx1, by), (bx2, by), (230, 235, 245), 2, cv2.LINE_AA)
+            cv2.line(rendered, (bx1, by - 5), (bx1, by + 5), (230, 235, 245), 2, cv2.LINE_AA)
+            cv2.line(rendered, (bx2, by - 5), (bx2, by + 5), (230, 235, 245), 2, cv2.LINE_AA)
+            cv2.line(rendered, ((bx1 + bx2) // 2, by - 3), ((bx1 + bx2) // 2, by + 3), (160, 175, 190), 1, cv2.LINE_AA)
+            cv2.putText(rendered, f"Scale: {scale_bar_m:.1f}m", (bx1, sb_y0 + 16),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.38, (230, 235, 245), 1, cv2.LINE_AA)
+
+            # 9. 실제 탐색 영역 바운딩 박스 및 하단 상세 정보
+            explored_mask = (self.static_grid != CELL_UNKNOWN)
+            if np.any(explored_mask):
+                rows, cols = np.where(explored_mask)
+                w_m = (np.max(cols) - np.min(cols) + 1) * self.resolution
+                h_m = (np.max(rows) - np.min(rows) + 1) * self.resolution
+                exp_txt = f" | Explored: {w_m:.1f}m x {h_m:.1f}m"
+            else:
+                exp_txt = ""
+
+            info_txt = f"Map: {self.width_m:.1f}m x {self.height_m:.1f}m (Res: {self.resolution*100:.0f}cm){exp_txt}"
+            cv2.putText(rendered, info_txt, (15, rendered.shape[0] - 15),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.42, (160, 175, 195), 1, cv2.LINE_AA)
 
             # Windows 한글 경로 호환을 위해 imencode 후 tofile 로 저장
             is_ok, buf = cv2.imencode(".png", rendered)
@@ -643,10 +735,15 @@ class OccupancyMap:
                     self.hit_count[:] = data["hit_count"]
                 if "free_count" in data:
                     self.free_count[:] = data["free_count"]
+                if "robot_col" in data and "robot_row" in data:
+                    self.robot_col = int(data["robot_col"])
+                    self.robot_row = int(data["robot_row"])
+                if "robot_heading" in data:
+                    self.robot_heading_deg = float(data["robot_heading"])
                 loaded_now = time.time()
                 self.last_hit_time[:] = loaded_now   # 메모리 보호 시간 갱신
                 self.first_hit_time[:] = loaded_now  # 불러온 셀이 시간 폭 조건을 거저 통과하지 않도록
-                _safe_print(f"[OccupancyMap] 📂 맵 불러오기 성공: {filepath} (크기: {self.grid.shape})")
+                _safe_print(f"[OccupancyMap] 📂 맵 불러오기 성공: {filepath} (크기: {self.grid.shape}, 로봇 헤딩: {self.robot_heading_deg:+.1f} deg)")
                 return True
             else:
                 _safe_print(f"[OccupancyMap] ⚠️ 맵 격자 해상도/크기 불일치 (현재: {self.grid.shape}, 로드: {loaded_grid.shape})")
