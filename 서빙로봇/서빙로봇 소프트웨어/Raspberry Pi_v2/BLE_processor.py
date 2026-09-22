@@ -44,7 +44,7 @@ def _ble_worker(command_queue: Queue, response_queue: Queue,
             line, recv_buffer = recv_buffer.split("\n", 1)
             line = line.strip()
             if line and line != last_sent:
-                _safe_print(f"[Arduino → PC]: {line}")
+                #_safe_print(f"[Arduino → PC]: {line}")
                 try:
                     response_queue.put_nowait(line)
                 except Exception:
@@ -62,7 +62,7 @@ def _ble_worker(command_queue: Queue, response_queue: Queue,
                     await client.write_gatt_char(
                         char_uuid, (cmd + "\n").encode("utf-8")
                     )
-                    _safe_print(f"[PC → Arduino]: {cmd}")
+                    #_safe_print(f"[PC → Arduino]: {cmd}")
                 else:
                     _safe_print("[BLE] 연결 끊김 감지 -> 재연결 시도")
                     return "__RECONNECT__"
