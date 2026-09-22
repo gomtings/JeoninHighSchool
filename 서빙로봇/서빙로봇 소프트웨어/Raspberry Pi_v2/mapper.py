@@ -13,6 +13,7 @@ import time  # 시간 관련 함수 (타임스탬프)
 from dataclasses import dataclass, field  # 데이터 클래스 정의
 from typing import List, Tuple, Optional  # 타입 힌트
 import config  # 설정 파일에서 상수 가져옴
+from console_utils import safe_print as _safe_print
 
 
 # 셀 상태값 상수 정의
@@ -365,6 +366,9 @@ class OccupancyMap:
             self.grid[row, col] = CELL_OBSTACLE
         elif hit_ratio < 0.15:  # 빈 공간 비율이 압도적일 때만 빈 공간으로 설정
             self.grid[row, col] = CELL_FREE  # 빈 공간으로 설정
+            # [영구 지도 반영] 빈 공간으로 여러 번(5회 이상) 확인된 셀은 static_grid에도 빈 공간으로 편입
+            if free >= 5 and self.static_grid[row, col] != CELL_WALL:
+                self.static_grid[row, col] = CELL_FREE
         # 그 사이는 현재 상태 유지 (불확실 영역)
 
     def set_cell(self, row: int, col: int, value: float):
@@ -499,11 +503,37 @@ class OccupancyMap:
         """
         누적된 영구 지도(static_grid)를 압축 파일(.npz)과 시각화 이미지(.png)로 저장.
         static_grid는 사전에 불러온 지도 + 이번 세션에서 충분히 반복 확인되어
-        영구 승격된(hit_count > STATIC_PROMOTE_HIT_COUNT) 셀들로 구성된다.
-        self.grid(순간 스냅샷)를 저장하면 사람 등 일시적으로 지나가던 대상이
-        그대로 박제될 수 있어 static_grid를 저장한다.
+        영구 승격된 셀들로 구성된다.
         """
         filepath = self._resolve_path(filepath)
+
+        # 저장 전, 라이다 끝점(벽/장애물)과 빈 공간을 균형 있게 static_grid에 확실하게 동기화
+        total_counts = self.hit_count + self.free_count
+        hit_ratio = self.hit_count / np.maximum(total_counts, 1)
+
+        # 유효 감지 끝점 (벽 또는 장애물)
+        valid_hits = (self.hit_count >= 2) & (self.hit_count >= self.free_count * 0.25)
+        # 유효 빈 공간
+        valid_free = (self.free_count >= 3) & (hit_ratio < 0.20) & (~valid_hits)
+        self.static_grid[valid_free] = CELL_FREE
+
+        # [외곽 벽 vs 실내 장애물 기하학적 분리]
+        # 미탐색 영역(Unknown)과 맞닿은 40cm 경계면은 외곽 벽(CELL_WALL), 실내 빈 공간 한가운데 고립된 점들은 장애물(CELL_OBSTACLE)
+        try:
+            import cv2
+            unknown_mask = (self.static_grid == CELL_UNKNOWN) & (~valid_hits) & (~valid_free)
+            kernel = np.ones((5, 5), np.uint8)
+            unknown_dilated = cv2.dilate(unknown_mask.astype(np.uint8), kernel, iterations=2)
+            is_outer = (unknown_dilated > 0)
+
+            wall_mask = valid_hits & is_outer
+            obs_mask  = valid_hits & (~is_outer)
+
+            self.static_grid[wall_mask] = CELL_WALL
+            self.static_grid[obs_mask]  = CELL_OBSTACLE
+        except Exception:
+            self.static_grid[valid_hits] = CELL_WALL
+
         try:
             np.savez_compressed(
                 filepath,
@@ -518,25 +548,81 @@ class OccupancyMap:
                 timestamp=time.time(),
             )
         except Exception as e:
-            print(f"[OccupancyMap] ❌ 맵 저장 실패: {e}")
+            _safe_print(f"[OccupancyMap] ❌ 맵 저장 실패: {e}")
             return False
 
-        # 사람이 열어볼 수 있는 PNG 이미지로도 함께 저장.
-        # ★ 별도 try 로 분리한다. 실제 지도 데이터는 위 .npz 로 이미 저장이 끝났으므로,
-        #   PNG 쓰기(cv2)가 실패했다고 저장 자체를 실패로 보고하면 안 된다.
-        #   (cv2 미설치 환경에서 .npz 는 멀쩡히 저장됐는데 False 를 반환하던 문제)
+        # 사람이 열어볼 수 있는 고대비 컬러 PNG 이미지로도 함께 저장.
         img_path = filepath.rsplit(".", 1)[0] + ".png"
         try:
-            norm_map = np.full(self.static_grid.shape, 128, dtype=np.uint8) # 기본 미지: 128
-            norm_map[self.static_grid == CELL_FREE] = 230      # 빈 공간: 밝은 흰색/회색
-            norm_map[self.static_grid == CELL_WALL] = 80       # 벽: 진한 회색
-            norm_map[self.static_grid >= CELL_OBSTACLE] = 0    # 장애물: 검정색
-
             import cv2
-            cv2.imwrite(img_path, norm_map)
-            print(f"[OccupancyMap] 💾 맵 저장 완료: {filepath} & {img_path}")
+            H, W = self.static_grid.shape
+            scale = 2
+            rendered = np.zeros((H * scale, W * scale, 3), dtype=np.uint8)
+
+            # 1. 배경 (미지/미탐색 영역): 딥 다크 차콜 (18, 22, 28)
+            rendered[:] = (18, 22, 28)
+
+            # 2. 실제 탐색된 주행 가능 맵 (빈 공간): 밝고 깨끗한 세라믹 화이트 (240, 242, 245)
+            free_mask = (self.static_grid == CELL_FREE)
+            free_img = np.zeros((H, W), dtype=np.uint8)
+            free_img[free_mask] = 255
+            free_scaled = cv2.resize(free_img, (W * scale, H * scale), interpolation=cv2.INTER_NEAREST)
+            rendered[free_scaled > 0] = (240, 242, 245)
+
+            # 3. 외곽 벽 (Outer Wall Boundary): 또렷한 짙은 슬레이트 흑청색 (35, 40, 60)
+            wall_mask = (self.static_grid == CELL_WALL)
+            wall_img = np.zeros((H, W), dtype=np.uint8)
+            wall_img[wall_mask] = 255
+            k_wall = np.ones((2, 2), np.uint8)
+            wall_dilated = cv2.dilate(wall_img, k_wall, iterations=1)
+            wall_scaled = cv2.resize(wall_dilated, (W * scale, H * scale), interpolation=cv2.INTER_NEAREST)
+            rendered[wall_scaled > 0] = (35, 40, 60)
+
+            # 4. 실내 장애물 (Obstacles - 테이블/의자/가구): 선명한 네온 코랄 오렌지/레드 (30, 80, 245)
+            obs_mask = (self.static_grid >= CELL_OBSTACLE)
+            obs_img = np.zeros((H, W), dtype=np.uint8)
+            obs_img[obs_mask] = 255
+            k_obs = np.ones((3, 3), np.uint8)
+            obs_dilated = cv2.dilate(obs_img, k_obs, iterations=1)
+            obs_scaled = cv2.resize(obs_dilated, (W * scale, H * scale), interpolation=cv2.INTER_NEAREST)
+            rendered[obs_scaled > 0] = (30, 80, 245)
+
+            # 5. 로봇 위치 표시 (원점/현재 위치)
+            rc_x = int(self.robot_col * scale)
+            rc_y = int(self.robot_row * scale)
+            if 0 <= rc_x < rendered.shape[1] and 0 <= rc_y < rendered.shape[0]:
+                cv2.circle(rendered, (rc_x, rc_y), 6, (240, 200, 30), -1)  # 네온 시안
+                cv2.circle(rendered, (rc_x, rc_y), 8, (255, 255, 255), 1)
+
+            # 범례(Legend) 추가
+            legend_x, legend_y = 15, 15
+            cv2.rectangle(rendered, (legend_x - 5, legend_y - 5), (legend_x + 195, legend_y + 135), (10, 12, 16), -1)
+            cv2.rectangle(rendered, (legend_x - 5, legend_y - 5), (legend_x + 195, legend_y + 135), (50, 60, 80), 1)
+
+            items = [
+                ("Free Space (Walkable)", (240, 242, 245)),
+                ("Outer Wall Boundary", (35, 40, 60)),
+                ("Obstacle (Table / Chair)", (30, 80, 245)),
+                ("Unknown Background", (18, 22, 28)),
+                ("Robot Origin", (240, 200, 30)),
+            ]
+            for i, (label, col) in enumerate(items):
+                iy = legend_y + i * 24 + 14
+                cv2.rectangle(rendered, (legend_x + 6, iy - 8), (legend_x + 22, iy + 5), col, -1)
+                cv2.rectangle(rendered, (legend_x + 6, iy - 8), (legend_x + 22, iy + 5), (140, 150, 160), 1)
+                cv2.putText(rendered, label, (legend_x + 28, iy + 2), cv2.FONT_HERSHEY_SIMPLEX, 0.36, (220, 225, 235), 1, cv2.LINE_AA)
+
+            # 해상도 및 크기 정보 표시
+            info_txt = f"Map: {self.width_m:.1f}m x {self.height_m:.1f}m (Res: {self.resolution*100:.0f}cm)"
+            cv2.putText(rendered, info_txt, (15, rendered.shape[0] - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (160, 175, 195), 1, cv2.LINE_AA)
+
+            # Windows 한글 경로 호환을 위해 imencode 후 tofile 로 저장
+            is_ok, buf = cv2.imencode(".png", rendered)
+            if is_ok:
+                buf.tofile(img_path)
+            _safe_print(f"[OccupancyMap] 💾 맵 저장 완료: {filepath} & 고대비 컬러 {img_path}")
         except Exception as e:
-            print(f"[OccupancyMap] 💾 맵 저장 완료: {filepath} (PNG 미리보기는 건너뜀: {e})")
+            _safe_print(f"[OccupancyMap] 💾 맵 저장 완료: {filepath} (PNG 미리보기는 건너뜀: {e})")
         return True
 
     def load_map(self, filepath: str = "saved_map.npz") -> bool:
@@ -544,7 +630,7 @@ class OccupancyMap:
         import os
         filepath = self._resolve_path(filepath)
         if not os.path.exists(filepath):
-            print(f"[OccupancyMap] ⚠️ 저장된 맵 파일이 존재하지 않습니다: {filepath}")
+            _safe_print(f"[OccupancyMap] ⚠️ 저장된 맵 파일이 존재하지 않습니다: {filepath}")
             return False
 
         try:
@@ -560,13 +646,13 @@ class OccupancyMap:
                 loaded_now = time.time()
                 self.last_hit_time[:] = loaded_now   # 메모리 보호 시간 갱신
                 self.first_hit_time[:] = loaded_now  # 불러온 셀이 시간 폭 조건을 거저 통과하지 않도록
-                print(f"[OccupancyMap] 📂 맵 불러오기 성공: {filepath} (크기: {self.grid.shape})")
+                _safe_print(f"[OccupancyMap] 📂 맵 불러오기 성공: {filepath} (크기: {self.grid.shape})")
                 return True
             else:
-                print(f"[OccupancyMap] ⚠️ 맵 격자 해상도/크기 불일치 (현재: {self.grid.shape}, 로드: {loaded_grid.shape})")
+                _safe_print(f"[OccupancyMap] ⚠️ 맵 격자 해상도/크기 불일치 (현재: {self.grid.shape}, 로드: {loaded_grid.shape})")
                 return False
         except Exception as e:
-            print(f"[OccupancyMap] ❌ 맵 불러오기 오류: {e}")
+            _safe_print(f"[OccupancyMap] ❌ 맵 불러오기 오류: {e}")
             return False
 
     def prepare_frame(self):
