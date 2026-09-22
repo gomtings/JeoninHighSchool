@@ -81,8 +81,9 @@ WEIGHT_LIDAR_BLIND = 1.00  # LiDAR 사각지대 보완 시 가중치
 
 # ─── 장애물 판단 구역 (로봇 정면 기준, m) ─────────────────────────
 ZONE_DANGER_M = 0.5  # ~50cm : 즉시 정지
-ZONE_WARNING_M = 1.2  # ~120cm : 감속 / 경로 변경
-ZONE_SAFE_M = 2.0  # ~200cm : 정상 주행
+ZONE_WARNING_M = 1.0  # ~100cm : 감속 / 경로 변경
+ZONE_SAFE_M = 1.5  # ~150cm : 정상 주행
+OBS_BOX_MAX_DIST_M = ZONE_WARNING_M  # 맵에 Obs 장애물 박스를 표시할 근접 위험 거리 (m)
 
 # 로봇 폭 (충돌 여유 계산용, m)
 ROBOT_WIDTH_M = 0.5

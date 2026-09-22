@@ -413,25 +413,33 @@ class PathRecommender:
             turn_deg = max(-90.0, min(-20.0, round(head_err / 10.0) * 10.0))
             return turn_deg, f"Left-{int(abs(turn_deg))}"
 
+    @staticmethod
+    def _normalize_heading_360(heading: float) -> float:
+        """각도를 0.0 이상 360.0 미만으로 정규화 (0도와 360도는 완전 동일 처리)"""
+        norm = heading % 360.0
+        if norm < 0.0:
+            norm += 360.0
+        if abs(norm - 360.0) < 1e-6:
+            norm = 0.0
+        return norm
+
+    @staticmethod
+    def _angle_diff_180(target_deg: float, current_deg: float) -> float:
+        """target과 current 사이의 최단 회전각(-180.0 ~ +180.0) 계산"""
+        return (target_deg - current_deg + 180.0) % 360.0 - 180.0
+
     def _get_zero_alignment_steering_1deg(self) -> Tuple[float, str, float, bool]:
         """
-        '헤딩 정렬' 버튼 클릭 시, BLE를 통해 들어오는 현재 헤딩값을
-        0과 360 중 더 가까운 쪽에 1도 단위 정밀 각도로 맞춥니다.
+        '헤딩 정렬' 버튼 클릭 시, 0도(=360도) 정면 방향으로 최단 회전각을 계산하여
+        1도 단위 정밀 각도로 맞춥니다 (0도와 360도를 완전 동일시하여 헛돌기 방지).
 
         반환값:
             (chosen_angle, chosen_label, target_head, is_aligned)
         """
-        curr_head = (self.robot_heading_deg % 360.0 + 360.0) % 360.0  # 0.0 ~ 360.0 정규화
-
-        diff_0 = abs(curr_head - 0.0)
-        diff_360 = abs(curr_head - 360.0)
-
-        if diff_0 <= diff_360:
-            target_head = 0.0
-            head_err = (0.0 - curr_head + 180.0) % 360.0 - 180.0
-        else:
-            target_head = 360.0
-            head_err = (360.0 - curr_head + 180.0) % 360.0 - 180.0
+        curr_head = self._normalize_heading_360(self.robot_heading_deg)
+        head_err = self._angle_diff_180(0.0, curr_head)
+        # 표시용 목표 각도 (180도 초과 시 360°, 이하면 0°로 자연스럽게 표시하되 둘은 물리적으로 동일)
+        target_head = 360.0 if curr_head > 180.0 else 0.0
 
         # 오차 1도 이내이면 정렬 완료!
         if abs(head_err) <= 1.0:
@@ -484,7 +492,7 @@ class PathRecommender:
                 self.robot_x = float(kx.group(1))
                 self.robot_y = float(ky.group(1))
                 if kh:
-                    self.robot_heading_deg = float(kh.group(1))
+                    self.robot_heading_deg = self._normalize_heading_360(float(kh.group(1)))
                 if kr and kl:
                     self._update_ultrasonic(float(kr.group(1)), float(kl.group(1)))
                 print(f"[BLE 수신] 원본: '{text}' -> 파싱: (X:{self.robot_x:+.2f}m, Y:{self.robot_y:+.2f}m, Head:{self.robot_heading_deg:+.1f}deg)")
@@ -503,7 +511,7 @@ class PathRecommender:
                 # [x값, y값, 헤딩, 오른쪽초음파, 왼쪽초음파, (선택)이상상태코드]
                 self.robot_x = nums[0]
                 self.robot_y = nums[1]
-                self.robot_heading_deg = nums[2]
+                self.robot_heading_deg = self._normalize_heading_360(nums[2])
                 self._update_ultrasonic(nums[3], nums[4])
                 if len(nums) >= 6:
                     code = int(nums[5])
@@ -519,7 +527,7 @@ class PathRecommender:
                 # [x값, y값, 헤딩]
                 self.robot_x = nums[0]
                 self.robot_y = nums[1]
-                self.robot_heading_deg = nums[2]
+                self.robot_heading_deg = self._normalize_heading_360(nums[2])
             elif len(nums) == 2:
                 # 2개 인자: 값이 둘 다 20 미만이면 x, y 우선 판정
                 if abs(nums[0]) <= 20.0 and abs(nums[1]) <= 20.0 and (isinstance(nums[0], float) or isinstance(nums[1], float)):
@@ -1120,9 +1128,10 @@ class PathRecommender:
                 label       = label,
             ))
 
-        # 전방 장애물 크기 실시간 측정 (디버깅 및 동적 회피용)
-        obs_w, obs_l, obs_near = self.occ_map.get_front_obstacle_dimensions(max_dist_m=1.5, half_width_m=0.8)
-        if obs_near < 1.5:
+        # 전방 근접 위험 장애물 크기 실시간 측정 (근접 위험 거리 이내일 때만 Obs 박스 활성화)
+        max_obs_dist = getattr(config, "OBS_BOX_MAX_DIST_M", config.ZONE_WARNING_M)
+        obs_w, obs_l, obs_near = self.occ_map.get_front_obstacle_dimensions(max_dist_m=max_obs_dist, half_width_m=0.8)
+        if obs_near <= max_obs_dist:
             self.obs_measured_w = obs_w
             self.obs_measured_l = obs_l
         elif self.avoid_state == "IDLE":
@@ -1492,7 +1501,8 @@ class PathRecommender:
                     self.avoid_step_timeout = 100
 
                     # 장애물 크기 측정 및 동적 회피 거리 계산
-                    obs_w, obs_l, _ = self.occ_map.get_front_obstacle_dimensions(max_dist_m=1.2, half_width_m=0.8)
+                    max_obs_dist = getattr(config, "OBS_BOX_MAX_DIST_M", config.ZONE_WARNING_M)
+                    obs_w, obs_l, _ = self.occ_map.get_front_obstacle_dimensions(max_dist_m=max_obs_dist, half_width_m=0.8)
                     self.obs_measured_w = obs_w
                     self.obs_measured_l = obs_l
 
