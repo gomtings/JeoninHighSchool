@@ -30,7 +30,7 @@ LIDAR_ANGLE_RESOLUTION = 1.0  # 각도 해상도 (도)
 #   것이 드러남).
 # 실측: 오프셋 -95.6도 상태에서 ㄷ자 개방부에 손을 대니 +91.3도 / +91.7도로 측정
 #       -> 필요한 오프셋 = -(측정값 - (-95.6)) 정규화 = +173.1 / +172.7 -> 평균 172.9도
-LIDAR_ANGLE_OFFSET_DEG = 180.0
+LIDAR_ANGLE_OFFSET_DEG = 0.0
 
 # 로봇 자체반사 제외 반경 (m). 라이다 빔이 로봇 몸체(마운트/브래킷/케이블)에
 # 맞고 튕겨 돌아오는 근접 반사를 걸러낸다. 실측: 로봇을 제자리에서 90도 돌려도
@@ -45,7 +45,7 @@ LIDAR_ANGLE_OFFSET_DEG = 180.0
 #   프로파일(lidar_self_mask.json)을 만들면 그쪽을 우선 사용하고, 이 값은 그
 #   파일이 없을 때(캘리브레이션 전, 또는 로봇 구조 변경 후 재캘리브레이션 전)의
 #   폴백 균일 반경으로만 쓰인다.
-LIDAR_SELF_EXCLUSION_M = 0.30
+LIDAR_SELF_EXCLUSION_M = 0.35
 # 캘리브레이션 프로파일 파일명 (Raspberry Pi 폴더 기준 상대경로)
 LIDAR_SELF_MASK_FILE = "lidar_self_mask.json"
 # 캘리브레이션 값 상한(m). 캘리브레이션 중 실수로 벽 옆에 붙여뒀다거나 해서
