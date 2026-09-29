@@ -495,7 +495,7 @@ class PathRecommender:
                     self.robot_heading_deg = self._normalize_heading_360(float(kh.group(1)))
                 if kr and kl:
                     self._update_ultrasonic(float(kr.group(1)), float(kl.group(1)))
-                print(f"[BLE 수신] 원본: '{text}' -> 파싱: (X:{self.robot_x:+.2f}m, Y:{self.robot_y:+.2f}m, Head:{self.robot_heading_deg:+.1f}deg)")
+                #print(f"[BLE 수신] 원본: '{text}' -> 파싱: (X:{self.robot_x:+.2f}m, Y:{self.robot_y:+.2f}m, Head:{self.robot_heading_deg:+.1f}deg)")
                 return
 
             # 2. 쉼표(,) 및 공백 기반 숫자 분리 파싱
@@ -536,7 +536,7 @@ class PathRecommender:
                 else:
                     self._update_ultrasonic(nums[0], nums[1])
             
-            print(f"[BLE 수신] 원본: '{text}' -> 파싱: (X:{self.robot_x:+.2f}m, Y:{self.robot_y:+.2f}m, Head:{self.robot_heading_deg:+.1f}deg, R:{self.ble_right_cm:.1f}cm, L:{self.ble_left_cm:.1f}cm)")
+            #print(f"[BLE 수신] 원본: '{text}' -> 파싱: (X:{self.robot_x:+.2f}m, Y:{self.robot_y:+.2f}m, Head:{self.robot_heading_deg:+.1f}deg, R:{self.ble_right_cm:.1f}cm, L:{self.ble_left_cm:.1f}cm)")
         except Exception as e:
             print(f"[PathRecommender] BLE 파싱 예외 발생 ({latest}): {e}")
 
