@@ -58,6 +58,17 @@ LIDAR_FOV_DEG = 180.0  # 사용할 LiDAR 시야각 (정면 기준 ±90도)
 OAK_HFOV_DEG = 73.0
 OAK_VFOV_DEG = 58.0
 
+# ─── 뎁스 → 2D 맵 투영 (mapper.update_from_depth) ───────────────────
+# 카메라는 수평(pitch 0)으로 장착되었다고 가정. 실측 후 값을 수정할 것.
+OAK_HEIGHT_FROM_FLOOR_M = 1.00  # 카메라 렌즈의 바닥 기준 높이 (m)  ※ 가정값, 실측 필요
+DEPTH_OBS_MIN_H_M = 0.10  # 이 높이 미만 점은 바닥으로 간주해 제외 (m)
+DEPTH_OBS_MAX_H_M = 0.95  # 이 높이 초과 점은 천장/상부로 간주해 제외 (m)
+DEPTH_ROW_STEP = 4  # 뎁스 이미지 행 샘플링 간격 (연산량 절감)
+DEPTH_COL_STEP = 2  # 뎁스 이미지 열 샘플링 간격
+DEPTH_MIN_PTS_PER_CELL = 3  # 한 셀에 이 개수 이상 점이 모여야 장애물로 인정 (노이즈 제거)
+DEPTH_FREE_RAY_COL_STEP = 8  # free 레이캐스팅을 수행할 열 간격
+DEPTH_RAYCAST_FREE = True  # 가장 가까운 점까지 free 처리 여부
+
 # ─── 좌표 변환 (LiDAR → OAK 기준) ─────────────────────────────────
 # 로봇에 장착된 물리적 오프셋 (미터 / 도)
 # LiDAR 가 OAK 보다 높이 X m, 앞으로 Y m, 오른쪽 Z m 에 위치하면

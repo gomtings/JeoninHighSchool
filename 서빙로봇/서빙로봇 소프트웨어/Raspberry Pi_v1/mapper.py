@@ -188,6 +188,83 @@ class OccupancyMap:
 
         return updated  # 업데이트된 셀 수 반환
 
+    # ── OAK 뎁스 이미지 → 2D 맵 투영 ───────────────────────────────
+    def update_from_depth(self, depth_m: np.ndarray) -> int:
+        """
+        뎁스 이미지(미터)의 픽셀을 높이 필터로 걸러 2D 격자에 투영.
+        - 로봇 높이 범위(바닥~천장 제외)에 있는 모든 점을 장애물 후보로 기록
+        - 셀당 점 개수가 DEPTH_MIN_PTS_PER_CELL 이상일 때만 장애물로 인정 (노이즈 제거)
+        - free 레이캐스팅은 열별 최솟값(가장 가까운 점)까지만 수행
+        카메라는 수평 장착(pitch 0)으로 가정한다.
+        """
+        if depth_m is None or depth_m.ndim != 2 or depth_m.size == 0:
+            return 0
+
+        h, w = depth_m.shape
+        rs, cs = config.DEPTH_ROW_STEP, config.DEPTH_COL_STEP
+        rows = np.arange(0, h, rs)
+        cols = np.arange(0, w, cs)
+        z = depth_m[np.ix_(rows, cols)].astype(np.float32)  # (R, C) 전방 거리(Z)
+
+        # 핀홀 모델 (정사각 픽셀: fx = fy)
+        fx = (w / 2.0) / math.tan(math.radians(config.OAK_HFOV_DEG) / 2.0)
+        u = (cols - w / 2.0)[None, :]
+        v = (rows - h / 2.0)[:, None]
+
+        x = u * z / fx                                   # 우측 +
+        height = config.OAK_HEIGHT_FROM_FLOOR_M - v * z / fx  # 바닥 기준 높이
+
+        valid = (
+            (z > config.OAK_DEPTH_MIN_MM / 1000.0) &
+            (z < config.OAK_DEPTH_MAX_MM / 1000.0) &
+            (height >= config.DEPTH_OBS_MIN_H_M) &
+            (height <= config.DEPTH_OBS_MAX_H_M)
+        )
+        if not valid.any():
+            return 0
+
+        now = time.time()
+
+        # 필터를 통과한 모든 점을 셀 인덱스로 변환
+        col_idx = self.robot_col + np.rint(x[valid] / self.resolution).astype(np.int64)
+        row_idx = self.robot_row - np.rint(z[valid] / self.resolution).astype(np.int64)
+        inb = (row_idx >= 0) & (row_idx < self.height_cells) & (col_idx >= 0) & (col_idx < self.width_cells)
+        flat = row_idx[inb] * self.width_cells + col_idx[inb]
+        if flat.size == 0:
+            return 0
+
+        # 셀별 점 개수 집계 → 최소 개수 이상인 셀만 장애물
+        cells, counts = np.unique(flat, return_counts=True)
+        keep = counts >= config.DEPTH_MIN_PTS_PER_CELL
+        cells, counts = cells[keep], counts[keep]
+        r_hit, c_hit = np.divmod(cells, self.width_cells)
+
+        # free 레이캐스팅: 열별 최솟값(가장 가까운 점)까지만
+        if config.DEPTH_RAYCAST_FREE:
+            z_masked = np.where(valid, z, np.inf)
+            nearest_idx = np.argmin(z_masked, axis=0)
+            step = max(1, config.DEPTH_FREE_RAY_COL_STEP // cs)
+            for j in range(0, len(cols), step):
+                i = nearest_idx[j]
+                if not valid[i, j]:
+                    continue
+                er = self.robot_row - int(round(z[i, j] / self.resolution))
+                ec = self.robot_col + int(round(x[i, j] / self.resolution))
+                for r, c in self._bresenham(self.robot_row, self.robot_col, er, ec)[:-1]:
+                    if not self.in_bounds(r, c):
+                        continue
+                    # 라이다/카메라가 최근 장애물로 본 셀은 지우지 않음 (높이가 다른 물체 보호)
+                    if now - self.last_hit_time[r, c] < self.OBSTACLE_MEMORY_SEC:
+                        continue
+                    self.free_count[r, c] += 1
+                    self._update_cell(r, c, now)
+
+        # 장애물 셀 갱신 (벡터화)
+        self.hit_count[r_hit, c_hit] += np.minimum(counts, 4).astype(np.int32)
+        self.last_hit_time[r_hit, c_hit] = now
+        self.grid[r_hit, c_hit] = CELL_OBSTACLE
+        return int(cells.size)
+
     # ── 셀 상태 갱신 ──────────────────────────────────────────────
     # 셀의 상태를 hit/free 카운트 비율 및 장애물 메모리로 결정하는 내부 메서드
     def _update_cell(self, row: int, col: int, now: Optional[float] = None):

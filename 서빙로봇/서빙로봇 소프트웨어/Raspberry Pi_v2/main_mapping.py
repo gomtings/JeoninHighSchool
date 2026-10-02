@@ -271,6 +271,7 @@ def main(use_mock: bool = False, visualize: bool = True):
                 occ_map.update_from_lidar(lidar_scan)
             if oak_frame:
                 occ_map.update_from_oak(oak_frame)
+                occ_map.update_from_depth(oak_frame.depth_map)
             if classified_objects:
                 _update_map_from_classified(occ_map, classified_objects)
 
