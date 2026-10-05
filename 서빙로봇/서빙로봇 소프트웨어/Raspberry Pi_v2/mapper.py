@@ -69,6 +69,20 @@ class OccupancyMap:
         self.no_promote_until = np.zeros_like(self.grid, dtype=np.float64)
         # 이 셀을 마지막으로 OAK 화각 안에서 장애물로 관측한 시각 (s)
         self.oak_seen_time    = np.zeros_like(self.grid, dtype=np.float64)
+        # [확률 기반 셀 갱신] log-odds. 셀 하나가 0(미지)을 기준으로 hit 면 +, free 면 -로
+        # 움직이고 [LOGODDS_MIN, LOGODDS_MAX] 로 clip 된다. 상한이 있어서 오래 쌓인
+        # 장애물도 free 관측 몇 번(약 LOGODDS_MAX/|L_FREE|)이면 뒤집힌다
+        # (hit/free 비율 방식은 hit 가 수십 개 쌓이면 수백 번의 free 가 필요했다).
+        # 영구 승격/사람 차단/메모리 보호는 기존 hit_count 로직을 그대로 쓰고,
+        # 이 값은 _update_cell 의 장애물/빈공간 판정에만 사용한다.
+        self.logodds = np.zeros_like(self.grid, dtype=np.float32)
+        self.L_HIT = 0.85            # 장애물 관측 1회의 증가량 (확률 약 0.70 에 해당)
+        self.L_FREE = -0.40          # 빈 공간 관측 1회의 변화량 (확률 약 0.40 에 해당)
+        self.LOGODDS_MIN = -4.0
+        self.LOGODDS_MAX = 4.0
+        self.L_OCC_THRESH = 0.40     # 이 값 초과면 장애물 (hit 1회로 바로 넘는 민감도 유지)
+        self.L_FREE_THRESH = -0.30   # 이 값 미만이면 빈 공간
+        self.L_OAK_FLOOR = 2.0       # OAK 가 직접 확인한 장애물의 최소 log-odds (라이다 free 몇 번에 안 지워지게)
         self.OBSTACLE_MEMORY_SEC = 5.0  # 장애물 메모리 보존 시간 (5초 동안 책상 상판을 라이다가 지우지 못하도록 보호)
 
         # [영구 승격 기준]
@@ -143,6 +157,12 @@ class OccupancyMap:
             self.first_hit_time[row, col] = now
         self.hit_count[row, col] += weight
         self.last_hit_time[row, col] = now
+        self.logodds[row, col] = min(self.logodds[row, col] + self.L_HIT, self.LOGODDS_MAX)
+
+    def _register_free(self, row: int, col: int):
+        """빈 공간 관측 1회를 기록한다 (free_count 와 log-odds 를 함께 갱신)."""
+        self.free_count[row, col] += 1
+        self.logodds[row, col] = max(self.logodds[row, col] + self.L_FREE, self.LOGODDS_MIN)
 
     def block_promotion(self, row: int, col: int, now: float,
                         radius_cells: int = 3, sec: float = 10.0):
@@ -255,7 +275,7 @@ class OccupancyMap:
             # [장애물 메모리 보호] 최근 5초 이내에 감지된 장애물 셀은 라이다 빈 공간 광선이 지우지 못하도록 보호!
             if (now - self.last_hit_time[r, c] < self.OBSTACLE_MEMORY_SEC) and (self.grid[r, c] >= CELL_WALL):
                 continue
-            self.free_count[r, c] += 1  # 빈 공간 카운트 증가
+            self._register_free(r, c)  # 빈 공간 카운트 + log-odds 갱신
             self._update_cell(r, c, now)  # 셀 상태 업데이트
 
         # 승격 자격 판정에 쓰이므로 _update_cell 보다 먼저 찍는다
@@ -303,6 +323,7 @@ class OccupancyMap:
                 self._register_hit(end_row, end_col, now, weight)  # 카운트 + 관측 구간 시작 시각
                 self.oak_seen_time[end_row, end_col] = now  # OAK 가 직접 본 셀 (검증 가능)
                 self.free_count[end_row, end_col] = 0       # 기존 free 카운트 리셋 (확실한 장애물 선언)
+                self.logodds[end_row, end_col] = max(self.logodds[end_row, end_col], self.L_OAK_FLOOR)
                 self.grid[end_row, end_col] = CELL_OBSTACLE # 즉시 장애물 부여
 
                 # [책상 상판 두께 팽창] 장애물 주변 3x3 반경도 함께 메모리 보호 등록
@@ -395,7 +416,7 @@ class OccupancyMap:
                 # 라이다/카메라가 최근 장애물로 본 셀은 지우지 않음 (높이가 다른 물체 보호)
                 if now - self.last_hit_time[r, c] < self.OBSTACLE_MEMORY_SEC:
                     continue
-                self.free_count[r, c] += 1
+                self._register_free(r, c)
                 self._update_cell(r, c, now)
 
         # 장애물 셀 갱신. 카메라 화각 안의 관측이므로 oak_seen_time 도 찍는다.
@@ -448,13 +469,14 @@ class OccupancyMap:
         if total == 0:  # 감지 기록이 없으면
             return  # 상태 유지
 
-        hit_ratio = hit / total  # 장애물 비율 계산
+        # [확률 기반 판정] log-odds 로 장애물/빈 공간을 가른다 (그 사이는 현재 상태 유지)
+        lo = self.logodds[row, col]
 
-        if hit_ratio > 0.40:  # 장애물 비율이 높으면 (기존 0.55에서 0.40으로 민감도 향상)
+        if lo > self.L_OCC_THRESH:
             # 위의 영구 승격 분기에서 이미 hit > STATIC_PROMOTE_HIT_COUNT 인 경우를 처리했으므로
             # 여기 도달하는 건 항상 승격 기준에 못 미치는(아직 확신이 약한) 일반 장애물이다.
             self.grid[row, col] = CELL_OBSTACLE
-        elif hit_ratio < 0.15:  # 빈 공간 비율이 압도적일 때만 빈 공간으로 설정
+        elif lo < self.L_FREE_THRESH:
             self.grid[row, col] = CELL_FREE  # 빈 공간으로 설정
             # [영구 지도 반영] 빈 공간으로 여러 번(5회 이상) 확인된 셀은 static_grid에도 빈 공간으로 편입
             if free >= 5 and self.static_grid[row, col] != CELL_WALL:
@@ -648,6 +670,7 @@ class OccupancyMap:
                 grid=self.static_grid,
                 hit_count=self.hit_count,
                 free_count=self.free_count,
+                logodds=self.logodds,
                 resolution=self.resolution,
                 width_m=self.width_m,
                 height_m=self.height_m,
@@ -825,6 +848,14 @@ class OccupancyMap:
                     self.hit_count[:] = data["hit_count"]
                 if "free_count" in data:
                     self.free_count[:] = data["free_count"]
+                if "logodds" in data:
+                    self.logodds[:] = data["logodds"]
+                else:
+                    # 이전 형식의 맵: 저장된 카운트로 log-odds 를 근사 복원
+                    self.logodds[:] = np.clip(
+                        self.hit_count * self.L_HIT + self.free_count * self.L_FREE,
+                        self.LOGODDS_MIN, self.LOGODDS_MAX,
+                    )
                 if "robot_col" in data and "robot_row" in data:
                     self.robot_col = int(data["robot_col"])
                     self.robot_row = int(data["robot_row"])
@@ -859,6 +890,7 @@ class OccupancyMap:
         self.static_grid[:]   = CELL_UNKNOWN  # 정적 맵 초기화
         self.hit_count[:]     = 0             # 히트 카운트 초기화
         self.free_count[:]    = 0             # 프리 카운트 초기화
+        self.logodds[:]       = 0.0           # log-odds 초기화
         self.last_hit_time[:] = 0.0           # 장애물 메모리 초기화
         self.first_hit_time[:] = 0.0          # 관측 구간 시작 시각 초기화
         self.no_promote_until[:] = 0.0        # 승격 차단 표시 초기화
