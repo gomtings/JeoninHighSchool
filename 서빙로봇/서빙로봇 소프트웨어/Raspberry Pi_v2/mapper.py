@@ -128,6 +128,8 @@ class OccupancyMap:
         self.last_update = time.time()
         # 직전에 반영한 스캔의 타임스탬프 (같은 스캔의 중복 반영을 막는다)
         self._last_scan_ts = None
+        # free_count 감쇠용 스캔 카운터 (update_from_lidar 가 스캔마다 증가)
+        self._free_tick = 0
 
     # ── 로봇 자세(오도메트리) 반영 ────────────────────────────────
     def set_robot_pose(self, x_fwd_m: float, y_left_m: float, heading_deg: float):
@@ -160,8 +162,14 @@ class OccupancyMap:
         self.logodds[row, col] = min(self.logodds[row, col] + self.L_HIT, self.LOGODDS_MAX)
 
     def _register_free(self, row: int, col: int):
-        """빈 공간 관측 1회를 기록한다 (free_count 와 log-odds 를 함께 갱신)."""
-        self.free_count[row, col] += 1
+        """
+        빈 공간 관측 1회를 기록한다 (free_count 와 log-odds 를 함께 갱신).
+        hit 가 여러 번 쌓인 셀(책상/의자 다리 등)은 빔이 다리 사이를 지나갈 때마다
+        free_count 가 부풀어 저장 때 장애물에서 탈락하므로, free_count 는 4번에 1번만
+        올린다. log-odds 는 그대로 갱신하므로 실시간 맵에서 사라진 장애물은 똑같이 지워진다.
+        """
+        if self.hit_count[row, col] < 3 or (self._free_tick & 3) == 0:
+            self.free_count[row, col] += 1
         self.logodds[row, col] = max(self.logodds[row, col] + self.L_FREE, self.LOGODDS_MIN)
 
     def block_promotion(self, row: int, col: int, now: float,
@@ -231,6 +239,7 @@ class OccupancyMap:
         if scan_ts is not None and scan_ts == self._last_scan_ts:
             return 0
         self._last_scan_ts = scan_ts
+        self._free_tick += 1
 
         now = time.time()
 
@@ -624,7 +633,13 @@ class OccupancyMap:
         hit_ratio = self.hit_count / np.maximum(total_counts, 1)
 
         # 유효 감지 끝점 (벽 또는 장애물)
-        valid_hits = (self.hit_count >= 2) & (self.hit_count >= self.free_count * 0.25)
+        # 라이다가 책상/의자 다리 사이를 통과하면 그 셀에 free 가 훨씬 많이 쌓여 hit 비율이
+        # 0.25 에 못 미친다. 그래서 hit 가 충분히 반복된 셀은 비율 조건을 크게 완화한다.
+        # 최소 hit 5 는 사람 셀의 상한(PERSON_HIT_CAP=4)보다 커서, 사람 흔적은 저장되지 않는다.
+        valid_hits = (self.hit_count >= 2) & (
+            (self.hit_count >= self.free_count * 0.25) |
+            ((self.hit_count >= 5) & (self.hit_count >= self.free_count * 0.05))
+        )
         # 유효 빈 공간
         valid_free = (self.free_count >= 3) & (hit_ratio < 0.20) & (~valid_hits)
         self.static_grid[valid_free] = CELL_FREE
