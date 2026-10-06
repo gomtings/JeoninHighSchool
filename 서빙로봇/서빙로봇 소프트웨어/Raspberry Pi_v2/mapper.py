@@ -97,6 +97,10 @@ class OccupancyMap:
         # 두 배로 두어, 회피는 정상 동작하되 승격 조건(hit > 25)에는 못 닿게 한다.
         self.PERSON_HIT_CAP = 4
 
+        # [벽/장애물 구분] 저장 시 벽으로 분류된 덩어리의 긴 변이 이 길이 미만이면 장애물로 본다
+        self.WALL_MIN_LENGTH_M = 2.0
+        self.WALL_FRAGMENT_MIN_CELLS = 8
+
         # [승격 자격] 분류기가 검증할 수 있는 방위에서 본 관측인가
         # 위 PERSON_HIT_CAP 은 block_promotion() 이 불려야 걸리고, 그건 분류기가
         # PERSON 라벨을 붙여줘야 열린다. 그런데 PERSON 은 OAK 융합 분류에서만
@@ -438,6 +442,87 @@ class OccupancyMap:
             self._update_cell(r, c, now)
         return len(hit_set)
 
+    # ── YOLO 가구 감지 → 2D 맵 투영 ────────────────────────────────
+    def update_from_yolo(self, detections, depth_m: np.ndarray) -> int:
+        """
+        YOLO 가 의자/소파/테이블로 확인한 박스를 맵의 장애물로 투영한다.
+
+        update_from_depth 는 셀당 점 3개 이상이라는 잡음 필터 때문에 멀거나 무늬 없는 상판을
+        놓친다. YOLO 박스는 "여기 가구가 있다"는 의미 정보가 있으므로 그 박스 안에서는
+        필터를 완화한다.
+        - 박스의 열마다, 높이 범위 안(바닥/천장 제외)의 가장 가까운 뎁스를 가구 앞면 거리로 쓴다.
+        - 박스 안에 유효 뎁스가 거의 없으면(무늬 없는 상판 등) 박스 하단(바닥 접점)의
+          위치로 거리를 추정한다. 카메라 높이/수평 장착 가정(config.OAK_HEIGHT_FROM_FLOOR_M)에 의존한다.
+        - 투영된 셀은 hit_count 를 올려 영구 지도 후보가 된다 (set_cell 은 임시 표시일 뿐이었다).
+        """
+        if not detections or depth_m is None or depth_m.ndim != 2 or depth_m.size == 0:
+            return 0
+
+        h, w = depth_m.shape
+        fx = (w / 2.0) / math.tan(math.radians(config.OAK_HFOV_DEG) / 2.0)
+        z_min = config.OAK_DEPTH_MIN_MM / 1000.0
+        z_max = config.OAK_DEPTH_MAX_MM / 1000.0
+        hd = math.radians(self.robot_heading_deg)
+        sin_h, cos_h = math.sin(hd), math.cos(hd)
+        now = time.time()
+
+        hit_set = set()
+        for det in detections:
+            if det.get("class_id") not in config.YOLO_MAP_CLASS_IDS:
+                continue
+            if det.get("confidence", 0.0) < config.YOLO_MAP_MIN_CONF:
+                continue
+
+            bx1, by1, bx2, by2 = det["bbox_norm"]
+            x1, x2 = int(bx1 * w), int(bx2 * w)
+            y1, y2 = int(by1 * h), int(by2 * h)
+            if x2 - x1 < 4 or y2 - y1 < 4:
+                continue
+
+            cols = np.arange(x1, x2, 2)
+            rows = np.arange(y1, y2)
+            sub = depth_m[np.ix_(rows, cols)].astype(np.float32)          # (R, C)
+            height = config.OAK_HEIGHT_FROM_FLOOR_M - (rows - h / 2.0)[:, None] * sub / fx
+            ok = (
+                (sub > z_min) & (sub < z_max) &
+                (height >= config.DEPTH_OBS_MIN_H_M) & (height <= config.DEPTH_OBS_MAX_H_M)
+            )
+            enough = ok.sum(axis=0) >= config.YOLO_MAP_MIN_COL_PTS         # 열별 뎁스 신뢰 여부
+
+            if enough.mean() >= 0.3:
+                # 열별 가장 가까운 유효 뎁스 = 가구 앞면
+                z = np.where(ok, sub, np.inf).min(axis=0)
+                use = enough
+                z, cols_used = z[use], cols[use]
+            else:
+                # 뎁스 부족: 박스 하단 = 바닥 접점. 수평 카메라의 바닥점 거리 z = H * fx / (y - cy)
+                v = y2 - h / 2.0
+                if v <= 2.0:
+                    continue
+                z_floor = config.OAK_HEIGHT_FROM_FLOOR_M * fx / v
+                if not (z_min < z_floor < min(config.YOLO_FLOOR_MAX_M, 99.0)):
+                    continue
+                z = np.full(cols.shape, z_floor, dtype=np.float32)
+                cols_used = cols
+
+            x_cam = (cols_used - w / 2.0) * z / fx
+            x_w = x_cam * cos_h + z * sin_h
+            y_w = z * cos_h - x_cam * sin_h
+            c_idx = self.robot_col + np.rint(x_w / self.resolution).astype(np.int64)
+            r_idx = self.robot_row - np.rint(y_w / self.resolution).astype(np.int64)
+            for r, c in zip(r_idx.tolist(), c_idx.tolist()):
+                if self.in_bounds(r, c):
+                    hit_set.add((r, c))
+
+        for r, c in hit_set:
+            self._register_hit(r, c, now, config.YOLO_MAP_HIT_WEIGHT)
+            self.oak_seen_time[r, c] = now          # 카메라 화각 안의 관측
+            self.free_count[r, c] = 0
+            self.logodds[r, c] = max(self.logodds[r, c], self.L_OAK_FLOOR)
+            self.grid[r, c] = CELL_OBSTACLE
+            self._update_cell(r, c, now)
+        return len(hit_set)
+
     # ── 셀 상태 갱신 ──────────────────────────────────────────────
     # 셀의 상태를 hit/free 카운트 비율 및 장애물 메모리로 결정하는 내부 메서드
     def _update_cell(self, row: int, col: int, now: Optional[float] = None):
@@ -676,6 +761,18 @@ class OccupancyMap:
 
             self.static_grid[wall_mask] = CELL_WALL
             self.static_grid[obs_mask]  = CELL_OBSTACLE
+
+            # [짧은 벽 조각 재분류] 벽 근처에 놓인 박스/탁자는 위 판정에서 벽과 이어져 벽으로
+            # 분류된다. 실제 벽은 길고 연속적이므로, 벽으로 분류된 덩어리 중 긴 변이
+            # WALL_MIN_LENGTH_M 미만이고 WALL_FRAGMENT_MIN_CELLS 이상인 것은 장애물로 되돌린다.
+            # (그보다 작은 조각은 잡음으로 보고 그대로 둔다)
+            wall_u8 = (self.static_grid == CELL_WALL).astype(np.uint8)
+            n_w, lab_w, st_w, _ = cv2.connectedComponentsWithStats(wall_u8, connectivity=8)
+            max_len_cells = self.WALL_MIN_LENGTH_M / self.resolution
+            for i in range(1, n_w):
+                longest = max(st_w[i, cv2.CC_STAT_WIDTH], st_w[i, cv2.CC_STAT_HEIGHT])
+                if st_w[i, cv2.CC_STAT_AREA] >= self.WALL_FRAGMENT_MIN_CELLS and longest < max_len_cells:
+                    self.static_grid[lab_w == i] = CELL_OBSTACLE
         except Exception:
             self.static_grid[valid_hits] = CELL_WALL
 

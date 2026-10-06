@@ -222,16 +222,21 @@ class ObjectClassifier:
         self.clusterer = LidarClusterer()
         self.tracker   = ObjectTracker()
         self.yolo      = YoloDetector()  # YOLOv8 감지기 초기화
+        # 가장 최근 classify() 에서 YOLO 가 낸 원본 감지 목록 (class_id/bbox_norm/confidence).
+        # 맵이 가구(책상/의자)를 직접 투영할 때 쓴다 (mapper.update_from_yolo).
+        self.last_yolo_detections: list = []
 
     def classify(self, lidar_scan, oak_frame) -> List[ClassifiedObject]:
         """메인 분류 메서드 - 3D 기하 분석과 PC용 YOLOv8 AI 분석의 하이브리드 공간 융합"""
         clusters = self.clusterer.extract_clusters(lidar_scan)
         results: List[ClassifiedObject] = []
+        self.last_yolo_detections = []
 
         # 1단계: OAK 프레임이 수신되었고, RGB 스트림과 YOLO가 유효하게 구동 가능한 경우 YOLO 추론 가동
         yolo_objects: List[ClassifiedObject] = []
         if oak_frame is not None and oak_frame.rgb_frame is not None and self.yolo.is_available:
             yolo_results = self.yolo.detect(oak_frame.rgb_frame)
+            self.last_yolo_detections = yolo_results
             depth_map = oak_frame.depth_map
             
             if depth_map is not None and depth_map.size > 0:

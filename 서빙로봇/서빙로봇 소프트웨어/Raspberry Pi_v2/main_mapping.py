@@ -77,6 +77,9 @@ def main(use_mock: bool = False, visualize: bool = True):
     win_name = "Serving Robot Control Dashboard (1280x960)"
     if visualize:
         cv2.namedWindow(win_name, cv2.WINDOW_AUTOSIZE)
+    # 카메라 + YOLO 박스 미리보기 창 ('c' 키로 켜고 끔). YOLO 가 책상/의자를 실제로 잡는지 확인용.
+    cam_win_name = "Camera + YOLO (c: on/off)"
+    show_camera = True
 
     input_target_x_str = "2.00"
     input_target_y_str = "1.50"
@@ -257,8 +260,10 @@ def main(use_mock: bool = False, visualize: bool = True):
                     oak_frame = oak_proc.get_frame()
 
             # 점유 맵 업데이트 (사전 저장 맵 베이스 위에 실시간 센서 데이터 융합)
+            yolo_fresh = False  # 이번 프레임에 YOLO 가 새로 돌았는지 (오래된 박스 재사용 방지)
             if frame_count % 3 == 0:
                 classified_objects = classifier.classify(lidar_scan, oak_frame)
+                yolo_fresh = True
 
             occ_map.prepare_frame()
             # 센서 데이터를 찍기 전에 로봇의 현재 오도메트리 자세를 맵에 반영
@@ -272,6 +277,8 @@ def main(use_mock: bool = False, visualize: bool = True):
             if oak_frame:
                 occ_map.update_from_oak(oak_frame)
                 occ_map.update_from_depth(oak_frame.depth_map)
+                if yolo_fresh:
+                    occ_map.update_from_yolo(classifier.last_yolo_detections, oak_frame.depth_map)
             if classified_objects:
                 _update_map_from_classified(occ_map, classified_objects)
 
@@ -329,6 +336,9 @@ def main(use_mock: bool = False, visualize: bool = True):
                 )
 
                 cv2.imshow(win_name, dashboard_img)
+                if show_camera and oak_frame is not None and oak_frame.rgb_frame is not None:
+                    cv2.imshow(cam_win_name, _draw_camera_preview(
+                        oak_frame.rgb_frame, classifier.last_yolo_detections, classifier.yolo.is_available))
 
                 # ── 6. UI 종료 버튼 클릭, 창 닫기(X), 키보드 초고속 반응성 처리 ─────────────────
                 if is_exit_requested:
@@ -378,6 +388,13 @@ def main(use_mock: bool = False, visualize: bool = True):
                     elif key in (ord('l'), ord('L')):
                         if occ_map.load_map("saved_map.npz"):
                             status_msg = "MAP LOADED: saved_map.npz"
+                    elif key in (ord('c'), ord('C')):
+                        show_camera = not show_camera
+                        if not show_camera:
+                            try:
+                                cv2.destroyWindow(cam_win_name)
+                            except cv2.error:
+                                pass
 
             # FPS 측정
             frame_count += 1
@@ -447,7 +464,32 @@ def main(use_mock: bool = False, visualize: bool = True):
         os._exit(0)
 
 
-def _update_map_from_classified(occ_map: OccupancyMap, classified_objects: List[ClassifiedObject]): 
+def _draw_camera_preview(rgb_frame, detections, yolo_available: bool = True):
+    """
+    카메라 화면에 YOLO 감지 박스를 그린 복사본을 반환한다.
+    - 초록: 맵에 반영되는 가구(config.YOLO_MAP_CLASS_IDS) 중 신뢰도 기준 이상
+    - 주황: 맵 대상 가구지만 신뢰도 부족 (맵에는 반영 안 됨)
+    - 회색: 그 외 클래스 (사람 포함)
+    """
+    img = rgb_frame.copy()
+    h, w = img.shape[:2]
+    for det in detections or []:
+        x1, y1, x2, y2 = det["bbox_norm"]
+        p1, p2 = (int(x1 * w), int(y1 * h)), (int(x2 * w), int(y2 * h))
+        cid, conf = det.get("class_id"), det.get("confidence", 0.0)
+        if cid in config.YOLO_MAP_CLASS_IDS:
+            color = (0, 200, 0) if conf >= config.YOLO_MAP_MIN_CONF else (0, 140, 255)
+        else:
+            color = (150, 150, 150)
+        cv2.rectangle(img, p1, p2, color, 2)
+        cv2.putText(img, f"{det.get('label', '?')}#{cid} {conf:.2f}", (p1[0], max(12, p1[1] - 4)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
+    status = f"YOLO boxes: {len(detections or [])}" if yolo_available else "YOLO OFF (geometry only)"
+    cv2.putText(img, status, (8, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2, cv2.LINE_AA)
+    return img
+
+
+def _update_map_from_classified(occ_map: OccupancyMap, classified_objects: List[ClassifiedObject]):
     """
     분류기 결과를 맵에 반영한다.
 

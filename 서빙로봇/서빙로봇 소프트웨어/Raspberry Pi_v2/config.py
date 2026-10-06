@@ -69,6 +69,14 @@ DEPTH_MIN_PTS_PER_CELL = 3  # 한 셀에 이 개수 이상 점이 모여야 장�
 DEPTH_FREE_RAY_COL_STEP = 8  # free 레이캐스팅을 수행할 열 간격
 DEPTH_RAYCAST_FREE = True  # 가장 가까운 점까지 free 처리 여부
 
+# ─── YOLO 가구 → 2D 맵 투영 (mapper.update_from_yolo) ───────────────
+# COCO 클래스 id: 56=chair, 57=couch, 60=dining table
+YOLO_MAP_CLASS_IDS = (56, 57, 60)
+YOLO_MAP_MIN_CONF = 0.35  # 이 신뢰도 미만 감지는 맵에 반영하지 않음
+YOLO_MAP_HIT_WEIGHT = 2  # 감지 1회당 셀 hit 가중치
+YOLO_MAP_MIN_COL_PTS = 2  # 박스 한 열에서 유효 뎁스가 이 개수 이상이어야 그 열의 뎁스를 신뢰
+YOLO_FLOOR_MAX_M = 6.0  # 뎁스가 없을 때 박스 하단(바닥 접점)으로 추정하는 최대 거리 (m)
+
 # ─── 좌표 변환 (LiDAR → OAK 기준) ─────────────────────────────────
 # 로봇에 장착된 물리적 오프셋 (미터 / 도)
 # LiDAR 가 OAK 보다 높이 X m, 앞으로 Y m, 오른쪽 Z m 에 위치하면
