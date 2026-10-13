@@ -371,43 +371,26 @@ class MapVisualizer:
         now = time.time()
         oak_seen = getattr(self.occ_map, "oak_seen_time", None)
 
-        cell_px = max(1, int(px))
-        for row in range(H):
-            for col in range(W):
-                val = grid[row, col]
-                s_val = static_grid[row, col] if static_grid is not None else CELL_UNKNOWN
+        # 셀 색상을 numpy 마스크로 한 번에 칠한다 (16만 셀 파이썬 이중 루프는 프레임당 약 280ms 걸렸다).
+        # 판정 순서/조건은 예전 셀 단위 분기와 동일하다.
+        s_grid = static_grid if static_grid is not None else np.full_like(grid, CELL_UNKNOWN)
+        cell_img = np.empty((H, W, 3), dtype=np.uint8)
+        cell_img[:] = self.COLOR_LIDAR_OBSTACLE                       # 3) 라이다 장애물 (기본값)
+        is_obs = grid >= CELL_OBSTACLE
+        cell_img[is_obs & (s_grid >= CELL_OBSTACLE)] = self.COLOR_STATIC_OBSTACLE  # 2) 사전 저장 장애물
+        if oak_seen is not None:                                       # 1) OAK 최근 관측 장애물 (최우선)
+            cell_img[is_obs & (oak_seen > 0) & ((now - oak_seen) <= 5.0)] = self.COLOR_OAK_OBSTACLE
+        is_wall = (grid >= CELL_WALL) & (grid < CELL_OBSTACLE)
+        cell_img[is_wall & (s_grid >= CELL_WALL)] = self.COLOR_STATIC_WALL
+        cell_img[is_wall & (s_grid < CELL_WALL)] = self.COLOR_LIVE_WALL
+        cell_img[(grid >= CELL_WALL) & (np.abs(grid - 0.6) < 0.05)] = self.COLOR_GLASS_WALL
+        cell_img[grid < CELL_WALL] = self.COLOR_FREE
+        cell_img[grid == CELL_UNKNOWN] = self.COLOR_UNKNOWN
 
-                if val == CELL_UNKNOWN:
-                    color = self.COLOR_UNKNOWN
-                elif val < CELL_WALL:
-                    color = self.COLOR_FREE
-                elif val == 0.6 or abs(val - 0.6) < 0.05:
-                    # 유리벽 (Glass Wall) -> 하늘색
-                    color = self.COLOR_GLASS_WALL
-                elif val < CELL_OBSTACLE:
-                    # 벽 (Wall) -> 차분한 회색
-                    if s_val >= CELL_WALL:
-                        color = self.COLOR_STATIC_WALL     # 차분한 다크 회색
-                    else:
-                        color = self.COLOR_LIVE_WALL       # 차분한 미디엄 회색
-                else:
-                    # 장애물 (Obstacle)
-                    # 1) OAK-D-Lite 가 직접 관측/감지한 장애물 (최근 5초 이내 OAK 관측 기록) -> 파란색
-                    if oak_seen is not None and oak_seen[row, col] > 0 and (now - oak_seen[row, col]) <= 5.0:
-                        color = self.COLOR_OAK_OBSTACLE    # OAK-D-Lite: 파란색
-                    # 2) 사전 로드된 고정 장애물
-                    elif s_val >= CELL_OBSTACLE:
-                        color = self.COLOR_STATIC_OBSTACLE # 사전 저장 장애물: 차분한 앰버
-                    # 3) 라이다(LiDAR)로 찍은 장애물 -> 주황색
-                    else:
-                        color = self.COLOR_LIDAR_OBSTACLE  # 라이다: 선명한 주황색
-
-                y1 = offset_y + int(row * px)
-                x1 = offset_x + int(col * px)
-                y2 = min(y1 + cell_px, MH)
-                x2 = min(x1 + cell_px, MW)
-                if x1 < MW and y1 < MH:
-                    canvas[y1:y2, x1:x2] = color
+        out_w = min(int(W * px), MW - offset_x)
+        out_h = min(int(H * px), MH - offset_y)
+        canvas[offset_y:offset_y + out_h, offset_x:offset_x + out_w] = cv2.resize(
+            cell_img, (int(W * px), int(H * px)), interpolation=cv2.INTER_NEAREST)[:out_h, :out_w]
 
         # 격자선 (1m 간격)
         grid_m = 1.0

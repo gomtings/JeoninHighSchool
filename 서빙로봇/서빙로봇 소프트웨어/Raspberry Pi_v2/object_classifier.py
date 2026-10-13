@@ -226,8 +226,12 @@ class ObjectClassifier:
         # 맵이 가구(책상/의자)를 직접 투영할 때 쓴다 (mapper.update_from_yolo).
         self.last_yolo_detections: list = []
 
-    def classify(self, lidar_scan, oak_frame) -> List[ClassifiedObject]:
-        """메인 분류 메서드 - 3D 기하 분석과 PC용 YOLOv8 AI 분석의 하이브리드 공간 융합"""
+    def classify(self, lidar_scan, oak_frame, yolo_results: Optional[list] = None) -> List[ClassifiedObject]:
+        """
+        메인 분류 메서드 - 3D 기하 분석과 PC용 YOLOv8 AI 분석의 하이브리드 공간 융합
+        yolo_results 를 주면 YOLO 를 직접 돌리지 않고 그 결과를 쓴다
+        (백그라운드 YOLO 스레드(oak_worker)가 이미 계산한 결과를 넘길 때).
+        """
         clusters = self.clusterer.extract_clusters(lidar_scan)
         results: List[ClassifiedObject] = []
         self.last_yolo_detections = []
@@ -235,7 +239,8 @@ class ObjectClassifier:
         # 1단계: OAK 프레임이 수신되었고, RGB 스트림과 YOLO가 유효하게 구동 가능한 경우 YOLO 추론 가동
         yolo_objects: List[ClassifiedObject] = []
         if oak_frame is not None and oak_frame.rgb_frame is not None and self.yolo.is_available:
-            yolo_results = self.yolo.detect(oak_frame.rgb_frame)
+            if yolo_results is None:
+                yolo_results = self.yolo.detect(oak_frame.rgb_frame)
             self.last_yolo_detections = yolo_results
             depth_map = oak_frame.depth_map
             

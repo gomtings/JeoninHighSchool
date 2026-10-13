@@ -207,11 +207,18 @@ def _lidar_worker(scan_queue: Queue, stop_event, use_mock: bool):
         lidar_hw.connect()
         print(f"[LiDAR 프로세스] 연결: {config.LIDAR_PORT}")
 
+        # [속도 측정] config.DEBUG_PROFILE 이 True 면 5초마다 스캔 처리 통계를 출력
+        profile = getattr(config, "DEBUG_PROFILE", False)
+        st = {"n": 0, "raw": 0, "pts": 0, "read": 0.0, "filt": 0.0, "put": 0.0, "buf_max": 0}
+        st_t0 = time.time()
+
         while not stop_event.is_set():
             try:
+                t_prev = time.perf_counter()
                 for scan_raw in lidar_hw.iter_scans(max_buf_meas=3000):
                     if stop_event.is_set():
                         break
+                    t_read = time.perf_counter()  # 여기까지가 라이브러리가 한 바퀴를 읽어 묶는 데 쓴 시간
                     points: List[LidarPoint] = []
 
                     for quality, angle_raw, dist_mm in scan_raw:
@@ -240,6 +247,7 @@ def _lidar_worker(scan_queue: Queue, stop_event, use_mock: bool):
                             is_blind_zone = is_blind_zone(angle),
                         ))
 
+                    t_filt = time.perf_counter()
                     if points:
                         scan = LidarScan(
                             points            = points,
@@ -247,6 +255,33 @@ def _lidar_worker(scan_queue: Queue, stop_event, use_mock: bool):
                             timestamp         = time.time(),
                         )
                         put_scan(scan)
+                    t_put = time.perf_counter()
+
+                    if profile:
+                        st["n"] += 1
+                        st["raw"] += len(scan_raw)
+                        st["pts"] += len(points)
+                        st["read"] += t_read - t_prev
+                        st["filt"] += t_filt - t_read
+                        st["put"] += t_put - t_filt
+                        # 시리얼 입력 버퍼에 아직 못 읽고 쌓인 바이트 (측정값 1개 = 5바이트)
+                        ser = getattr(lidar_hw, "_serial", None) or getattr(lidar_hw, "_serial_port", None)
+                        try:
+                            st["buf_max"] = max(st["buf_max"], int(ser.in_waiting))
+                        except Exception:
+                            pass
+                        el = time.time() - st_t0
+                        if el >= 5.0 and st["n"]:
+                            n = st["n"]
+                            meas_rate = st["raw"] / el  # 초당 측정값 수
+                            backlog = st["buf_max"] / 5.0
+                            print(f"[LiDAR PROFILE] {n / el:.1f} scans/s | 측정값/바퀴 {st['raw'] / n:.0f} -> 필터 후 {st['pts'] / n:.0f}점"
+                                  f" | 라이브러리 읽기 {st['read'] / n * 1000:.0f}ms | 필터 {st['filt'] / n * 1000:.1f}ms"
+                                  f" | 큐 전송 {st['put'] / n * 1000:.1f}ms | 시리얼 버퍼 최대 {backlog:.0f}개"
+                                  f" (약 {backlog / max(meas_rate, 1):.2f}초 밀림)")
+                            st = {k: 0 if isinstance(v, int) else 0.0 for k, v in st.items()}
+                            st_t0 = time.time()
+                    t_prev = time.perf_counter()
 
             except Exception as e:
                 print(f"[LiDAR 프로세스] 스캔 오류: {e} → 재연결...")

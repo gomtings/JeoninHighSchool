@@ -176,6 +176,97 @@ class OccupancyMap:
             self.free_count[row, col] += 1
         self.logodds[row, col] = max(self.logodds[row, col] + self.L_FREE, self.LOGODDS_MIN)
 
+    # ── numpy 일괄 처리 도우미 (rows/cols 는 중복 없는 셀 목록이어야 한다) ──────────
+    def _in_bounds_np(self, rows: np.ndarray, cols: np.ndarray) -> np.ndarray:
+        return (rows >= 0) & (rows < self.height_cells) & (cols >= 0) & (cols < self.width_cells)
+
+    def _flat_in_bounds(self, rows: np.ndarray, cols: np.ndarray) -> np.ndarray:
+        """맵 범위 안의 셀만 골라 평탄화 인덱스(row * width + col)로 반환"""
+        m = self._in_bounds_np(rows, cols)
+        return rows[m] * self.width_cells + cols[m]
+
+    @staticmethod
+    def _ray_cells_np(r0: int, c0: int, r1: np.ndarray, c1: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        (r0, c0) 에서 각 (r1[i], c1[i]) 까지의 직선이 지나는 셀을 한 번에 계산한다 (끝점 제외).
+        _bresenham(r0, c0, r1, c1)[:-1] 과 칸 단위로 완전히 같은 결과를 낸다
+        (주축으로 k 칸 갈 때 부축 오프셋 = (2*k*minor + major - 1) // (2*major)).
+        """
+        r1 = np.asarray(r1, dtype=np.int64)
+        c1 = np.asarray(c1, dtype=np.int64)
+        dr = np.abs(r1 - r0)
+        dc = np.abs(c1 - c0)
+        n = np.maximum(dr, dc)                      # 직선별 셀 수 (끝점 제외)
+        if n.sum() == 0:
+            empty = np.empty(0, dtype=np.int64)
+            return empty, empty
+        ray = np.repeat(np.arange(n.size), n)       # 각 셀이 속한 직선 번호
+        k = np.arange(ray.size) - np.repeat(np.cumsum(n) - n, n)  # 직선 안에서의 칸 번호
+        dr_k, dc_k, n_k = dr[ray], dc[ray], n[ray]
+        r_major = dr_k >= dc_k
+        minor = np.where(r_major, dc_k, dr_k)
+        m = (2 * k * minor + n_k - 1) // (2 * n_k)  # 부축 오프셋
+        sr = np.where(r1 > r0, 1, -1)[ray]
+        sc = np.where(c1 > c0, 1, -1)[ray]
+        rows = r0 + sr * np.where(r_major, k, m)
+        cols = c0 + sc * np.where(r_major, m, k)
+        return rows, cols
+
+    def _register_free_np(self, rows: np.ndarray, cols: np.ndarray):
+        """_register_free 의 일괄 버전"""
+        if rows.size == 0:
+            return
+        inc = (self.hit_count[rows, cols] < 3) | ((self._free_tick & 3) == 0)
+        self.free_count[rows[inc], cols[inc]] += 1
+        self.logodds[rows, cols] = np.maximum(self.logodds[rows, cols] + self.L_FREE, self.LOGODDS_MIN)
+
+    def _register_hit_np(self, rows: np.ndarray, cols: np.ndarray, now: float, weight: int = 1):
+        """_register_hit 의 일괄 버전"""
+        if rows.size == 0:
+            return
+        prev = self.last_hit_time[rows, cols]
+        new_seg = (prev == 0.0) | ((now - prev) > self.OBSTACLE_MEMORY_SEC)
+        self.first_hit_time[rows[new_seg], cols[new_seg]] = now
+        self.hit_count[rows, cols] += weight
+        self.last_hit_time[rows, cols] = now
+        self.logodds[rows, cols] = np.minimum(self.logodds[rows, cols] + self.L_HIT, self.LOGODDS_MAX)
+
+    def _update_cells_np(self, rows: np.ndarray, cols: np.ndarray, now: float):
+        """_update_cell 의 일괄 버전 (판정 순서와 조건이 같다)"""
+        if rows.size == 0:
+            return
+        hit = self.hit_count[rows, cols]
+        free = self.free_count[rows, cols]
+        total = hit + free
+        observed_span = self.last_hit_time[rows, cols] - self.first_hit_time[rows, cols]
+        oak_verified = (now - self.oak_seen_time[rows, cols]) <= self.OBSTACLE_MEMORY_SEC
+        min_span = np.where(oak_verified, self.STATIC_PROMOTE_MIN_SEC, self.STATIC_PROMOTE_SIDE_MIN_SEC)
+
+        # 1) 영구 승격
+        promote = ((hit > self.STATIC_PROMOTE_HIT_COUNT)
+                   & (total > 0) & ((hit / np.maximum(total, 1)) > 0.40)
+                   & (observed_span >= min_span)
+                   & (now >= self.no_promote_until[rows, cols]))
+        pr, pc = rows[promote], cols[promote]
+        self.static_grid[pr, pc] = CELL_WALL
+        self.grid[pr, pc] = CELL_WALL
+        rest = ~promote
+
+        # 2) 최근 5초 장애물 메모리
+        memory = rest & ((now - self.last_hit_time[rows, cols]) < self.OBSTACLE_MEMORY_SEC) & (hit >= 2)
+        self.grid[rows[memory], cols[memory]] = CELL_OBSTACLE
+        rest &= ~memory
+
+        # 3) 감지 기록이 없으면 상태 유지, 그 외는 log-odds 판정
+        rest &= total > 0
+        lo = self.logodds[rows, cols]
+        occ = rest & (lo > self.L_OCC_THRESH)
+        self.grid[rows[occ], cols[occ]] = CELL_OBSTACLE
+        fre = rest & ~occ & (lo < self.L_FREE_THRESH)
+        self.grid[rows[fre], cols[fre]] = CELL_FREE
+        to_static = fre & (free >= 5) & (self.static_grid[rows, cols] != CELL_WALL)
+        self.static_grid[rows[to_static], cols[to_static]] = CELL_FREE
+
     def block_promotion(self, row: int, col: int, now: float,
                         radius_cells: int = 3, sec: float = 10.0):
         """
@@ -247,64 +338,57 @@ class OccupancyMap:
 
         now = time.time()
 
+        # 포인트 배열화 (이하 전부 numpy 일괄 처리: 예전엔 점마다 파이썬 Bresenham + set 이라
+        # 스캔 1회에 수만 번의 파이썬 연산이 메인 루프에서 돌았다)
+        pts = scan.points
+        dist = np.fromiter((p.distance_m for p in pts), dtype=np.float64, count=len(pts))
+        ang = np.fromiter((p.angle_deg for p in pts), dtype=np.float64, count=len(pts))
+        ok = dist > 0  # 거리가 유효하지 않은 점은 건너뜀
+        dist, ang = dist[ok], ang[ok]
+        if dist.size == 0:
+            self.last_update = now
+            return 0
+
+        # 극좌표 -> 직교좌표 (로봇 헤딩만큼 회전시켜 월드 방향으로 정렬) -> 셀 인덱스 (world_to_cell 과 동일)
+        rad = np.radians(ang + self.robot_heading_deg)
+        end_col = self.robot_col + np.rint(dist * np.sin(rad) / self.resolution).astype(np.int64)
+        end_row = self.robot_row - np.rint(dist * np.cos(rad) / self.resolution).astype(np.int64)
+
         # [셀 중복 제거] 한 스캔 안에서 여러 광선이 같은 셀을 때리면(사람 폭이 8도만
         # 돼도 광선 17개가 5cm 셀 하나에 수렴) 스캔 1회에 카운트가 +3씩 올랐다.
-        # 스캔 1회당 셀 1회로 정규화한다.
-        hit_cells = set()
-        free_cells = set()
-        verified_cells = set()  # 그 중 OAK 화각 안에서 본 끝점 (분류기가 걸러줄 수 있는 셀)
+        # 스캔 1회당 셀 1회로 정규화한다 (np.unique).
+        # 레이 캐스팅: 로봇 위치에서 끝점까지의 경로(끝점 제외)를 빈 공간으로
+        ray_r, ray_c = self._ray_cells_np(self.robot_row, self.robot_col, end_row, end_col)
+        free_flat = np.unique(self._flat_in_bounds(ray_r, ray_c))
 
-        for point in scan.points:  # 각 포인트에 대해
-            if point.distance_m <= 0:  # 거리가 유효하지 않으면
-                continue  # 건너뜀
-
-            # 포인트의 극좌표를 직교좌표로 변환 (로봇 헤딩만큼 회전시켜 월드 방향으로 정렬)
-            rad   = math.radians(point.angle_deg + self.robot_heading_deg)  # 로봇 헤딩 보정 후 라디안 변환
-            x_end = point.distance_m * math.sin(rad)  # 끝점 x (로봇 현재 위치 기준 상대 좌표)
-            y_end = point.distance_m * math.cos(rad)  # 끝점 y (로봇 현재 위치 기준 상대 좌표)
-
-            # 끝점을 셀 인덱스로 변환
-            end_row, end_col = self.world_to_cell(x_end, y_end)
-
-            # 레이 캐스팅: 로봇 위치에서 포인트까지의 경로를 빈 공간으로 마킹
-            ray_cells = self._bresenham(  # Bresenham 알고리즘으로 경로 셀 계산
-                self.robot_row, self.robot_col,  # 시작점: 로봇
-                end_row, end_col,  # 끝점
-            )
-            for r, c in ray_cells[:-1]:  # 끝점 제외한 경로 셀들
-                if self.in_bounds(r, c):  # 맵 범위 내이면
-                    free_cells.add((r, c))
-
-            if self.in_bounds(end_row, end_col):  # 범위 내이면
-                hit_cells.add((end_row, end_col))
-                # OAK 화각 안의 끝점만 분류기가 사람/벽을 판별해줄 수 있다
-                if abs(point.angle_deg) <= self.OAK_VERIFY_HALF_FOV_DEG:
-                    verified_cells.add((end_row, end_col))
+        end_in = self._in_bounds_np(end_row, end_col)
+        hit_flat = np.unique(end_row[end_in] * self.width_cells + end_col[end_in])
+        # 그 중 OAK 화각 안에서 본 끝점 (분류기가 사람/벽을 판별해줄 수 있는 셀)
+        ver = end_in & (np.abs(ang) <= self.OAK_VERIFY_HALF_FOV_DEG)
+        ver_flat = np.unique(end_row[ver] * self.width_cells + end_col[ver])
 
         # 같은 스캔에서 끝점이기도 한 셀은 빈 공간으로 치지 않는다 (끝점 우선)
-        free_cells -= hit_cells
+        free_flat = np.setdiff1d(free_flat, hit_flat, assume_unique=True)
+        fr, fc = np.divmod(free_flat, self.width_cells)
 
-        for r, c in free_cells:
-            # [장애물 메모리 보호] 최근 5초 이내에 감지된 장애물 셀은 라이다 빈 공간 광선이 지우지 못하도록 보호!
-            if (now - self.last_hit_time[r, c] < self.OBSTACLE_MEMORY_SEC) and (self.grid[r, c] >= CELL_WALL):
-                continue
-            self._register_free(r, c)  # 빈 공간 카운트 + log-odds 갱신
-            self._update_cell(r, c, now)  # 셀 상태 업데이트
+        # [장애물 메모리 보호] 최근 5초 이내에 감지된 장애물 셀은 라이다 빈 공간 광선이 지우지 못하도록 보호!
+        keep = ~(((now - self.last_hit_time[fr, fc]) < self.OBSTACLE_MEMORY_SEC) & (self.grid[fr, fc] >= CELL_WALL))
+        fr, fc = fr[keep], fc[keep]
+        self._register_free_np(fr, fc)   # 빈 공간 카운트 + log-odds 갱신
+        self._update_cells_np(fr, fc, now)
 
-        # 승격 자격 판정에 쓰이므로 _update_cell 보다 먼저 찍는다
-        for r, c in verified_cells:
-            self.oak_seen_time[r, c] = now
+        # 승격 자격 판정에 쓰이므로 _update_cells_np 보다 먼저 찍는다
+        vr, vc = np.divmod(ver_flat, self.width_cells)
+        self.oak_seen_time[vr, vc] = now
 
         # 끝점은 장애물로 마킹
-        updated = 0  # 업데이트된 셀 수
-        for r, c in hit_cells:
-            self._register_hit(r, c, now)  # 장애물 카운트 + 관측 구간 시작 시각 관리
-            self._update_cell(r, c, now)   # 셀 상태 업데이트
-            updated += 1  # 업데이트 수 증가
+        hr, hc = np.divmod(hit_flat, self.width_cells)
+        self._register_hit_np(hr, hc, now)  # 장애물 카운트 + 관측 구간 시작 시각 관리
+        self._update_cells_np(hr, hc, now)
 
         # 마지막 업데이트 시간 기록
         self.last_update = now
-        return updated  # 업데이트된 셀 수 반환
+        return int(hit_flat.size)  # 업데이트된 셀 수 반환
 
     # ── OAK 깊이맵 업데이트 ───────────────────────────────────────
     # OAK 카메라 데이터를 맵에 반영하는 메서드
@@ -407,40 +491,36 @@ class OccupancyMap:
         cells, counts = np.unique(flat, return_counts=True)
         cells = cells[counts >= config.DEPTH_MIN_PTS_PER_CELL]
         r_hit, c_hit = np.divmod(cells, self.width_cells)
-        hit_set = set(zip(r_hit.tolist(), c_hit.tolist()))
 
-        # free 레이캐스팅: 열별 최솟값(가장 가까운 점)까지만
+        # free 레이캐스팅: 열별 최솟값(가장 가까운 점)까지만 (numpy 일괄 처리)
         if config.DEPTH_RAYCAST_FREE:
-            free_set = set()
             z_masked = np.where(valid, z, np.inf)
             nearest_idx = np.argmin(z_masked, axis=0)
             step = max(1, config.DEPTH_FREE_RAY_COL_STEP // config.DEPTH_COL_STEP)
-            for j in range(0, len(cols), step):
-                i = nearest_idx[j]
-                if not valid[i, j]:
-                    continue
-                er = self.robot_row - int(round(y_w[i, j] / self.resolution))
-                ec = self.robot_col + int(round(x_w[i, j] / self.resolution))
-                for r, c in self._bresenham(self.robot_row, self.robot_col, er, ec)[:-1]:
-                    if self.in_bounds(r, c):
-                        free_set.add((r, c))
-            free_set -= hit_set  # 같은 프레임에서 끝점인 셀은 빈 공간으로 치지 않는다
-            for r, c in free_set:
-                # 라이다/카메라가 최근 장애물로 본 셀은 지우지 않음 (높이가 다른 물체 보호)
-                if now - self.last_hit_time[r, c] < self.OBSTACLE_MEMORY_SEC:
-                    continue
-                self._register_free(r, c)
-                self._update_cell(r, c, now)
+            js = np.arange(0, len(cols), step)
+            is_ = nearest_idx[js]
+            ok = valid[is_, js]
+            js, is_ = js[ok], is_[ok]
+            er = self.robot_row - np.rint(y_w[is_, js] / self.resolution).astype(np.int64)
+            ec = self.robot_col + np.rint(x_w[is_, js] / self.resolution).astype(np.int64)
+            ray_r, ray_c = self._ray_cells_np(self.robot_row, self.robot_col, er, ec)
+            free_flat = np.unique(self._flat_in_bounds(ray_r, ray_c))
+            free_flat = np.setdiff1d(free_flat, cells, assume_unique=True)  # 같은 프레임 끝점은 제외
+            fr, fc = np.divmod(free_flat, self.width_cells)
+            # 라이다/카메라가 최근 장애물로 본 셀은 지우지 않음 (높이가 다른 물체 보호)
+            keep = (now - self.last_hit_time[fr, fc]) >= self.OBSTACLE_MEMORY_SEC
+            fr, fc = fr[keep], fc[keep]
+            self._register_free_np(fr, fc)
+            self._update_cells_np(fr, fc, now)
 
         # 장애물 셀 갱신. 카메라 화각 안의 관측이므로 oak_seen_time 도 찍는다.
-        # 승격 자격 판정에 쓰이므로 _update_cell 보다 먼저 찍는다.
-        for r, c in hit_set:
-            self.oak_seen_time[r, c] = now
-            self._register_hit(r, c, now)
-            self.free_count[r, c] = 0
-            self.grid[r, c] = CELL_OBSTACLE
-            self._update_cell(r, c, now)
-        return len(hit_set)
+        # 승격 자격 판정에 쓰이므로 _update_cells_np 보다 먼저 찍는다.
+        self.oak_seen_time[r_hit, c_hit] = now
+        self._register_hit_np(r_hit, c_hit, now)
+        self.free_count[r_hit, c_hit] = 0
+        self.grid[r_hit, c_hit] = CELL_OBSTACLE
+        self._update_cells_np(r_hit, c_hit, now)
+        return int(cells.size)
 
     # ── YOLO 가구 감지 → 2D 맵 투영 ────────────────────────────────
     def update_from_yolo(self, detections, depth_m: np.ndarray) -> int:
@@ -466,7 +546,7 @@ class OccupancyMap:
         sin_h, cos_h = math.sin(hd), math.cos(hd)
         now = time.time()
 
-        hit_set = set()
+        hit_parts = []
         for det in detections:
             if det.get("class_id") not in config.YOLO_MAP_CLASS_IDS:
                 continue
@@ -514,18 +594,19 @@ class OccupancyMap:
             y_w = z * cos_h - x_cam * sin_h
             c_idx = self.robot_col + np.rint(x_w / self.resolution).astype(np.int64)
             r_idx = self.robot_row - np.rint(y_w / self.resolution).astype(np.int64)
-            for r, c in zip(r_idx.tolist(), c_idx.tolist()):
-                if self.in_bounds(r, c):
-                    hit_set.add((r, c))
+            hit_parts.append(self._flat_in_bounds(r_idx, c_idx))
 
-        for r, c in hit_set:
-            self._register_hit(r, c, now, config.YOLO_MAP_HIT_WEIGHT)
-            self.oak_seen_time[r, c] = now          # 카메라 화각 안의 관측
-            self.free_count[r, c] = 0
-            self.logodds[r, c] = max(self.logodds[r, c], self.L_OAK_FLOOR)
-            self.grid[r, c] = CELL_OBSTACLE
-            self._update_cell(r, c, now)
-        return len(hit_set)
+        if not hit_parts:
+            return 0
+        hit_flat = np.unique(np.concatenate(hit_parts))
+        hr, hc = np.divmod(hit_flat, self.width_cells)
+        self._register_hit_np(hr, hc, now, config.YOLO_MAP_HIT_WEIGHT)
+        self.oak_seen_time[hr, hc] = now          # 카메라 화각 안의 관측
+        self.free_count[hr, hc] = 0
+        self.logodds[hr, hc] = np.maximum(self.logodds[hr, hc], self.L_OAK_FLOOR)
+        self.grid[hr, hc] = CELL_OBSTACLE
+        self._update_cells_np(hr, hc, now)
+        return int(hit_flat.size)
 
     # ── 셀 상태 갱신 ──────────────────────────────────────────────
     # 셀의 상태를 hit/free 카운트 비율 및 장애물 메모리로 결정하는 내부 메서드

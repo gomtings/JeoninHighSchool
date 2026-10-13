@@ -27,6 +27,7 @@ from map_visualizer import MapVisualizer
 from lidar_processor import LidarProcessor, LidarScan
 from oak_processor import OakProcessor, OakFrame, OakObstacle
 from object_classifier import ObjectClassifier, ObjectType, ClassifiedObject
+from oak_worker import OakYoloWorker
 from voice_manager import VoiceManager
 
 
@@ -72,6 +73,20 @@ def main(use_mock: bool = False, visualize: bool = True):
                 # 초기 연결 실패는 치명적이지 않다 - oak_proc 는 살려두고 get_frame() 내부의
                 # 3초 쿨다운 자동 재연결에 복구를 맡긴다 (USB 열거 지연 등 일시적 상황 대응).
                 print(f"[System] OAK-D-Lite Init Failed: {e} -> LiDAR Single Mode (auto-reconnect in background)")
+
+    # OAK 수신과 YOLO 추론은 백그라운드 스레드에서 돈다 (메인 루프가 YOLO 를 기다리며 멈추지 않도록).
+    # 초기 연결에 실패했어도 get_frame() 내부 자동 재연결에 맡기고 스레드는 그대로 띄운다.
+    oak_worker: Optional[OakYoloWorker] = None
+    if oak_proc is not None:
+        oak_worker = OakYoloWorker(
+            oak_proc, classifier.yolo,
+            pose_fn=lambda: (recommender.robot_x, recommender.robot_y, recommender.robot_heading_deg),
+        )
+        oak_worker.start()
+    last_frame_seq = 0   # 맵에 반영한 마지막 OAK 프레임 번호 (같은 프레임 중복 반영 방지)
+    last_yolo_seq = 0    # 맵에 반영한 마지막 YOLO 결과 번호
+    preview_frame = None # 카메라 창에 띄울 최신 프레임 (새 프레임이 없는 루프에서도 유지)
+    preview_dets: list = []
 
     # ── 2. UI 및 상태 변수 초기화 ────────────────────────────────────
     win_name = "Serving Robot Control Dashboard (1280x960)"
@@ -239,6 +254,8 @@ def main(use_mock: bool = False, visualize: bool = True):
     # [단계별 소요 시간 측정] config.DEBUG_PROFILE 이 True 면 30프레임마다 단계별 평균(ms)을 출력
     prof_acc: dict = {}
     prof_n = 0
+    # 라이다 스캔이 메인에 도착했을 때 얼마나 오래된 데이터인지 (스캔 완성 -> 메인 사용)
+    lidar_age_sum, lidar_age_n, last_scan_ts = 0.0, 0, None
 
     def _mark(name, t_prev):
         t_now = time.perf_counter()
@@ -252,8 +269,14 @@ def main(use_mock: bool = False, visualize: bool = True):
 
             # 센서 데이터 수집
             lidar_scan = lidar_proc.get_scan()
+            if lidar_scan is not None and lidar_scan.timestamp != last_scan_ts:
+                last_scan_ts = lidar_scan.timestamp
+                lidar_age_sum += time.time() - lidar_scan.timestamp
+                lidar_age_n += 1
             tp = _mark("lidar_get", tp)
-            oak_frame = None
+            oak_frame = None        # 이번 루프에 새로 들어온 OAK 프레임 (맵 반영 대상, 없으면 None)
+            oak_frame_pose = None   # 그 프레임을 받은 순간의 로봇 자세
+            yolo_new = None         # 이번 루프에 새로 나온 YOLO 결과 (YoloResult, 없으면 None)
 
             if use_mock:
                 t_now = time.time()
@@ -266,37 +289,59 @@ def main(use_mock: bool = False, visualize: bool = True):
                     obstacles=[],
                     timestamp=t_now
                 )
-            else:
-                if oak_proc:
-                    oak_frame = oak_proc.get_frame()
+                preview_frame = oak_frame
+            elif oak_worker is not None:
+                # 백그라운드 스레드가 보관한 최신 결과만 가져간다 (기다리지 않음)
+                fr = oak_worker.get_frame()
+                if fr is not None:
+                    preview_frame = fr.frame
+                    if fr.seq != last_frame_seq:
+                        last_frame_seq = fr.seq
+                        oak_frame, oak_frame_pose = fr.frame, fr.pose
+                yr = oak_worker.get_detections()
+                if yr is not None:
+                    preview_dets = yr.detections
+                    if yr.seq != last_yolo_seq:
+                        last_yolo_seq = yr.seq
+                        yolo_new = yr
             tp = _mark("oak_get", tp)
 
-            # 점유 맵 업데이트 (사전 저장 맵 베이스 위에 실시간 센서 데이터 융합)
-            yolo_fresh = False  # 이번 프레임에 YOLO 가 새로 돌았는지 (오래된 박스 재사용 방지)
+            # 분류 (라이다 클러스터 + YOLO 융합). 실제 기기에서는 YOLO 를 스레드가 이미 돌렸으므로
+            # 그 결과를 넘겨 여기서는 추론하지 않는다. mock 모드만 여기서 직접 YOLO 를 돌린다.
+            mock_yolo_fresh = False
             if frame_count % 3 == 0:
-                classified_objects = classifier.classify(lidar_scan, oak_frame)
-                yolo_fresh = True
-            tp = _mark("classify(YOLO)", tp)
+                if oak_worker is not None:
+                    classified_objects = classifier.classify(lidar_scan, preview_frame, yolo_results=preview_dets)
+                else:
+                    classified_objects = classifier.classify(lidar_scan, oak_frame)
+                    preview_dets = classifier.last_yolo_detections
+                    mock_yolo_fresh = True
+            tp = _mark("classify", tp)
 
             occ_map.prepare_frame()
             tp = _mark("prepare_frame", tp)
             # 센서 데이터를 찍기 전에 로봇의 현재 오도메트리 자세를 맵에 반영
-            occ_map.set_robot_pose(
-                recommender.robot_x,
-                recommender.robot_y,
-                recommender.robot_heading_deg,
-            )
+            current_pose = (recommender.robot_x, recommender.robot_y, recommender.robot_heading_deg)
+            occ_map.set_robot_pose(*current_pose)
             if lidar_scan is not None:
                 occ_map.update_from_lidar(lidar_scan)
             tp = _mark("map_lidar", tp)
-            if oak_frame:
+            if oak_frame is not None:
+                # 스레드에서 받은 프레임은 받은 순간의 자세로 찍는다 (그 사이 로봇이 움직였을 수 있음)
+                if oak_frame_pose is not None:
+                    occ_map.set_robot_pose(*oak_frame_pose)
                 occ_map.update_from_oak(oak_frame)
                 tp = _mark("map_oak", tp)
                 occ_map.update_from_depth(oak_frame.depth_map)
                 tp = _mark("map_depth", tp)
-                if yolo_fresh:
-                    occ_map.update_from_yolo(classifier.last_yolo_detections, oak_frame.depth_map)
-                tp = _mark("map_yolo", tp)
+                if mock_yolo_fresh:
+                    occ_map.update_from_yolo(preview_dets, oak_frame.depth_map)
+            if yolo_new is not None:
+                # YOLO 결과는 그 박스를 낸 프레임의 뎁스와 자세로 찍는다
+                occ_map.set_robot_pose(*yolo_new.pose)
+                occ_map.update_from_yolo(yolo_new.detections, yolo_new.depth_map)
+            occ_map.set_robot_pose(*current_pose)  # 이후 처리(분류 결과 반영, 경로 추천)는 현재 자세 기준
+            tp = _mark("map_yolo", tp)
             if classified_objects:
                 _update_map_from_classified(occ_map, classified_objects)
 
@@ -356,9 +401,9 @@ def main(use_mock: bool = False, visualize: bool = True):
                 tp = _mark("render", tp)
 
                 cv2.imshow(win_name, dashboard_img)
-                if show_camera and oak_frame is not None and oak_frame.rgb_frame is not None:
+                if show_camera and preview_frame is not None and preview_frame.rgb_frame is not None:
                     preview_img = _draw_camera_preview(
-                        oak_frame.rgb_frame, classifier.last_yolo_detections, classifier.yolo.is_available
+                        preview_frame.rgb_frame, preview_dets, classifier.yolo.is_available
                     )
                     if preview_img is not None:
                         cv2.imshow(cam_win_name, preview_img)
@@ -369,7 +414,10 @@ def main(use_mock: bool = False, visualize: bool = True):
                     break
 
                 # 텍스트 입력 중일 때는 1ms 초고속 반응, 평상시에는 프레임 레이트 유지
-                wait_ms = 1 if active_input is not None else max(1, int(target_dt * 1000))
+                # 목표 주기(target_dt)에서 이번 프레임에 이미 쓴 시간을 뺀 만큼만 기다린다
+                # (예전에는 작업 시간과 무관하게 매 프레임 66ms 를 통째로 기다려 FPS 를 깎아먹었다)
+                remain_ms = int((target_dt - (time.time() - t0)) * 1000)
+                wait_ms = 1 if active_input is not None else max(1, remain_ms)
                 key = cv2.waitKey(wait_ms) & 0xFF
 
                 # waitKey 호출 이후 OpenCV Window 닫기(X 버튼 클릭) 감지
@@ -427,6 +475,11 @@ def main(use_mock: bool = False, visualize: bool = True):
                     parts = sorted(prof_acc.items(), key=lambda kv: -kv[1])
                     print(f"[PROFILE] 1프레임 평균 {total / prof_n * 1000:.0f}ms | " +
                           " | ".join(f"{k} {v / prof_n * 1000:.0f}" for k, v in parts))
+                    if lidar_age_n:
+                        # 30프레임 동안 새로 받은 스캔 수 / 그 스캔들이 도착했을 때의 평균 나이
+                        print(f"[PROFILE] 라이다: 새 스캔 {lidar_age_n}개 / {total:.1f}초, "
+                              f"도착 시 평균 {lidar_age_sum / lidar_age_n * 1000:.0f}ms 지난 데이터")
+                    lidar_age_sum, lidar_age_n = 0.0, 0
                     prof_acc.clear()
                     prof_n = 0
 
@@ -472,6 +525,12 @@ def main(use_mock: bool = False, visualize: bool = True):
             pass
 
         # ── [종료 3순위] OAK 카메라 프로세스 종료 ──
+        # 백그라운드 OAK/YOLO 스레드를 먼저 멈춘다 (닫힌 디바이스를 스레드가 계속 읽지 않도록)
+        try:
+            if 'oak_worker' in locals() and oak_worker:
+                oak_worker.stop()
+        except Exception:
+            pass
         try:
             if 'oak_proc' in locals() and oak_proc:
                 print("[System] [3순위] OAK 프로세스 종료 중...")
