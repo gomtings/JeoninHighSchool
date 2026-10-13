@@ -3,7 +3,9 @@ test_oak_rgb_raw.py
 OAK-D-Lite RGB 영상이 단색 회색으로 나오는 문제를 가리기 위한 최소 진단 스크립트.
 oak_processor 를 거치지 않고 ColorCamera 만 단독으로 연다 (메인 프로그램은 먼저 종료할 것).
 
-사용법:  python test_oak_rgb_raw.py [video|preview|isp]    (기본 video)
+사용법:  python test_oak_rgb_raw.py [video|preview|isp|proc]    (기본 video)
+  - proc: 메인 프로그램과 똑같이 OakProcessor 로 열어 RGB 를 확인한다
+          (단독 모드는 정상인데 proc 만 단색이면 oak_processor 파이프라인 설정 문제)
   - 연결된 센서 이름 / USB 속도를 출력한다.
   - 1초마다 RGB, 왼쪽 흑백 프레임의 mean/std 를 출력한다.
       std 가 거의 0 이면 "무늬 없는 단색 프레임" (영상 자체가 비정상)
@@ -21,7 +23,35 @@ import numpy as np
 import depthai as dai
 
 
+def run_processor():
+    """메인 프로그램과 같은 OakProcessor 경로로 RGB 를 받아 mean/std 를 출력한다."""
+    from oak_processor import OakProcessor
+    print("depthai", dai.__version__, "| python", sys.version.split()[0])
+    proc = OakProcessor()
+    proc.start()
+    last_print = 0.0
+    try:
+        while True:
+            frame = proc.get_frame()
+            if frame is not None and frame.rgb_frame is not None:
+                rgb = frame.rgb_frame
+                now = time.time()
+                if now - last_print >= 1.0:
+                    last_print = now
+                    print(f"PROC RGB {rgb.shape} mean={rgb.mean():6.1f} std={rgb.std():6.2f}")
+                cv2.imshow("OakProcessor RGB", rgb)
+            if (cv2.waitKey(10) & 0xFF) == ord("q"):
+                break
+    finally:
+        proc.stop()
+        cv2.destroyAllWindows()
+
+
 def main(mode: str = "video"):
+    if mode == "proc":
+        run_processor()
+        return
+
     p = dai.Pipeline()
 
     cam = p.create(dai.node.ColorCamera)
