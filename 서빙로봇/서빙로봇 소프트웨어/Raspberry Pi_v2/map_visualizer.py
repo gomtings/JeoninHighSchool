@@ -11,6 +11,7 @@ map_visualizer.py
 import cv2
 import numpy as np
 import math
+import time
 from typing import Optional, Tuple, Dict, Any
 from mapper import OccupancyMap, CELL_FREE, CELL_WALL, CELL_OBSTACLE, CELL_UNKNOWN
 from path_recommender import PathRecommendation, DirectionScore
@@ -49,15 +50,18 @@ class MapVisualizer:
     COLOR_INPUT_BORDER  = (65, 80, 105)
     COLOR_INPUT_ACTIVE  = (240, 190, 40)     # 활성화 시 네온 시안/골드
 
-    # 맵 셀 색상 (슬릭 네온 SLAM 맵 & 듀얼 컬러 레이어링)
+    # 맵 셀 색상 (사용자 지정: 라이다=주황, OAK=파랑, 벽=차분한 회색, 유리벽=하늘색)
     COLOR_UNKNOWN           = (18, 20, 26)       # 미지 영역
     COLOR_FREE              = (225, 230, 235)    # 빈 공간 (밝은 슬레이트 세라믹)
-    COLOR_STATIC_WALL       = (90, 100, 115)     # [사전 저장] 고정 벽 (차분한 슬레이트 블루)
-    COLOR_STATIC_OBSTACLE   = (175, 140, 70)     # [사전 저장] 고정 장애물 (차분한 앰버 골드)
-    COLOR_LIVE_WALL         = (60, 185, 245)     # [실시간] 새로 감지된 벽 (네온 일렉트릭 블루)
-    COLOR_LIVE_OBSTACLE     = (30, 95, 255)      # [실시간] 새로 감지된 장애물 (선명한 네온 코랄 오렌지)
-    COLOR_WALL              = (95, 102, 115)     # 기본 벽 색상
-    COLOR_OBSTACLE          = (30, 110, 245)     # 기본 장애물 색상
+    COLOR_WALL              = (115, 120, 130)    # 벽: 차분한 회색
+    COLOR_STATIC_WALL       = (100, 105, 115)    # [사전 저장] 고정 벽: 차분한 다크 회색
+    COLOR_LIVE_WALL         = (125, 130, 140)    # [실시간] 새로 감지된 벽: 차분한 미디엄 회색
+    COLOR_LIDAR_OBSTACLE    = (20, 110, 255)     # 라이다 장애물: 선명한 네온 주황색
+    COLOR_OAK_OBSTACLE      = (245, 120, 25)     # OAK-D-Lite 장애물: 선명한 파란색
+    COLOR_GLASS_WALL        = (250, 205, 75)     # 유리벽: 화사한 하늘색 (Sky Blue)
+    COLOR_STATIC_OBSTACLE   = (160, 130, 70)     # [사전 저장] 고정 장애물 (차분한 앰버)
+    COLOR_LIVE_OBSTACLE     = (20, 110, 255)     # 실시간 기본 장애물 (주황)
+    COLOR_OBSTACLE          = (20, 110, 255)     # 기본 장애물 색상
     COLOR_ROBOT             = (240, 200, 30)     # 로봇 위치 (네온 시안)
     COLOR_BEST_DIR          = (80, 235, 120)     # 최적 방향 (일렉트릭 링)
     COLOR_BAD_DIR           = (45, 45, 220)      # 위험 방향 (빨강)
@@ -311,19 +315,30 @@ class MapVisualizer:
         for i, line in enumerate(stat_lines):
             cv2.putText(panel, line, (30, 725 + i * 19), font, 0.36, self.COLOR_TEXT_GRAY, 1, cv2.LINE_AA)
 
-        # 범례 표시 (듀얼 컬러 레이어 안내)
-        cv2.putText(panel, "[ Legend ]", (30, 818), font, 0.38, self.COLOR_TEXT_WHITE, 1, cv2.LINE_AA)
-        legend = [
+        # 범례 표시 (사용자 지정: 라이다=주황, OAK=파랑, 벽=회색, 유리=하늘색)
+        cv2.putText(panel, "[ Legend ]", (30, 814), font, 0.38, self.COLOR_TEXT_WHITE, 1, cv2.LINE_AA)
+        legend_row1 = [
+            (self.COLOR_LIDAR_OBSTACLE, "LiDAR"),
+            (self.COLOR_OAK_OBSTACLE, "OAK-D"),
+            (self.COLOR_WALL, "Wall"),
+        ]
+        legend_row2 = [
+            (self.COLOR_GLASS_WALL, "Glass"),
             (self.COLOR_FREE, "Free"),
-            (self.COLOR_STATIC_WALL, "Static"),
-            (self.COLOR_LIVE_OBSTACLE, "Live Obs"),
             (self.COLOR_ROBOT, "Robot"),
         ]
-        lx, ly = 30, 844
-        for color, label in legend:
-            cv2.rectangle(panel, (lx, ly - 10), (lx + 14, ly + 4), color, -1)
-            cv2.putText(panel, label, (lx + 18, ly + 2), font, 0.35, self.COLOR_TEXT_GRAY, 1, cv2.LINE_AA)
-            lx += 82
+
+        lx, ly = 30, 836
+        for color, label in legend_row1:
+            cv2.rectangle(panel, (lx, ly - 9), (lx + 12, ly + 3), color, -1)
+            cv2.putText(panel, label, (lx + 16, ly + 2), font, 0.34, self.COLOR_TEXT_GRAY, 1, cv2.LINE_AA)
+            lx += 110
+
+        lx, ly = 30, 856
+        for color, label in legend_row2:
+            cv2.rectangle(panel, (lx, ly - 9), (lx + 12, ly + 3), color, -1)
+            cv2.putText(panel, label, (lx + 16, ly + 2), font, 0.34, self.COLOR_TEXT_GRAY, 1, cv2.LINE_AA)
+            lx += 110
 
         return panel
 
@@ -353,6 +368,9 @@ class MapVisualizer:
         offset_x = int((MW - W * px) / 2)
         offset_y = int((MH - H * px) / 2)
 
+        now = time.time()
+        oak_seen = getattr(self.occ_map, "oak_seen_time", None)
+
         cell_px = max(1, int(px))
         for row in range(H):
             for col in range(W):
@@ -363,20 +381,26 @@ class MapVisualizer:
                     color = self.COLOR_UNKNOWN
                 elif val < CELL_WALL:
                     color = self.COLOR_FREE
+                elif val == 0.6 or abs(val - 0.6) < 0.05:
+                    # 유리벽 (Glass Wall) -> 하늘색
+                    color = self.COLOR_GLASS_WALL
                 elif val < CELL_OBSTACLE:
-                    # 벽 (Wall) -> 사전 로드된 정적 벽 vs 실시간 감지 벽
+                    # 벽 (Wall) -> 차분한 회색
                     if s_val >= CELL_WALL:
-                        color = self.COLOR_STATIC_WALL     # 차분한 슬레이트 블루
+                        color = self.COLOR_STATIC_WALL     # 차분한 다크 회색
                     else:
-                        color = self.COLOR_LIVE_WALL       # 네온 스카이 블루
-                elif val == 0.6:
-                    color = (200, 220, 255)                # 유리벽
+                        color = self.COLOR_LIVE_WALL       # 차분한 미디엄 회색
                 else:
-                    # 장애물 (Obstacle) -> 사전 로드된 정적 장애물 vs 실시간 동적 장애물
-                    if s_val >= CELL_OBSTACLE:
-                        color = self.COLOR_STATIC_OBSTACLE # 차분한 앰버 골드
+                    # 장애물 (Obstacle)
+                    # 1) OAK-D-Lite 가 직접 관측/감지한 장애물 (최근 5초 이내 OAK 관측 기록) -> 파란색
+                    if oak_seen is not None and oak_seen[row, col] > 0 and (now - oak_seen[row, col]) <= 5.0:
+                        color = self.COLOR_OAK_OBSTACLE    # OAK-D-Lite: 파란색
+                    # 2) 사전 로드된 고정 장애물
+                    elif s_val >= CELL_OBSTACLE:
+                        color = self.COLOR_STATIC_OBSTACLE # 사전 저장 장애물: 차분한 앰버
+                    # 3) 라이다(LiDAR)로 찍은 장애물 -> 주황색
                     else:
-                        color = self.COLOR_LIVE_OBSTACLE   # 선명한 네온 코랄 오렌지
+                        color = self.COLOR_LIDAR_OBSTACLE  # 라이다: 선명한 주황색
 
                 y1 = offset_y + int(row * px)
                 x1 = offset_x + int(col * px)

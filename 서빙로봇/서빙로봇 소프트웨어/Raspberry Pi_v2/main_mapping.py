@@ -77,8 +77,8 @@ def main(use_mock: bool = False, visualize: bool = True):
     win_name = "Serving Robot Control Dashboard (1280x960)"
     if visualize:
         cv2.namedWindow(win_name, cv2.WINDOW_AUTOSIZE)
-    # 카메라 + YOLO 박스 미리보기 창 ('c' 키로 켜고 끔). YOLO 가 책상/의자를 실제로 잡는지 확인용.
-    cam_win_name = "Camera + YOLO (c: on/off)"
+    # OAK-D-Lite RGB 컬러 카메라 + YOLO 미리보기 창 ('c': 켜고 끔)
+    cam_win_name = "OAK-D-Lite RGB Camera (c: on/off)"
     show_camera = True
 
     input_target_x_str = "2.00"
@@ -337,8 +337,11 @@ def main(use_mock: bool = False, visualize: bool = True):
 
                 cv2.imshow(win_name, dashboard_img)
                 if show_camera and oak_frame is not None and oak_frame.rgb_frame is not None:
-                    cv2.imshow(cam_win_name, _draw_camera_preview(
-                        oak_frame.rgb_frame, classifier.last_yolo_detections, classifier.yolo.is_available))
+                    preview_img = _draw_camera_preview(
+                        oak_frame.rgb_frame, classifier.last_yolo_detections, classifier.yolo.is_available
+                    )
+                    if preview_img is not None:
+                        cv2.imshow(cam_win_name, preview_img)
 
                 # ── 6. UI 종료 버튼 클릭, 창 닫기(X), 키보드 초고속 반응성 처리 ─────────────────
                 if is_exit_requested:
@@ -464,28 +467,44 @@ def main(use_mock: bool = False, visualize: bool = True):
         os._exit(0)
 
 
-def _draw_camera_preview(rgb_frame, detections, yolo_available: bool = True):
+def _draw_camera_preview(rgb_frame: np.ndarray, detections, yolo_available: bool = True):
     """
-    카메라 화면에 YOLO 감지 박스를 그린 복사본을 반환한다.
-    - 초록: 맵에 반영되는 가구(config.YOLO_MAP_CLASS_IDS) 중 신뢰도 기준 이상
-    - 주황: 맵 대상 가구지만 신뢰도 부족 (맵에는 반영 안 됨)
-    - 회색: 그 외 클래스 (사람 포함)
+    OAK-D-Lite 실물 RGB 컬러 카메라 화면에 YOLO 감지 박스를 그린 복사본을 반환한다.
+    - 초록: 맵에 반영되는 가구(테이블/의자/소파 등) 중 신뢰도 기준 이상
+    - 주황: 맵 대상 가구지만 신뢰도 부족
+    - 회색: 그 외 클래스 (사람 등)
     """
+    if rgb_frame is None:
+        return None
+
     img = rgb_frame.copy()
     h, w = img.shape[:2]
+
+    # 1. YOLO 감지 박스 그리기
     for det in detections or []:
         x1, y1, x2, y2 = det["bbox_norm"]
         p1, p2 = (int(x1 * w), int(y1 * h)), (int(x2 * w), int(y2 * h))
         cid, conf = det.get("class_id"), det.get("confidence", 0.0)
         if cid in config.YOLO_MAP_CLASS_IDS:
-            color = (0, 200, 0) if conf >= config.YOLO_MAP_MIN_CONF else (0, 140, 255)
+            color = (0, 220, 0) if conf >= config.YOLO_MAP_MIN_CONF else (0, 140, 255)
         else:
-            color = (150, 150, 150)
+            color = (180, 180, 180)
         cv2.rectangle(img, p1, p2, color, 2)
-        cv2.putText(img, f"{det.get('label', '?')}#{cid} {conf:.2f}", (p1[0], max(12, p1[1] - 4)),
+        cv2.putText(img, f"{det.get('label', '?')}#{cid} {conf:.2f}", (p1[0], max(16, p1[1] - 5)),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
-    status = f"YOLO boxes: {len(detections or [])}" if yolo_available else "YOLO OFF (geometry only)"
-    cv2.putText(img, status, (8, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2, cv2.LINE_AA)
+
+    # 2. 상단 헤더 오버레이 (RGB 카메라 및 YOLO 객체 수 정보)
+    overlay = img.copy()
+    cv2.rectangle(overlay, (0, 0), (w, 28), (15, 18, 24), -1)
+    img = cv2.addWeighted(overlay, 0.65, img, 0.35, 0)
+
+    cv2.putText(img, "[OAK-D-Lite RGB Camera (Color)]", (8, 19),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 230, 100), 1, cv2.LINE_AA)
+    box_cnt = len(detections or [])
+    yolo_text = f"YOLO: {box_cnt} objs" if yolo_available else "YOLO OFF"
+    cv2.putText(img, yolo_text, (max(8, w - 140), 19),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (230, 235, 245), 1, cv2.LINE_AA)
+
     return img
 
 

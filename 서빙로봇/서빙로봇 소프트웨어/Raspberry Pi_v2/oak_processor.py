@@ -103,15 +103,23 @@ class OakProcessor:
         # RGB 카메라 설정
         cam_rgb = self.pipeline.create(dai.node.ColorCamera)
         cam_rgb.setBoardSocket(dai.CameraBoardSocket.CAM_A)  # 중앙 RGB 카메라 소켓 설정
-        cam_rgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_720_P)  # 물리 센서 해상도 강제 설정
+        cam_rgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)  # IMX214 표준 해상도 (1080p)
         cam_rgb.setPreviewSize(640, 360)  # 미리보기 크기 설정 (16:9 비율 유지)
         cam_rgb.setInterleaved(False)  # 인터리브 비활성화
+        cam_rgb.setColorOrder(dai.ColorCameraProperties.ColorOrder.BGR)  # OpenCV 표준 BGR 색상 순서 명시
         cam_rgb.setFps(config.OAK_FPS)  # FPS 설정
+
+        # [중요] 렌즈 초점 및 노출 제어 (AF 렌즈 초점 풀림으로 인한 뿌연 블러/흐림 현상 원천 해결)
+        try:
+            cam_rgb.initialControl.setAutoFocusMode(dai.CameraControl.AutoFocusMode.CONTINUOUS_VIDEO)
+            cam_rgb.initialControl.setAutoWhiteBalanceMode(dai.CameraControl.AutoWhiteBalanceMode.AUTO)
+        except Exception as e:
+            _safe_print(f"[OAK] 카메라 초기 제어 설정 예외 (무시): {e}")
 
         # RGB 데이터를 외부로 출력하는 XLinkOut 노드
         xout_rgb = self.pipeline.create(dai.node.XLinkOut)
         xout_rgb.setStreamName("rgb")  # 스트림 이름 설정
-        cam_rgb.preview.link(xout_rgb.input)  # RGB 미리보기 출력을 연결
+        cam_rgb.video.link(xout_rgb.input)  # [핵심] preview 대신 video 하드웨어 스트림을 연결하여 실제 컬러 영상 수신
 
     # OAK 디바이스를 시작하는 메서드
     def start(self):
@@ -228,8 +236,10 @@ class OakProcessor:
                 while self.latest_rgb is None and (time.time() - t_start) < 1.0:
                     in_rgb = self.q_rgb.tryGet()
                     if in_rgb is not None:
-                        self.latest_rgb = in_rgb.getCvFrame()
-                        break
+                        frame_raw = in_rgb.getCvFrame()
+                        if frame_raw is not None:
+                            self.latest_rgb = cv2.resize(frame_raw, (640, 360)) if frame_raw.shape[:2] != (360, 640) else frame_raw
+                            break
                     time.sleep(0.01)
 
                 # 큐에 쌓여 있는 밀린 RGB 프레임들을 전부 소진하여 가장 최신 프레임으로 캐시 업데이트
@@ -237,7 +247,9 @@ class OakProcessor:
                     in_rgb = self.q_rgb.tryGet()
                     if in_rgb is None:
                         break
-                    self.latest_rgb = in_rgb.getCvFrame()
+                    frame_raw = in_rgb.getCvFrame()
+                    if frame_raw is not None:
+                        self.latest_rgb = cv2.resize(frame_raw, (640, 360)) if frame_raw.shape[:2] != (360, 640) else frame_raw
             except Exception as e:
                 # 한두 프레임의 일시적 디코딩 글리치까지 매번 전체 재연결로 처리하지 않도록
                 # 연속 실패가 임계치를 넘을 때만 실제 단선으로 간주해 자원 정리 후 재연결 트리거

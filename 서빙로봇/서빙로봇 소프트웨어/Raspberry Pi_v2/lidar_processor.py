@@ -209,7 +209,7 @@ def _lidar_worker(scan_queue: Queue, stop_event, use_mock: bool):
 
         while not stop_event.is_set():
             try:
-                for scan_raw in lidar_hw.iter_scans(max_buf_meas=500):
+                for scan_raw in lidar_hw.iter_scans(max_buf_meas=3000):
                     if stop_event.is_set():
                         break
                     points: List[LidarPoint] = []
