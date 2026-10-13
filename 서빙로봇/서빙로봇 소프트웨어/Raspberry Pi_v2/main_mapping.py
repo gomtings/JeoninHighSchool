@@ -236,12 +236,23 @@ def main(use_mock: bool = False, visualize: bool = True):
     fps_timer = time.time()
     fps_display = 0.0
 
+    # [단계별 소요 시간 측정] config.DEBUG_PROFILE 이 True 면 30프레임마다 단계별 평균(ms)을 출력
+    prof_acc: dict = {}
+    prof_n = 0
+
+    def _mark(name, t_prev):
+        t_now = time.perf_counter()
+        prof_acc[name] = prof_acc.get(name, 0.0) + (t_now - t_prev)
+        return t_now
+
     try:
         while True:
             t0 = time.time()
+            tp = time.perf_counter()
 
             # 센서 데이터 수집
             lidar_scan = lidar_proc.get_scan()
+            tp = _mark("lidar_get", tp)
             oak_frame = None
 
             if use_mock:
@@ -258,14 +269,17 @@ def main(use_mock: bool = False, visualize: bool = True):
             else:
                 if oak_proc:
                     oak_frame = oak_proc.get_frame()
+            tp = _mark("oak_get", tp)
 
             # 점유 맵 업데이트 (사전 저장 맵 베이스 위에 실시간 센서 데이터 융합)
             yolo_fresh = False  # 이번 프레임에 YOLO 가 새로 돌았는지 (오래된 박스 재사용 방지)
             if frame_count % 3 == 0:
                 classified_objects = classifier.classify(lidar_scan, oak_frame)
                 yolo_fresh = True
+            tp = _mark("classify(YOLO)", tp)
 
             occ_map.prepare_frame()
+            tp = _mark("prepare_frame", tp)
             # 센서 데이터를 찍기 전에 로봇의 현재 오도메트리 자세를 맵에 반영
             occ_map.set_robot_pose(
                 recommender.robot_x,
@@ -274,11 +288,15 @@ def main(use_mock: bool = False, visualize: bool = True):
             )
             if lidar_scan is not None:
                 occ_map.update_from_lidar(lidar_scan)
+            tp = _mark("map_lidar", tp)
             if oak_frame:
                 occ_map.update_from_oak(oak_frame)
+                tp = _mark("map_oak", tp)
                 occ_map.update_from_depth(oak_frame.depth_map)
+                tp = _mark("map_depth", tp)
                 if yolo_fresh:
                     occ_map.update_from_yolo(classifier.last_yolo_detections, oak_frame.depth_map)
+                tp = _mark("map_yolo", tp)
             if classified_objects:
                 _update_map_from_classified(occ_map, classified_objects)
 
@@ -287,6 +305,7 @@ def main(use_mock: bool = False, visualize: bool = True):
 
             # 경로 추천 및 로봇 이동 시뮬레이션
             recommendation = recommender.recommend()
+            tp = _mark("recommend", tp)
 
             # [음성 안내] 장애물 회피 상태 진입 감지
             if recommender.avoid_state in ("AVOID_BRAKE", "AVOID_TURN_90"):
@@ -334,6 +353,7 @@ def main(use_mock: bool = False, visualize: bool = True):
                     is_emergency=is_emergency,
                     status_msg=status_msg,
                 )
+                tp = _mark("render", tp)
 
                 cv2.imshow(win_name, dashboard_img)
                 if show_camera and oak_frame is not None and oak_frame.rgb_frame is not None:
@@ -398,6 +418,17 @@ def main(use_mock: bool = False, visualize: bool = True):
                                 cv2.destroyWindow(cam_win_name)
                             except cv2.error:
                                 pass
+
+            tp = _mark("imshow+waitKey+etc", tp)
+            if getattr(config, "DEBUG_PROFILE", False):
+                prof_n += 1
+                if prof_n >= 30:
+                    total = sum(prof_acc.values())
+                    parts = sorted(prof_acc.items(), key=lambda kv: -kv[1])
+                    print(f"[PROFILE] 1프레임 평균 {total / prof_n * 1000:.0f}ms | " +
+                          " | ".join(f"{k} {v / prof_n * 1000:.0f}" for k, v in parts))
+                    prof_acc.clear()
+                    prof_n = 0
 
             # FPS 측정
             frame_count += 1

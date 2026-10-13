@@ -119,7 +119,10 @@ class OakProcessor:
         # RGB 데이터를 외부로 출력하는 XLinkOut 노드
         xout_rgb = self.pipeline.create(dai.node.XLinkOut)
         xout_rgb.setStreamName("rgb")  # 스트림 이름 설정
-        cam_rgb.video.link(xout_rgb.input)  # [핵심] preview 대신 video 하드웨어 스트림을 연결하여 실제 컬러 영상 수신
+        # preview 는 카메라 안에서 640x360 BGR 로 줄여서 보내므로 USB 전송량과 PC 변환 부담이 작다.
+        # (video(1080p) 로 바꿨던 건 회색/보라색 화면 때문이었는데, 원인은 실행 환경(Python/depthai
+        #  버전)이었다. Python311 + depthai 2.33 에서는 preview 도 정상이다.)
+        cam_rgb.preview.link(xout_rgb.input)
 
     # OAK 디바이스를 시작하는 메서드
     def start(self):
@@ -242,12 +245,16 @@ class OakProcessor:
                             break
                     time.sleep(0.01)
 
-                # 큐에 쌓여 있는 밀린 RGB 프레임들을 전부 소진하여 가장 최신 프레임으로 캐시 업데이트
+                # 큐에 쌓여 있는 밀린 RGB 프레임들을 전부 소진하되, 변환(getCvFrame)은 가장 최신
+                # 프레임 하나만 한다 (버려질 프레임까지 변환하면 그만큼 루프가 느려진다)
+                newest_rgb = None
                 while True:
                     in_rgb = self.q_rgb.tryGet()
                     if in_rgb is None:
                         break
-                    frame_raw = in_rgb.getCvFrame()
+                    newest_rgb = in_rgb
+                if newest_rgb is not None:
+                    frame_raw = newest_rgb.getCvFrame()
                     if frame_raw is not None:
                         self.latest_rgb = cv2.resize(frame_raw, (640, 360)) if frame_raw.shape[:2] != (360, 640) else frame_raw
             except Exception as e:

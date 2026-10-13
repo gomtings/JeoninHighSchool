@@ -110,5 +110,6 @@ ROBOT_WIDTH_M = 0.5
 # ─── 출력 / 디버그 ─────────────────────────────────────────────────
 DEBUG_VISUALIZE = True  # OpenCV 시각화 창 표시
 DEBUG_PRINT_STATS = True  # 콘솔 통계 출력
+DEBUG_PROFILE = True  # 메인 루프 단계별 소요 시간(ms)을 30프레임마다 콘솔에 출력
 TARGET_FPS = 15  # 처리 목표 FPS
 Test_message = "서빙로봇 장애물 회피 시스템 - OAK-D-lite + LiDAR 융합"
