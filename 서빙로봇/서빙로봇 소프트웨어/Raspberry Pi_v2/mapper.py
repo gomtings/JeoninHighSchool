@@ -496,11 +496,15 @@ class OccupancyMap:
                 z, cols_used = z[use], cols[use]
             else:
                 # 뎁스 부족: 박스 하단 = 바닥 접점. 수평 카메라의 바닥점 거리 z = H * fx / (y - cy)
+                # 박스가 화면 아래 끝에 걸리면 실제 바닥 접점은 화면 밖(더 가까운 곳)이라
+                # 이 추정이 실제보다 멀게 나온다 -> 그런 박스는 건너뛴다.
+                if by2 >= 0.98:
+                    continue
                 v = y2 - h / 2.0
                 if v <= 2.0:
                     continue
                 z_floor = config.OAK_HEIGHT_FROM_FLOOR_M * fx / v
-                if not (z_min < z_floor < min(config.YOLO_FLOOR_MAX_M, 99.0)):
+                if not (z_min < z_floor < config.YOLO_FLOOR_MAX_M):
                     continue
                 z = np.full(cols.shape, z_floor, dtype=np.float32)
                 cols_used = cols

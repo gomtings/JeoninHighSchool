@@ -79,8 +79,11 @@ def main(mode: str = "video"):
             if key == ord("q"):
                 break
             if key == ord("s") and rgb is not None:
-                cv2.imwrite("oak_rgb_raw_test.png", rgb)
-                print("saved oak_rgb_raw_test.png")
+                # cv2.imwrite 는 Windows 한글 경로에서 실패하므로 imencode + tofile 로 저장
+                ok, buf = cv2.imencode(".png", rgb)
+                if ok:
+                    buf.tofile("oak_rgb_raw_test.png")
+                    print("saved oak_rgb_raw_test.png")
     cv2.destroyAllWindows()
 
 
