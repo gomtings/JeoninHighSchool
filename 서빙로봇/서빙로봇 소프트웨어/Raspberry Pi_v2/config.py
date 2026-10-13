@@ -8,7 +8,7 @@ OAK-D-Lite + LiDAR 융합
 OAK_DEPTH_MIN_MM = 200  # 유효 깊이 최솟값 (mm)
 OAK_DEPTH_MAX_MM = 5000  # 유효 깊이 최댓값 (mm)
 OAK_CONFIDENCE_THRESH = 200  # StereoDepth 신뢰도 임계값 (0-255)
-OAK_FPS = 30
+OAK_FPS = 15
 OAK_RESOLUTION = "400p"  # 400p / 720p
 
 # 벽/평면 필터 파라미터
