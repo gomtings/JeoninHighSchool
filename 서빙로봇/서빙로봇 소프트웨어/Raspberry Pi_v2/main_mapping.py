@@ -346,6 +346,8 @@ def main(use_mock: bool = False, visualize: bool = True):
                 occ_map.set_robot_pose(*yolo_new.pose)
                 occ_map.update_from_yolo(yolo_new.detections, yolo_new.depth_map)
             occ_map.set_robot_pose(*current_pose)  # 이후 처리(분류 결과 반영, 경로 추천)는 현재 자세 기준
+            if config.ROBOT_FOOTPRINT_FREE:
+                occ_map.mark_robot_footprint()  # 로봇이 서 있는/지나간 자리는 확실한 바닥
             tp = _mark("map_yolo", tp)
             if classified_objects:
                 _update_map_from_classified(occ_map, classified_objects)

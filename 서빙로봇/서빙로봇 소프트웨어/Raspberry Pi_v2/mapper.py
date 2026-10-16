@@ -184,6 +184,33 @@ class OccupancyMap:
     def _in_bounds_np(self, rows: np.ndarray, cols: np.ndarray) -> np.ndarray:
         return (rows >= 0) & (rows < self.height_cells) & (cols >= 0) & (cols < self.width_cells)
 
+    def mark_robot_footprint(self, radius_m: float = None) -> int:
+        """
+        로봇 몸체가 실제로 놓여 있는 자리(현재 로봇 셀 주변 radius_m)를 "확실한 바닥"으로 확정한다.
+        로봇이 그 위에 서 있거나 지나갔으니 거기에 장애물이 있을 수 없다. 센서가 그 자리에 남긴
+        장애물 기록(로봇 몸체 반사, 카메라가 본 자기 몸체, 사람/노이즈 hit)을 지우고,
+        이후 장애물 메모리/영구 승격에 걸리지 않도록 관련 시각도 초기화한다.
+        오도메트리 오차를 감안해 로봇 반폭(ROBOT_WIDTH_M / 2)까지만 처리한다. 처리한 셀 수를 반환.
+        """
+        r_m = radius_m if radius_m is not None else config.ROBOT_WIDTH_M / 2.0
+        rc = int(math.ceil(r_m / self.resolution))
+        r0, r1 = max(0, self.robot_row - rc), min(self.height_cells, self.robot_row + rc + 1)
+        c0, c1 = max(0, self.robot_col - rc), min(self.width_cells, self.robot_col + rc + 1)
+        if r0 >= r1 or c0 >= c1:
+            return 0
+        yy, xx = np.ogrid[r0:r1, c0:c1]
+        mask = (yy - self.robot_row) ** 2 + (xx - self.robot_col) ** 2 <= rc ** 2
+        win = (slice(r0, r1), slice(c0, c1))
+        self.hit_count[win][mask] = 0
+        self.free_count[win][mask] = np.maximum(self.free_count[win][mask], 5)  # 저장 시 빈 공간 조건(free>=3)을 넘김
+        self.logodds[win][mask] = self.LOGODDS_MIN
+        self.last_hit_time[win][mask] = 0.0
+        self.first_hit_time[win][mask] = 0.0
+        self.oak_seen_time[win][mask] = 0.0
+        self.grid[win][mask] = CELL_FREE
+        self.static_grid[win][mask] = CELL_FREE
+        return int(mask.sum())
+
     def _flat_in_bounds(self, rows: np.ndarray, cols: np.ndarray) -> np.ndarray:
         """맵 범위 안의 셀만 골라 평탄화 인덱스(row * width + col)로 반환"""
         m = self._in_bounds_np(rows, cols)

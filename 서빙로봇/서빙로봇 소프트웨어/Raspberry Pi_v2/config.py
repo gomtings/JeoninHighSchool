@@ -120,6 +120,8 @@ OBS_BOX_MAX_DIST_M = ZONE_WARNING_M  # 맵에 Obs 장애물 박스를 표시할 
 
 # 로봇 폭 (충돌 여유 계산용, m)
 ROBOT_WIDTH_M = 0.5
+# 로봇이 서 있는/지나간 자리(반폭 ROBOT_WIDTH_M/2 이내)를 매 프레임 '확실한 바닥'으로 확정
+ROBOT_FOOTPRINT_FREE = True
 
 # ─── 출력 / 디버그 ─────────────────────────────────────────────────
 DEBUG_VISUALIZE = True  # OpenCV 시각화 창 표시
