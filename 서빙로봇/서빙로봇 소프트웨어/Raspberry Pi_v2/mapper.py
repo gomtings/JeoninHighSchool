@@ -466,8 +466,15 @@ class OccupancyMap:
         u = (cols - w / 2.0)[None, :]
         v = (rows - h / 2.0)[:, None]
 
+        # 카메라가 아래로 pitch 만큼 기울어 있으면(OAK_PITCH_DEG > 0) 수평 가정이 깨져서
+        # 바닥이 "높이가 있는 물체"로 계산된다. 카메라 좌표 (X 우, Y 아래, Z 광축) 를 월드로 돌린다.
+        #   높이 = H - Y*cos(p) - Z*sin(p),  전방 거리 = Z*cos(p) - Y*sin(p)   (p=0 이면 예전 식과 동일)
+        pitch = math.radians(getattr(config, "OAK_PITCH_DEG", 0.0))
+        sin_p, cos_p = math.sin(pitch), math.cos(pitch)
+        y_cam = v * z / fx
         x_cam = u * z / fx                                        # 카메라 기준 우측 +
-        height = config.OAK_HEIGHT_FROM_FLOOR_M - v * z / fx      # 바닥 기준 높이
+        height = config.OAK_HEIGHT_FROM_FLOOR_M - y_cam * cos_p - z * sin_p  # 바닥 기준 높이
+        fwd = z * cos_p - y_cam * sin_p                           # 로봇 전방 거리
 
         valid = (
             (z > config.OAK_DEPTH_MIN_MM / 1000.0) &
@@ -481,8 +488,8 @@ class OccupancyMap:
         # 로봇 헤딩만큼 회전시켜 월드 방향으로 정렬 (update_from_oak 의 angle+heading 과 동일)
         hd = math.radians(self.robot_heading_deg)
         sin_h, cos_h = math.sin(hd), math.cos(hd)
-        x_w = x_cam * cos_h + z * sin_h
-        y_w = z * cos_h - x_cam * sin_h
+        x_w = x_cam * cos_h + fwd * sin_h
+        y_w = fwd * cos_h - x_cam * sin_h
 
         now = time.time()
 
@@ -552,6 +559,8 @@ class OccupancyMap:
         z_max = config.OAK_DEPTH_MAX_MM / 1000.0
         hd = math.radians(self.robot_heading_deg)
         sin_h, cos_h = math.sin(hd), math.cos(hd)
+        pitch = math.radians(getattr(config, "OAK_PITCH_DEG", 0.0))
+        sin_p, cos_p = math.sin(pitch), math.cos(pitch)
         now = time.time()
 
         hit_parts = []
@@ -570,7 +579,9 @@ class OccupancyMap:
             cols = np.arange(x1, x2, 2)
             rows = np.arange(y1, y2)
             sub = depth_m[np.ix_(rows, cols)].astype(np.float32)          # (R, C)
-            height = config.OAK_HEIGHT_FROM_FLOOR_M - (rows - h / 2.0)[:, None] * sub / fx
+            y_cam = (rows - h / 2.0)[:, None] * sub / fx
+            height = config.OAK_HEIGHT_FROM_FLOOR_M - y_cam * cos_p - sub * sin_p
+            fwd_px = sub * cos_p - y_cam * sin_p                          # 픽셀별 로봇 전방 거리
             ok = (
                 (sub > z_min) & (sub < z_max) &
                 (height >= config.DEPTH_OBS_MIN_H_M) & (height <= config.DEPTH_OBS_MAX_H_M)
@@ -578,10 +589,12 @@ class OccupancyMap:
             enough = ok.sum(axis=0) >= config.YOLO_MAP_MIN_COL_PTS         # 열별 뎁스 신뢰 여부
 
             if enough.mean() >= 0.3:
-                # 열별 가장 가까운 유효 뎁스 = 가구 앞면
-                z = np.where(ok, sub, np.inf).min(axis=0)
+                # 열별 가장 가까운(전방 거리 기준) 유효 픽셀 = 가구 앞면
+                near_i = np.where(ok, fwd_px, np.inf).argmin(axis=0)
+                fwd = np.take_along_axis(fwd_px, near_i[None, :], axis=0)[0]
+                z = np.take_along_axis(sub, near_i[None, :], axis=0)[0]  # 그 픽셀의 광축 깊이 (좌우 위치 계산용)
                 use = enough
-                z, cols_used = z[use], cols[use]
+                fwd, z, cols_used = fwd[use], z[use], cols[use]
             else:
                 # 뎁스 부족: 박스 하단 = 바닥 접점. 수평 카메라의 바닥점 거리 z = H * fx / (y - cy)
                 # 박스가 화면 아래 끝에 걸리면 실제 바닥 접점은 화면 밖(더 가까운 곳)이라
@@ -589,17 +602,23 @@ class OccupancyMap:
                 if by2 >= 0.98:
                     continue
                 v = y2 - h / 2.0
-                if v <= 2.0:
+                # (카메라가 아래로 기울면 먼 바닥이 화면 중앙이나 그 위에 보이므로 v 부호로는 거르지 않는다.
+                #  수평선 이상은 아래 denom/거리 검사로 걸러진다)
+                # 기울기 p 를 반영한 바닥점: 높이 0 이 되는 광축 깊이 Z = H / (v/fx*cos(p) + sin(p))
+                denom = v / fx * cos_p + sin_p
+                if denom <= 1e-6:
                     continue
-                z_floor = config.OAK_HEIGHT_FROM_FLOOR_M * fx / v
-                if not (z_min < z_floor < config.YOLO_FLOOR_MAX_M):
+                z_floor = config.OAK_HEIGHT_FROM_FLOOR_M / denom
+                fwd_floor = z_floor * (cos_p - v / fx * sin_p)
+                if not (z_min < z_floor < config.YOLO_FLOOR_MAX_M and fwd_floor > 0):
                     continue
                 z = np.full(cols.shape, z_floor, dtype=np.float32)
+                fwd = np.full(cols.shape, fwd_floor, dtype=np.float32)
                 cols_used = cols
 
             x_cam = (cols_used - w / 2.0) * z / fx
-            x_w = x_cam * cos_h + z * sin_h
-            y_w = z * cos_h - x_cam * sin_h
+            x_w = x_cam * cos_h + fwd * sin_h
+            y_w = fwd * cos_h - x_cam * sin_h
             c_idx = self.robot_col + np.rint(x_w / self.resolution).astype(np.int64)
             r_idx = self.robot_row - np.rint(y_w / self.resolution).astype(np.int64)
             hit_parts.append(self._flat_in_bounds(r_idx, c_idx))

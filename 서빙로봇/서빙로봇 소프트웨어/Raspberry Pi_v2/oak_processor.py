@@ -379,11 +379,24 @@ class OakProcessor:
         hfov_rad = np.deg2rad(config.OAK_HFOV_DEG)  # 수평 시야각을 라디안으로
 
         # 이진화: 유효 + 비-벽 픽셀
-        binary = (
+        binary_mask = (
             (depth_filtered > 0) &
             valid_mask.astype(bool) &
             (~wall_mask)
-        ).astype(np.uint8) * 255  # 이진 이미지 생성
+        )
+
+        # [바닥/천장 제외] 이 경로에는 원래 높이 필터가 없어서, 큰 연결 영역(바닥 등)이 통째로
+        # 장애물이 되어 맵에 쌓였다. 맵 투영(mapper.update_from_depth)과 같은 카메라 높이/기울기로
+        # 픽셀별 바닥 기준 높이를 계산해, 장애물 높이 범위 밖(바닥/천장)은 제외한다.
+        if getattr(config, "OAK_OBSTACLE_HEIGHT_FILTER", True):
+            fx = (w / 2.0) / np.tan(hfov_rad / 2.0)
+            pitch = np.deg2rad(getattr(config, "OAK_PITCH_DEG", 0.0))
+            v = (np.arange(h, dtype=np.float32) - h / 2.0)[:, None]
+            y_cam = v * depth_filtered / fx
+            height = config.OAK_HEIGHT_FROM_FLOOR_M - y_cam * np.cos(pitch) - depth_filtered * np.sin(pitch)
+            binary_mask &= (height >= config.DEPTH_OBS_MIN_H_M) & (height <= config.DEPTH_OBS_MAX_H_M)
+
+        binary = binary_mask.astype(np.uint8) * 255  # 이진 이미지 생성
 
         # 모폴로지 처리로 파편 제거
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))  # 타원형 커널

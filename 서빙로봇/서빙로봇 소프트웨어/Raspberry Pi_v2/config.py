@@ -61,6 +61,8 @@ OAK_VFOV_DEG = 58.0
 # ─── 뎁스 → 2D 맵 투영 (mapper.update_from_depth) ───────────────────
 # 카메라는 수평(pitch 0)으로 장착되었다고 가정. 실측 후 값을 수정할 것.
 OAK_HEIGHT_FROM_FLOOR_M = 1.10  # 카메라 렌즈의 바닥 기준 높이 (m)  ※ 가정값, 실측 필요
+OAK_PITCH_DEG = 0.0  # 카메라가 아래로 기울어진 각도 (도, 아래로 + / 수평 0). calibrate_oak_floor.py 로 측정할 것
+OAK_OBSTACLE_HEIGHT_FILTER = True  # OAK 장애물 추출(oak_processor)에서도 바닥/천장 높이 범위 밖 픽셀을 제외
 DEPTH_OBS_MIN_H_M = 0.10  # 이 높이 미만 점은 바닥으로 간주해 제외 (m)
 DEPTH_OBS_MAX_H_M = 0.95  # 이 높이 초과 점은 천장/상부로 간주해 제외 (m)
 DEPTH_ROW_STEP = 4  # 뎁스 이미지 행 샘플링 간격 (연산량 절감)
