@@ -76,6 +76,10 @@ class OccupancyMap:
         # 영구 승격/사람 차단/메모리 보호는 기존 hit_count 로직을 그대로 쓰고,
         # 이 값은 _update_cell 의 장애물/빈공간 판정에만 사용한다.
         self.logodds = np.zeros_like(self.grid, dtype=np.float32)
+        # [진단] 센서별 hit 누적 (hit_count 와 달리 가중치 없이 "관측 횟수"만 센다).
+        # 어느 센서가 장애물/벽 셀을 만들었는지 사후에 가려내기 위한 것이며 맵 판정에는 쓰이지 않는다.
+        self.SOURCES = ("lidar", "depth", "oak", "yolo")
+        self.hit_src = {k: np.zeros(self.grid.shape, dtype=np.int32) for k in self.SOURCES}
         self.L_HIT = 0.85            # 장애물 관측 1회의 증가량 (확률 약 0.70 에 해당)
         self.L_FREE = -0.40          # 빈 공간 관측 1회의 변화량 (확률 약 0.40 에 해당)
         self.LOGODDS_MIN = -4.0
@@ -384,6 +388,7 @@ class OccupancyMap:
         # 끝점은 장애물로 마킹
         hr, hc = np.divmod(hit_flat, self.width_cells)
         self._register_hit_np(hr, hc, now)  # 장애물 카운트 + 관측 구간 시작 시각 관리
+        self.hit_src["lidar"][hr, hc] += 1
         self._update_cells_np(hr, hc, now)
 
         # 마지막 업데이트 시간 기록
@@ -418,6 +423,7 @@ class OccupancyMap:
                 # 신뢰도에 따라 가중치 적용
                 weight = int(obs.confidence * 4) + 2
                 self._register_hit(end_row, end_col, now, weight)  # 카운트 + 관측 구간 시작 시각
+                self.hit_src["oak"][end_row, end_col] += 1
                 self.oak_seen_time[end_row, end_col] = now  # OAK 가 직접 본 셀 (검증 가능)
                 self.free_count[end_row, end_col] = 0       # 기존 free 카운트 리셋 (확실한 장애물 선언)
                 self.logodds[end_row, end_col] = max(self.logodds[end_row, end_col], self.L_OAK_FLOOR)
@@ -429,6 +435,7 @@ class OccupancyMap:
                         nr, nc = end_row + dr, end_col + dc
                         if self.in_bounds(nr, nc):
                             self._register_hit(nr, nc, now)
+                            self.hit_src["oak"][nr, nc] += 1
                             self.oak_seen_time[nr, nc] = now
                             self._update_cell(nr, nc, now)
 
@@ -517,6 +524,7 @@ class OccupancyMap:
         # 승격 자격 판정에 쓰이므로 _update_cells_np 보다 먼저 찍는다.
         self.oak_seen_time[r_hit, c_hit] = now
         self._register_hit_np(r_hit, c_hit, now)
+        self.hit_src["depth"][r_hit, c_hit] += 1
         self.free_count[r_hit, c_hit] = 0
         self.grid[r_hit, c_hit] = CELL_OBSTACLE
         self._update_cells_np(r_hit, c_hit, now)
@@ -601,6 +609,7 @@ class OccupancyMap:
         hit_flat = np.unique(np.concatenate(hit_parts))
         hr, hc = np.divmod(hit_flat, self.width_cells)
         self._register_hit_np(hr, hc, now, config.YOLO_MAP_HIT_WEIGHT)
+        self.hit_src["yolo"][hr, hc] += 1
         self.oak_seen_time[hr, hc] = now          # 카메라 화각 안의 관측
         self.free_count[hr, hc] = 0
         self.logodds[hr, hc] = np.maximum(self.logodds[hr, hc], self.L_OAK_FLOOR)
@@ -868,6 +877,7 @@ class OccupancyMap:
                 hit_count=self.hit_count,
                 free_count=self.free_count,
                 logodds=self.logodds,
+                **{f"hit_{k}": v for k, v in self.hit_src.items()},
                 resolution=self.resolution,
                 width_m=self.width_m,
                 height_m=self.height_m,
@@ -1045,6 +1055,9 @@ class OccupancyMap:
                     self.hit_count[:] = data["hit_count"]
                 if "free_count" in data:
                     self.free_count[:] = data["free_count"]
+                for k in self.SOURCES:
+                    if f"hit_{k}" in data:
+                        self.hit_src[k][:] = data[f"hit_{k}"]
                 if "logodds" in data:
                     self.logodds[:] = data["logodds"]
                 else:
@@ -1088,6 +1101,8 @@ class OccupancyMap:
         self.hit_count[:]     = 0             # 히트 카운트 초기화
         self.free_count[:]    = 0             # 프리 카운트 초기화
         self.logodds[:]       = 0.0           # log-odds 초기화
+        for v in self.hit_src.values():
+            v[:] = 0                              # 센서별 hit 진단 카운터 초기화
         self.last_hit_time[:] = 0.0           # 장애물 메모리 초기화
         self.first_hit_time[:] = 0.0          # 관측 구간 시작 시각 초기화
         self.no_promote_until[:] = 0.0        # 승격 차단 표시 초기화
