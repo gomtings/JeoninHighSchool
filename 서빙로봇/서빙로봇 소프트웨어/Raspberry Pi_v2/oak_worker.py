@@ -16,6 +16,7 @@ import time
 from dataclasses import dataclass
 from typing import Callable, Optional, Tuple
 
+import config
 from console_utils import safe_print as _safe_print
 
 
@@ -56,7 +57,8 @@ class OakYoloWorker:
         self._threads = [
             threading.Thread(target=self._oak_loop, name="OakThread", daemon=True),
         ]
-        if self.yolo is not None and getattr(self.yolo, "is_available", False):
+        if (self.yolo is not None and getattr(self.yolo, "is_available", False)
+                and getattr(config, "YOLO_ENABLED", True)):
             self._threads.append(threading.Thread(target=self._yolo_loop, name="YoloThread", daemon=True))
         for t in self._threads:
             t.start()
@@ -109,12 +111,20 @@ class OakYoloWorker:
             rgb = getattr(fr.frame, "rgb_frame", None)
             if rgb is None:
                 continue
+            t_start = time.time()
             try:
                 dets = self.yolo.detect(rgb)
             except Exception as e:
                 _safe_print(f"[YoloThread] 추론 예외: {e}")
-                continue
-            with self._lock:
-                self._yolo_seq += 1
-                self._yolo = YoloResult(detections=dets, depth_map=fr.frame.depth_map,
-                                        pose=fr.pose, seq=self._yolo_seq)
+                dets = None
+            if dets is not None:
+                with self._lock:
+                    self._yolo_seq += 1
+                    self._yolo = YoloResult(detections=dets, depth_map=fr.frame.depth_map,
+                                            pose=fr.pose, seq=self._yolo_seq)
+            # [주기 제한] 쉬지 않고 돌리면 CPU 를 독차지하므로 YOLO_MAX_HZ 에 맞춰 쉰다
+            max_hz = getattr(config, "YOLO_MAX_HZ", 0.0)
+            if max_hz > 0:
+                rest = 1.0 / max_hz - (time.time() - t_start)
+                if rest > 0:
+                    self._stop.wait(rest)

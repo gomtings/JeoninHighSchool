@@ -17,6 +17,44 @@ try:
 except ImportError:
     ULTRALYTICS_AVAILABLE = False
 
+import config
+
+
+def _limit_onnxruntime_threads():
+    """
+    ONNX Runtime 은 기본값으로 CPU 코어 수만큼 스레드를 띄우고, 일이 없을 때도 코어를 붙잡고
+    기다린다(스핀 대기). 그러면 메인 루프와 라이다 프로세스가 CPU 를 못 받는다.
+    ultralytics 는 InferenceSession 을 옵션 없이 만들기 때문에, 옵션을 지정하지 않은 세션에
+    한해 스레드 수 제한과 스핀 대기 끄기를 끼워 넣는다. (실패해도 기본 동작으로 계속 진행)
+    """
+    threads = int(getattr(config, "YOLO_ORT_THREADS", 0))
+    if threads <= 0:
+        return
+    try:
+        import onnxruntime as ort
+        base = ort.InferenceSession
+        if getattr(base, "_limited_by_yolo_detector", False):
+            return
+
+        class _LimitedSession(base):
+            _limited_by_yolo_detector = True
+
+            def __init__(self, path_or_bytes, sess_options=None, *args, **kwargs):
+                if sess_options is None:
+                    sess_options = ort.SessionOptions()
+                    sess_options.intra_op_num_threads = threads
+                    sess_options.inter_op_num_threads = 1
+                    try:
+                        sess_options.add_session_config_entry("session.intra_op.allow_spinning", "0")
+                    except Exception:
+                        pass
+                super().__init__(path_or_bytes, sess_options, *args, **kwargs)
+
+        ort.InferenceSession = _LimitedSession
+        print(f"[YOLO] ONNX Runtime 스레드 {threads}개로 제한 (스핀 대기 끔)")
+    except Exception as e:
+        print(f"[YOLO] ONNX Runtime 스레드 제한 적용 실패 (기본 설정 사용): {e}")
+
 
 class YoloDetector:
     """YOLO11 ONNX PC 추론 및 장애물 검출 모듈"""
@@ -38,6 +76,7 @@ class YoloDetector:
                 else:
                     model_target = "yolo11n.pt"  # 로컬 ONNX 미발견 시 pt 다운로드 로드
 
+                _limit_onnxruntime_threads()
                 self.model = YOLO(model_target, task="detect")
                 print(f"[YOLO] YOLO11 Nano Model ({model_target}) loaded successfully.")
             except Exception as e:

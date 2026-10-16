@@ -70,6 +70,11 @@ DEPTH_FREE_RAY_COL_STEP = 8  # free 레이캐스팅을 수행할 열 간격
 DEPTH_RAYCAST_FREE = True  # 가장 가까운 점까지 free 처리 여부
 
 # ─── YOLO 가구 → 2D 맵 투영 (mapper.update_from_yolo) ───────────────
+YOLO_ENABLED = True  # False 면 YOLO 스레드를 띄우지 않음 (CPU 부하 비교 테스트용)
+# YOLO 를 초당 최대 몇 번 돌릴지. ONNX Runtime 은 도는 동안 CPU 코어를 거의 다 쓰므로
+# 쉬지 않고 돌리면 메인 루프와 라이다 프로세스가 CPU 를 못 받는다. 맵에는 정적 가구만 반영하므로 낮게 둔다.
+YOLO_MAX_HZ = 2.0
+YOLO_ORT_THREADS = 2  # ONNX Runtime 이 YOLO 추론에 쓸 CPU 스레드 수 (0 이면 기본값 = 코어 전부)
 # COCO 클래스 id: 56=chair, 57=couch, 60=dining table
 YOLO_MAP_CLASS_IDS = (56, 57, 60)
 YOLO_MAP_MIN_CONF = 0.35  # 이 신뢰도 미만 감지는 맵에 반영하지 않음
