@@ -84,6 +84,8 @@ def main(use_mock: bool = False, visualize: bool = True):
         )
         oak_worker.start()
     last_frame_seq = 0   # 맵에 반영한 마지막 OAK 프레임 번호 (같은 프레임 중복 반영 방지)
+    last_cam_map_t = 0.0 # 카메라 프레임을 맵에 마지막으로 반영한 시각 (MAP_CAMERA_MAX_HZ 제한용)
+    cam_map_interval = 1.0 / config.MAP_CAMERA_MAX_HZ if config.MAP_CAMERA_MAX_HZ > 0 else 0.0
     last_yolo_seq = 0    # 맵에 반영한 마지막 YOLO 결과 번호
     preview_frame = None # 카메라 창에 띄울 최신 프레임 (새 프레임이 없는 루프에서도 유지)
     preview_dets: list = []
@@ -297,7 +299,10 @@ def main(use_mock: bool = False, visualize: bool = True):
                     preview_frame = fr.frame
                     if fr.seq != last_frame_seq:
                         last_frame_seq = fr.seq
-                        oak_frame, oak_frame_pose = fr.frame, fr.pose
+                        # 카메라 프레임은 MAP_CAMERA_MAX_HZ 로 솎아서 맵에 반영한다 (관측 횟수 부풀림 방지)
+                        if time.time() - last_cam_map_t >= cam_map_interval:
+                            last_cam_map_t = time.time()
+                            oak_frame, oak_frame_pose = fr.frame, fr.pose
                 yr = oak_worker.get_detections()
                 if yr is not None:
                     preview_dets = yr.detections

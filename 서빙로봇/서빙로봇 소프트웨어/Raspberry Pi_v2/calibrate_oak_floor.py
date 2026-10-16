@@ -120,23 +120,48 @@ def capture_and_calibrate(seconds: float = 5.0):
     return results
 
 
-def summarize(results):
+def summarize(results, cam_height_hint: float = None):
+    """
+    프레임별 결과에서 "바닥"을 골라 요약한다. 바닥으로 인정하는 조건:
+      - 수평면(기울기 ±25° 이내), 카메라 높이 0.5~1.6m, 인라이어 비율 30% 이상
+    조건을 못 채우면(벽/책상 윗면을 맞춘 경우 등) config 값은 출력하지 않고 어떤 수평면이 보였는지만 알려준다.
+    """
+    cam_height_hint = cam_height_hint or config.OAK_HEIGHT_FROM_FLOOR_M
     if not results:
-        print("바닥 평면을 찾지 못했습니다. 카메라 앞 바닥이 화면 아래쪽에 넓게 보이게 하고 다시 실행하세요.")
+        print("평면을 하나도 찾지 못했습니다. 카메라 앞 바닥이 화면 아래쪽에 넓게 보이게 하고 다시 실행하세요.")
         return
     a = np.array(results)
-    med = np.median(a, axis=0)
-    spread = a.std(axis=0)
-    print("\n── 결과 (중앙값) ──")
-    print(f"  카메라 높이 : {med[0]:.3f} m   (프레임 간 편차 {spread[0]:.3f})")
-    print(f"  pitch       : {med[1]:+.1f}°  (아래로 기울면 +, 편차 {spread[1]:.1f}°)")
+    good = (np.abs(a[:, 1]) < 25) & (a[:, 0] > 0.5) & (a[:, 0] < 1.6) & (a[:, 3] >= 0.30)
+    print(f"\n프레임 {len(a)}개 중 바닥으로 쓸 수 있는 것: {int(good.sum())}개")
+
+    # 수평에 가까운 평면(바닥, 책상 윗면 등)이 어느 높이에 몇 번 보였는지 (카메라 아래 몇 m 인지)
+    horiz = a[np.abs(a[:, 1]) < 15]
+    if len(horiz):
+        print("관측된 수평면 (카메라로부터 아래로 떨어진 거리 / 횟수 / 평균 기울기):")
+        bins = np.round(horiz[:, 0] / 0.05) * 0.05
+        for hb in sorted(set(bins), key=lambda x: -(bins == x).sum())[:4]:
+            m = bins == hb
+            tag = "  <- 카메라 높이와 비슷: 바닥일 가능성" if abs(hb - cam_height_hint) < 0.12 else ""
+            print(f"  {hb:.2f}m  {int(m.sum()):3d}회  기울기 {horiz[m, 1].mean():+.1f}°{tag}")
+
+    if good.sum() < 5:
+        print("\n[측정 실패] 바닥 평면이 충분히 잡히지 않았습니다. config.py 에 넣을 값을 출력하지 않습니다.")
+        print("  - 카메라 앞 2~4m 바닥이 화면 아래쪽에 넓게 보이고, 벽에서 2m 이상 떨어지게 하세요.")
+        print("  - 책상/의자/사람 다리가 화면 아래쪽을 채우고 있으면 바닥 대신 그 윗면을 맞춥니다.")
+        print("  - 바닥에 무늬가 없으면 스테레오 깊이가 비어서 측정이 어렵습니다(바닥에 신문지나 매트를 깔아 보세요).")
+        return
+
+    g = a[good]
+    med = np.median(g, axis=0)
+    spread = g.std(axis=0)
+    print("\n── 결과 (바닥으로 인정된 프레임의 중앙값) ──")
+    print(f"  카메라 높이 : {med[0]:.3f} m   (편차 {spread[0]:.3f})")
+    print(f"  pitch       : {med[1]:+.1f}°  (아래로 기울면 +, 위로 기울면 -, 편차 {spread[1]:.1f}°)")
     print(f"  roll        : {med[2]:+.1f}°  (좌우 기울기. 코드는 반영하지 않음, 3° 넘으면 알려주세요)")
-    print(f"  바닥 인라이어: {100 * med[3]:.0f}%  (낮으면 바닥이 가려졌다는 뜻 - 신뢰하지 말고 다시 측정)")
+    print(f"  바닥 인라이어: {100 * med[3]:.0f}%")
     print("\nconfig.py 에 이렇게 넣으세요:")
     print(f"  OAK_HEIGHT_FROM_FLOOR_M = {med[0]:.2f}")
     print(f"  OAK_PITCH_DEG = {med[1]:.1f}")
-    if med[3] < 0.5:
-        print("\n[주의] 인라이어 비율이 50% 미만입니다. 바닥이 충분히 보이지 않아 값이 틀릴 수 있습니다.")
 
 
 if __name__ == "__main__":
