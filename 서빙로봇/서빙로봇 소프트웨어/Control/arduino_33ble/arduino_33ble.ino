@@ -2,11 +2,140 @@
 #include <Adafruit_Sensor.h>
 #include <ArduinoBLE.h>
 #include <Wire.h>
+#include <mbed.h> // FlashIAP: 보정값을 내장 플래시에 저장
 
 // BNO055 (NDOF 모드): 지자기+자이로+가속도 융합으로 자북 기준 절대 방위(0~360°)를 출력
 Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28);
 bool bnoConnected = false;
 float yaw = 0;
+float yawOffset = 0; // 영점 시점의 자북 기준 방위각 (yaw = 현재 방위각 - yawOffset)
+
+// 현재 로봇이 보는 방향을 yaw 0°로 설정 (원형 평균으로 노이즈/0° 경계 처리)
+void zeroYaw() {
+  if (!bnoConnected)
+    return;
+  float sumSin = 0, sumCos = 0;
+  int n = 0;
+  for (int i = 0; i < 10; i++) {
+    sensors_event_t event;
+    bno.getEvent(&event);
+    float h = event.orientation.x;
+    if (!isnan(h) && !isinf(h) && h >= 0.0 && h < 360.0) {
+      sumSin += sin(h * DEG_TO_RAD);
+      sumCos += cos(h * DEG_TO_RAD);
+      n++;
+    }
+    delay(20);
+  }
+  if (n == 0) {
+    Serial.println("[IMU] 영점 설정 실패 (유효한 방위각 없음)");
+    return;
+  }
+  yawOffset = atan2(sumSin, sumCos) * RAD_TO_DEG;
+  if (yawOffset < 0.0)
+    yawOffset += 360.0;
+  Serial.print("[IMU] 영점 설정 완료. 기준 방위각: ");
+  Serial.println(yawOffset, 1);
+}
+
+// ── BNO055 보정값 플래시 저장/복원 ─────────────────────────
+// nRF52840에는 EEPROM이 없으므로 내장 플래시 맨 끝 섹터(스케치 영역과 멀다)에 저장.
+struct CalStore {
+  uint32_t magic;
+  adafruit_bno055_offsets_t offsets;
+  uint32_t checksum;
+};
+const uint32_t CAL_MAGIC = 0x424E4F31; // "BNO1"
+mbed::FlashIAP flashIap;
+bool calRestored = false; // 이번 부팅에 저장된 보정값을 복원했는지
+bool calSaved = false;    // 이번 부팅에 보정값을 저장했는지
+
+uint32_t calChecksum(const CalStore &s) {
+  const uint8_t *p = (const uint8_t *)&s.offsets;
+  uint32_t sum = s.magic;
+  for (size_t i = 0; i < sizeof(s.offsets); i++)
+    sum = sum * 31 + p[i];
+  return sum;
+}
+
+// 마지막 섹터의 시작 주소 (flashIap.init() 이후에만 호출)
+uint32_t calFlashAddr() {
+  uint32_t end = flashIap.get_flash_start() + flashIap.get_flash_size();
+  return end - flashIap.get_sector_size(end - 1);
+}
+
+bool restoreCalibration() {
+  if (flashIap.init() != 0) {
+    Serial.println("[CAL] 플래시 초기화 실패");
+    return false;
+  }
+  CalStore s;
+  bool ok = false;
+  if (flashIap.read(&s, calFlashAddr(), sizeof(s)) == 0 &&
+      s.magic == CAL_MAGIC && s.checksum == calChecksum(s)) {
+    ok = true;
+  }
+  flashIap.deinit();
+  if (!ok) {
+    Serial.println("[CAL] 저장된 보정값 없음. 8자로 움직여 새로 보정하세요.");
+    return false;
+  }
+  bno.setSensorOffsets(s.offsets);
+  Serial.println("[CAL] 저장된 보정값 복원 완료. 센서를 살짝 움직여 지자기를 "
+                 "확정하세요.");
+  return true;
+}
+
+// 4개 센서가 모두 3일 때만 저장됨 (getSensorOffsets 가 false 면 저장 안 함)
+bool saveCalibration() {
+  if (!bnoConnected)
+    return false;
+  CalStore s;
+  if (!bno.getSensorOffsets(s.offsets)) {
+    Serial.println("[CAL] 저장 실패: 아직 완전히 보정되지 않았습니다 (Sys/G/A/M 모두 3 필요)");
+    return false;
+  }
+  s.magic = CAL_MAGIC;
+  s.checksum = calChecksum(s);
+
+  if (flashIap.init() != 0) {
+    Serial.println("[CAL] 플래시 초기화 실패");
+    return false;
+  }
+  uint32_t addr = calFlashAddr();
+  uint32_t page = flashIap.get_page_size();
+  // 쓰기 크기를 페이지 크기의 배수로 맞춘 버퍼 (남는 부분은 0xFF)
+  uint32_t len = ((sizeof(s) + page - 1) / page) * page;
+  uint8_t buf[64];
+  bool ok = false;
+  if (len <= sizeof(buf)) {
+    memset(buf, 0xFF, sizeof(buf));
+    memcpy(buf, &s, sizeof(s));
+    ok = flashIap.erase(addr, flashIap.get_sector_size(addr)) == 0 &&
+         flashIap.program(buf, addr, len) == 0;
+  }
+  flashIap.deinit();
+  Serial.println(ok ? "[CAL] 보정값 플래시 저장 완료"
+                    : "[CAL] 플래시 저장 실패");
+  calSaved = ok;
+  return ok;
+}
+
+// 저장된 보정값 삭제 (섹터 지우기). 다음 부팅 때 새로 보정하고 자동 저장됨
+bool clearCalibration() {
+  if (flashIap.init() != 0) {
+    Serial.println("[CAL] 플래시 초기화 실패");
+    return false;
+  }
+  uint32_t addr = calFlashAddr();
+  bool ok = flashIap.erase(addr, flashIap.get_sector_size(addr)) == 0;
+  flashIap.deinit();
+  Serial.println(ok ? "[CAL] 저장된 보정값 삭제 완료. 재부팅 후 8자로 새로 "
+                      "보정하세요."
+                    : "[CAL] 보정값 삭제 실패");
+  return ok;
+}
+
 unsigned long lastImuTime = 0;
 const unsigned long IMU_INTERVAL = 50; // 50ms (20Hz)
 
@@ -179,7 +308,90 @@ void finishMeasurement() {
   sensor2.state = SENSOR_IDLE;
 }
 
-void handleCommand(String command) { Serial1.println(command); }
+// 지자기 보정(Mag 3)이 끝나고 로봇이 STILL_HOLD_MS 동안 정지해 있으면 그 방향을
+// yaw 0°로 설정. 8자 보정 후 출발 방향에 로봇을 놓고 가만히 두면 자동으로 영점이
+// 잡힌다. CALIB_TIMEOUT_MS 안에 끝나지 않으면 경고 후 현재 방향으로 설정.
+void waitCalibrationAndZero() {
+  const unsigned long CALIB_TIMEOUT_MS = 60000;
+  const unsigned long STILL_HOLD_MS = 3000;
+  const float STILL_GYRO_RAD_S = 0.05; // 약 3°/s 미만이면 정지로 판단
+
+  Serial.println("[IMU] 지자기 보정 대기 중... 로봇을 8자로 움직여 주세요.");
+  unsigned long startWait = millis();
+  unsigned long stillSince = 0;
+  unsigned long lastPrint = 0;
+  bool magDone = false;
+
+  while (millis() - startWait < CALIB_TIMEOUT_MS) {
+    uint8_t sys, gyro, accel, mag;
+    sys = gyro = accel = mag = 0;
+    bno.getCalibration(&sys, &gyro, &accel, &mag);
+
+    if (millis() - lastPrint >= 500) {
+      lastPrint = millis();
+      Serial.print("[IMU] Calib Sys:");
+      Serial.print(sys);
+      Serial.print(" G:");
+      Serial.print(gyro);
+      Serial.print(" A:");
+      Serial.print(accel);
+      Serial.print(" M:");
+      Serial.println(mag);
+    }
+
+    // 새로 보정이 끝났고 아직 저장하지 않았다면 한 번 자동 저장
+    if (!calRestored && !calSaved && sys >= 3 && gyro >= 3 && accel >= 3 &&
+        mag >= 3) {
+      saveCalibration();
+      calSaved = true; // 실패해도 반복 시도 방지
+    }
+
+    if (mag >= 3) {
+      if (!magDone) {
+        magDone = true;
+        Serial.println("[IMU] 지자기 보정 완료! 출발 방향에 놓고 가만히 두세요.");
+      }
+      imu::Vector<3> g = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+      float w = sqrt(g.x() * g.x() + g.y() * g.y() + g.z() * g.z());
+      if (w < STILL_GYRO_RAD_S) {
+        if (stillSince == 0)
+          stillSince = millis();
+        if (millis() - stillSince >= STILL_HOLD_MS) {
+          zeroYaw();
+          return;
+        }
+      } else {
+        stillSince = 0;
+      }
+    } else {
+      magDone = false;
+      stillSince = 0;
+    }
+    delay(50);
+  }
+
+  Serial.println("[IMU] 경고: 보정 시간 초과. 현재 방향으로 영점을 설정합니다.");
+  zeroYaw();
+}
+
+void handleCommand(String command) {
+  // 나노가 직접 처리하는 명령: 현재 방향을 yaw 0°로 재설정 (메가로 전달 안 함)
+  if (command == "YAWZERO") {
+    zeroYaw();
+    return;
+  }
+  // 현재 보정값을 플래시에 (다시) 저장. 환경이 바뀌어 재보정했을 때 사용
+  if (command == "SAVECAL") {
+    saveCalibration();
+    return;
+  }
+  // 저장된 보정값 삭제. 환경이 바뀌었을 때 실행 후 재부팅하면 자동 재보정/저장
+  if (command == "CLEARCAL") {
+    clearCalibration();
+    return;
+  }
+  Serial1.println(command);
+}
 
 void sendCombinedData() {
   if (bleAvailable) {
@@ -264,6 +476,9 @@ void updateIMUAndSend() {
       float next_yaw = event.orientation.x;
       if (!isnan(next_yaw) && !isinf(next_yaw) && next_yaw >= 0.0 &&
           next_yaw < 360.0) {
+        next_yaw -= yawOffset;
+        if (next_yaw < 0.0)
+          next_yaw += 360.0;
         yaw = next_yaw;
 
         // 메가로 실시간 각도 전송 (115200bps이므로 오버헤드 미미)
@@ -342,9 +557,12 @@ void setup() {
   if (!bnoConnected) {
     Serial.println("BNO055 최종 연결 실패! (SDA/SCL 배선과 주소 확인 필요)");
   } else {
+    calRestored = restoreCalibration(); // 저장된 보정값이 있으면 복원
     bno.setExtCrystalUse(true); // 외부 크리스탈 사용으로 정밀도 향상
     Serial.println("BNO055 연결 성공! (NDOF 절대 방위 모드)");
     Serial.println("Calib M:3 이 될 때까지 8자를 그리며 움직이면 방위가 정확해집니다.");
+    waitCalibrationAndZero();
+    Serial.println("다시 영점을 잡으려면 'YAWZERO' 명령을 보내세요.");
   }
 
   if (!BLE.begin()) {

@@ -59,7 +59,9 @@ def _limit_onnxruntime_threads():
 class YoloDetector:
     """YOLO11 ONNX PC 추론 및 장애물 검출 모듈"""
 
-    def __init__(self, model_name: str = "yolo11n.onnx"):
+    def __init__(self, model_name: str = None):
+        # 모델은 config.YOLO_MODEL 로 고른다 (yolo11n.onnx / yolo11s.onnx / yolo11m.onnx ...)
+        model_name = model_name or getattr(config, "YOLO_MODEL", "yolo11n.onnx")
         self.model = None
         self.is_available = ULTRALYTICS_AVAILABLE
         
@@ -74,11 +76,19 @@ class YoloDetector:
                 elif os.path.exists(model_name):
                     model_target = model_name
                 else:
-                    model_target = "yolo11n.pt"  # 로컬 ONNX 미발견 시 pt 다운로드 로드
+                    # 설정한 모델 파일이 없다. 조용히 다른 모델을 쓰면 "m 으로 테스트 중"이라고 착각하기
+                    # 쉬우므로 눈에 띄게 알리고, 같은 폴더의 yolo11n.onnx 가 있으면 그걸 쓴다.
+                    # (예전처럼 yolo11n.pt 를 인터넷에서 받아 폴더에 저장하지는 않는다)
+                    print(f"[YOLO] ⚠️ 설정한 모델 파일이 없습니다: {model_name} (찾은 위치: {base_dir})")
+                    fallback = os.path.join(base_dir, "yolo11n.onnx")
+                    if not os.path.exists(fallback):
+                        raise FileNotFoundError(f"{model_name} 도 yolo11n.onnx 도 없음 -> python test.py {os.path.splitext(model_name)[0]} 로 먼저 변환하세요")
+                    print("[YOLO] ⚠️ 대신 yolo11n.onnx 로 실행합니다. (config.YOLO_MODEL 은 그대로)")
+                    model_target = fallback
 
                 _limit_onnxruntime_threads()
                 self.model = YOLO(model_target, task="detect")
-                print(f"[YOLO] YOLO11 Nano Model ({model_target}) loaded successfully.")
+                print(f"[YOLO] {os.path.basename(str(model_target))} loaded successfully.")
             except Exception as e:
                 print(f"[YOLO] Model loading failed: {e} -> Falling back to geometry-only mode.")
                 self.is_available = False

@@ -52,6 +52,7 @@ class OakYoloWorker:
         self._frame_seq = 0
         self._yolo_seq = 0
         self._threads = []
+        self._yolo_t_sum, self._yolo_t_n = 0.0, 0   # YOLO 추론 시간 통계 (DEBUG_PROFILE)
 
     def start(self):
         self._threads = [
@@ -114,6 +115,14 @@ class OakYoloWorker:
             t_start = time.time()
             try:
                 dets = self.yolo.detect(rgb)
+                # [추론 시간 측정] 모델을 바꿔 볼 때 한 번 도는 데 얼마나 걸리는지 10회마다 출력
+                if getattr(config, "DEBUG_PROFILE", False):
+                    self._yolo_t_sum += time.time() - t_start
+                    self._yolo_t_n += 1
+                    if self._yolo_t_n >= 10:
+                        _safe_print(f"[YOLO PROFILE] 추론 1회 평균 {self._yolo_t_sum / self._yolo_t_n * 1000:.0f}ms "
+                                    f"({config.YOLO_MODEL}, 스레드 {getattr(config, 'YOLO_ORT_THREADS', 0)}개, 최대 {getattr(config, 'YOLO_MAX_HZ', 0)}Hz)")
+                        self._yolo_t_sum, self._yolo_t_n = 0.0, 0
             except Exception as e:
                 _safe_print(f"[YoloThread] 추론 예외: {e}")
                 dets = None
