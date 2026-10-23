@@ -17,7 +17,7 @@ OAK_EDGE_MARGIN = 0.15  # 화면 가장자리 15% 는 신뢰도 낮음
 OAK_DEPTH_STD_THRESH = 80  # 표준편차(mm) 초과 시 노이즈 픽셀
 
 # ─── LiDAR 설정 ────────────────────────────────────────────────────
-LIDAR_PORT = "COM7"  # 시리얼 포트
+LIDAR_PORT = "COM6"  # 시리얼 포트
 LIDAR_BAUDRATE = 115200
 LIDAR_MIN_RANGE_M = 0.15  # 유효 거리 최솟값 (m)
 LIDAR_MAX_RANGE_M = 12.0  # 유효 거리 최댓값 (m)

@@ -1,15 +1,14 @@
-#include "MPU9250.h"
+#include <Adafruit_BNO055.h>
+#include <Adafruit_Sensor.h>
 #include <ArduinoBLE.h>
 #include <Wire.h>
 
-MPU9250 mpu;
-float roll = 0, pitch = 0, yaw = 0;
-float gyroZ_offset = 0;
-const float alpha = 0.96;
-const float deadzone = 0.25;
+// BNO055 (NDOF 모드): 지자기+자이로+가속도 융합으로 자북 기준 절대 방위(0~360°)를 출력
+Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28);
+bool bnoConnected = false;
+float yaw = 0;
 unsigned long lastImuTime = 0;
 const unsigned long IMU_INTERVAL = 50; // 50ms (20Hz)
-unsigned long last_ms = 0;
 
 // [센서 1] 핀 변경 (D9, D10)
 const int trigPin1 = 9;
@@ -258,48 +257,38 @@ void updateIMUAndSend() {
   unsigned long now = millis();
   if (now - lastImuTime >= IMU_INTERVAL) {
     lastImuTime = now;
-    if (mpu.update()) {
-      float dt = (now - last_ms) / 1000.0;
-      last_ms = now;
-
-      float ax = mpu.getAccX();
-      float ay = mpu.getAccY();
-      float az = mpu.getAccZ();
-      float acc_roll = atan2(ay, az) * RAD_TO_DEG;
-      float acc_pitch = atan2(-ax, sqrt(ay * ay + az * az)) * RAD_TO_DEG;
-      roll = alpha * (roll + mpu.getGyroX() * dt) + (1.0 - alpha) * acc_roll;
-      pitch = alpha * (pitch + mpu.getGyroY() * dt) + (1.0 - alpha) * acc_pitch;
-
-      static float lastValidGz = 0.0;
-      float gz = mpu.getGyroZ() - gyroZ_offset;
-      if (abs(gz) < deadzone)
-        gz = 0;
-
-      if (isnan(gz) || isinf(gz) || abs(gz) > 500.0) {
-        gz = lastValidGz;
-      } else {
-        lastValidGz = gz;
-      }
-
-      float next_yaw = yaw - gz * dt;
-      if (!isnan(next_yaw) && !isinf(next_yaw)) {
+    if (bnoConnected) {
+      // orientation.x = 헤딩(0~360°, 시계방향 증가) — 기존 yaw 규약과 동일
+      sensors_event_t event;
+      bno.getEvent(&event);
+      float next_yaw = event.orientation.x;
+      if (!isnan(next_yaw) && !isinf(next_yaw) && next_yaw >= 0.0 &&
+          next_yaw < 360.0) {
         yaw = next_yaw;
-        while (yaw < 0.0)
-          yaw += 360.0;
-        while (yaw >= 360.0)
-          yaw -= 360.0;
-      }
 
-      // 메가로 실시간 각도 전송 (115200bps이므로 오버헤드 미미)
-      Serial1.print("YAW:");
-      Serial1.println(yaw, 1);
+        // 메가로 실시간 각도 전송 (115200bps이므로 오버헤드 미미)
+        Serial1.print("YAW:");
+        Serial1.println(yaw, 1);
+      }
 
       // PC 디버깅용 출력 (USB 시리얼 모니터)
       static uint32_t lastDebugTime = 0;
       if (millis() - lastDebugTime >= 500) {
         lastDebugTime = millis();
+        uint8_t sys, gyro, accel, mag;
+        sys = gyro = accel = mag = 0;
+        bno.getCalibration(&sys, &gyro, &accel, &mag); // 0:미보정 ~ 3:완료
         Serial.print("[IMU] YAW: ");
-        Serial.println(yaw, 1);
+        Serial.print(yaw, 1);
+        Serial.print(" [Calib Sys:");
+        Serial.print(sys);
+        Serial.print(" G:");
+        Serial.print(gyro);
+        Serial.print(" A:");
+        Serial.print(accel);
+        Serial.print(" M:");
+        Serial.print(mag);
+        Serial.println("]");
       }
     }
   }
@@ -342,38 +331,21 @@ void setup() {
   }
   Serial.println("--------------------------");
 
-  // 0x68 주소로 먼저 시도하고, 실패하면 0x69 주소로 자동 시도
-  bool mpuConnected = mpu.setup(0x68);
-  if (!mpuConnected) {
-    Serial.println("주소 0x68 연결 실패. 주소 0x69로 재시도합니다...");
-    mpuConnected = mpu.setup(0x69);
+  // 0x28 주소로 먼저 시도하고, 실패하면 0x29 주소(ADR 핀 HIGH)로 재시도
+  bnoConnected = bno.begin();
+  if (!bnoConnected) {
+    Serial.println("주소 0x28 연결 실패. 주소 0x29로 재시도합니다...");
+    bno = Adafruit_BNO055(55, 0x29);
+    bnoConnected = bno.begin();
   }
 
-  if (!mpuConnected) {
-    Serial.println("MPU9250 최종 연결 실패! (I2C 연결 확인 필요)");
+  if (!bnoConnected) {
+    Serial.println("BNO055 최종 연결 실패! (SDA/SCL 배선과 주소 확인 필요)");
   } else {
-    Serial.println("MPU9250 연결 성공! 칼리브레이션 시작...");
-    mpu.calibrateAccelGyro();
-
-    float sum = 0;
-    int validSamples = 0;
-    unsigned long startCalib = millis();
-    while (validSamples < 500 && millis() - startCalib < 8000) {
-      if (mpu.update()) {
-        sum += mpu.getGyroZ();
-        validSamples++;
-      }
-      delay(10);
-    }
-    if (validSamples > 0) {
-      gyroZ_offset = sum / (float)validSamples;
-    } else {
-      gyroZ_offset = 0.0;
-    }
-    Serial.print("Gyro Z Offset: ");
-    Serial.println(gyroZ_offset, 4);
+    bno.setExtCrystal(true); // 외부 크리스탈 사용으로 정밀도 향상
+    Serial.println("BNO055 연결 성공! (NDOF 절대 방위 모드)");
+    Serial.println("Calib M:3 이 될 때까지 8자를 그리며 움직이면 방위가 정확해집니다.");
   }
-  last_ms = millis();
 
   if (!BLE.begin()) {
     Serial.println("BLE 초기화 실패! BLE 없이 주행 테스트를 계속 진행합니다.");
