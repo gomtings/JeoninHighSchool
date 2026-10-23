@@ -2,7 +2,7 @@
 yolo_detector.py
 PC 테스트 및 실시간 추론용 YOLO11 초경량 ONNX 객체 인식 모듈
 
-- yolo11n.onnx 초경량 ONNX 모델 로드 및 실시간 추론
+- yolo11m.onnx ONNX 모델 로드 및 실시간 추론
 - ultralytics 패키지 미설치 또는 파일 부재 시 에러 없이 기하 필터로 자동 폴백(Fallback) 처리 지원
 - 식당/홀 환경의 주 장애물(사람, 의자, 테이블) 선별 감지
 """
@@ -59,13 +59,13 @@ def _limit_onnxruntime_threads():
 class YoloDetector:
     """YOLO11 ONNX PC 추론 및 장애물 검출 모듈"""
 
-    def __init__(self, model_name: str = "yolo11n.onnx"):
+    def __init__(self, model_name: str = "yolo11m.onnx"):
         self.model = None
         self.is_available = ULTRALYTICS_AVAILABLE
         
         if self.is_available:
             try:
-                # 1. 스크립트 디렉토리 기준 yolo11n.onnx 경로 탐색
+                # 1. 스크립트 디렉토리 기준 yolo11m.onnx 경로 탐색
                 base_dir = os.path.dirname(os.path.abspath(__file__))
                 local_onnx = os.path.join(base_dir, model_name)
                 
@@ -74,11 +74,11 @@ class YoloDetector:
                 elif os.path.exists(model_name):
                     model_target = model_name
                 else:
-                    model_target = "yolo11n.pt"  # 로컬 ONNX 미발견 시 pt 다운로드 로드
+                    model_target = "yolo11m.pt"  # 로컬 ONNX 미발견 시 pt 다운로드 로드
 
                 _limit_onnxruntime_threads()
                 self.model = YOLO(model_target, task="detect")
-                print(f"[YOLO] YOLO11 Nano Model ({model_target}) loaded successfully.")
+                print(f"[YOLO] YOLO11 Medium Model ({model_target}) loaded successfully.")
             except Exception as e:
                 print(f"[YOLO] Model loading failed: {e} -> Falling back to geometry-only mode.")
                 self.is_available = False
