@@ -394,7 +394,8 @@ class OakProcessor:
             v = (np.arange(h, dtype=np.float32) - h / 2.0)[:, None]
             y_cam = v * depth_filtered / fx
             height = config.OAK_HEIGHT_FROM_FLOOR_M - y_cam * np.cos(pitch) - depth_filtered * np.sin(pitch)
-            binary_mask &= (height >= config.DEPTH_OBS_MIN_H_M) & (height <= config.DEPTH_OBS_MAX_H_M)
+            min_h = config.DEPTH_OBS_MIN_H_M + getattr(config, "DEPTH_OBS_MIN_H_SLOPE", 0.0) * depth_filtered
+            binary_mask &= (height >= min_h) & (height <= config.DEPTH_OBS_MAX_H_M)
 
         binary = binary_mask.astype(np.uint8) * 255  # 이진 이미지 생성
 

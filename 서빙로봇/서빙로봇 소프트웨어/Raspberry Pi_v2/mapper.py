@@ -437,6 +437,8 @@ class OccupancyMap:
         for obs in oak_frame.obstacles:  # 각 장애물에 대해
             if obs.is_wall:  # 벽이면 건너뜀
                 continue
+            if obs.distance_m > getattr(config, "DEPTH_MAP_MAX_M", 99.0):  # 먼 카메라 장애물은 맵에 반영하지 않음
+                continue
 
             # 장애물의 극좌표를 직교좌표로 변환 (로봇 헤딩만큼 회전시켜 월드 방향으로 정렬)
             rad   = math.radians(obs.angle_deg + self.robot_heading_deg)
@@ -503,10 +505,15 @@ class OccupancyMap:
         height = config.OAK_HEIGHT_FROM_FLOOR_M - y_cam * cos_p - z * sin_p  # 바닥 기준 높이
         fwd = z * cos_p - y_cam * sin_p                           # 로봇 전방 거리
 
+        # 스테레오 깊이 오차는 거리 제곱에 비례해서, 먼 바닥은 높이가 +수 cm 로 흔들려 "장애물"로 새어 들어온다.
+        # 그래서 맵에는 DEPTH_MAP_MAX_M 까지만 반영하고, 최소 높이도 거리에 비례해 올린다
+        # (먼 곳일수록 더 높은 물체만 인정. 라이다가 벽/다리를 정확히 보므로 카메라는 가까운 책상 윗면 담당).
+        z_max = min(config.OAK_DEPTH_MAX_MM / 1000.0, getattr(config, "DEPTH_MAP_MAX_M", 99.0))
+        min_h = config.DEPTH_OBS_MIN_H_M + getattr(config, "DEPTH_OBS_MIN_H_SLOPE", 0.0) * z
         valid = (
             (z > config.OAK_DEPTH_MIN_MM / 1000.0) &
-            (z < config.OAK_DEPTH_MAX_MM / 1000.0) &
-            (height >= config.DEPTH_OBS_MIN_H_M) &
+            (z < z_max) &
+            (height >= min_h) &
             (height <= config.DEPTH_OBS_MAX_H_M)
         )
         if not valid.any():

@@ -69,6 +69,10 @@ OAK_PITCH_DEG = -4.3
 # 저장 기준(hit 5회 이상 등)은 메인 루프가 2~5FPS 일 때를 기준으로 정해진 "관측 횟수"라서,
 # 프레임이 15FPS 로 다 반영되면 0.3초만 스친 사람/노이즈도 영구 벽으로 저장된다(2026-10-16 실측).
 MAP_CAMERA_MAX_HZ = 3.0
+# 맵에 반영하는 카메라(뎁스/OAK 장애물) 최대 거리. 스테레오 오차가 거리^2 로 커져 먼 바닥이 벽이 되는 것을 막는다.
+DEPTH_MAP_MAX_M = 3.5
+# 최소 장애물 높이를 거리에 비례해 올리는 기울기 (m/m). 최소 높이 = DEPTH_OBS_MIN_H_M + 이 값 * 거리
+DEPTH_OBS_MIN_H_SLOPE = 0.04
 OAK_OBSTACLE_HEIGHT_FILTER = True  # OAK 장애물 추출(oak_processor)에서도 바닥/천장 높이 범위 밖 픽셀을 제외
 DEPTH_OBS_MIN_H_M = 0.10  # 이 높이 미만 점은 바닥으로 간주해 제외 (m)
 DEPTH_OBS_MAX_H_M = 0.95  # 이 높이 초과 점은 천장/상부로 간주해 제외 (m)
