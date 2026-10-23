@@ -342,7 +342,7 @@ void setup() {
   if (!bnoConnected) {
     Serial.println("BNO055 최종 연결 실패! (SDA/SCL 배선과 주소 확인 필요)");
   } else {
-    bno.setExtCrystal(true); // 외부 크리스탈 사용으로 정밀도 향상
+    bno.setExtCrystalUse(true); // 외부 크리스탈 사용으로 정밀도 향상
     Serial.println("BNO055 연결 성공! (NDOF 절대 방위 모드)");
     Serial.println("Calib M:3 이 될 때까지 8자를 그리며 움직이면 방위가 정확해집니다.");
   }
