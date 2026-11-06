@@ -104,6 +104,9 @@ class OccupancyMap:
         # [벽/장애물 구분] 저장 시 벽으로 분류된 덩어리의 긴 변이 이 길이 미만이면 장애물로 본다
         self.WALL_MIN_LENGTH_M = 2.0
         self.WALL_FRAGMENT_MIN_CELLS = 8
+        # [카메라 전용 덩어리] 벽 셀 주변 윈도우(셀) 안에서 라이다 hit 몫이 이 값 미만이면 가구로 본다
+        self.CAMERA_ONLY_WINDOW_CELLS = 11
+        self.CAMERA_ONLY_MAX_LIDAR_RATIO = 0.15
 
         # [승격 자격] 분류기가 검증할 수 있는 방위에서 본 관측인가
         # 위 PERSON_HIT_CAP 은 block_promotion() 이 불려야 걸리고, 그건 분류기가
@@ -920,6 +923,19 @@ class OccupancyMap:
                 longest = max(st_w[i, cv2.CC_STAT_WIDTH], st_w[i, cv2.CC_STAT_HEIGHT])
                 if st_w[i, cv2.CC_STAT_AREA] >= self.WALL_FRAGMENT_MIN_CELLS and longest < max_len_cells:
                     self.static_grid[lab_w == i] = CELL_OBSTACLE
+
+            # [카메라 전용 덩어리 재분류] 책상 상판/의자는 라이다 높이(다리 사이)로는 거의
+            # 안 보이고 뎁스 카메라로만 잡힌다. 큰 가구 군집이 벽과 이어지면 위 판정에서
+            # 통째로 벽이 되고 길이 보정(WALL_MIN_LENGTH_M)도 넘기므로, 주변 11x11 셀의
+            # hit 중 라이다 몫이 낮은 '벽' 셀은 가구로 보고 장애물로 되돌린다.
+            # 외곽 미탐색 마진(is_outer)은 진짜 벽일 가능성이 높아 제외한다.
+            k = self.CAMERA_ONLY_WINDOW_CELLS
+            src_tot = sum(self.hit_src.values()).astype(np.float32)
+            lidar_sum = cv2.boxFilter(self.hit_src["lidar"].astype(np.float32), -1, (k, k), normalize=False)
+            total_sum = cv2.boxFilter(src_tot, -1, (k, k), normalize=False)
+            lidar_ratio = lidar_sum / np.maximum(total_sum, 1.0)
+            camera_only = (self.static_grid == CELL_WALL) & (lidar_ratio < self.CAMERA_ONLY_MAX_LIDAR_RATIO) & (~is_outer)
+            self.static_grid[camera_only] = CELL_OBSTACLE
         except Exception:
             self.static_grid[valid_hits] = CELL_WALL
 
