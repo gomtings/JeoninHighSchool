@@ -875,6 +875,37 @@ class OccupancyMap:
             (self.hit_count >= self.free_count * 0.25) |
             ((self.hit_count >= 5) & (self.hit_count >= self.free_count * 0.05))
         )
+        # [라이다 근거 게이트] 뎁스/OAK 만으로 쌓인 hit 는 방 한가운데를 통째로 벽으로 채워
+        # 지도를 뭉개므로, 벽 후보는 라이다가 직접 확인한 셀(hit>=3, free 대비 8% 이상)로 한정한다.
+        # 라이다 근거가 없는 카메라 전용 hit 는 작은 덩어리(긴 변 1.2m 이하, 6셀 이상 = 가구)만
+        # 남기고, 큰 덩어리(내부가 라이다로 안 보이는 구조물 속 등)는 미확인으로 둔다.
+        # 센서별 hit 가 없는 예전 맵(lidar 합 0)이면 게이트를 적용하지 않는다.
+        if self.hit_src["lidar"].any():
+            try:
+                import cv2
+                lidar_hits = (self.hit_src["lidar"] >= 3) & (self.hit_src["lidar"] >= self.free_count * 0.08)
+                lidar_ok = valid_hits & lidar_hits
+                # [벽 얇게] 자세 오차로 벽이 번진 두꺼운 띠를 줄인다: 주변 7x7 의 라이다 최대 hit 의
+                # 30% 이상인 셀(= 벽의 중심선)만 남기고, 끊김 방지로 그 이웃 1셀만 되살린다.
+                lh = self.hit_src["lidar"].astype(np.float32)
+                local_max = cv2.dilate(lh, np.ones((7, 7), np.uint8))
+                core = lidar_ok & (lh >= 0.3 * local_max)
+                lidar_ok = lidar_ok & (cv2.dilate(core.astype(np.uint8), np.ones((3, 3), np.uint8)) > 0)
+                n0, l0, s0, _ = cv2.connectedComponentsWithStats(lidar_ok.astype(np.uint8), connectivity=8)
+                for i in range(1, n0):
+                    if s0[i, cv2.CC_STAT_AREA] < 5:   # 고립된 라이다 잡음 점
+                        lidar_ok[l0 == i] = False
+                cam_only = valid_hits & ~lidar_hits
+                n1, l1, s1, _ = cv2.connectedComponentsWithStats(cam_only.astype(np.uint8), connectivity=8)
+                furniture = np.zeros_like(valid_hits)
+                max_cells = 1.2 / self.resolution
+                for i in range(1, n1):
+                    if (s1[i, cv2.CC_STAT_AREA] >= 6
+                            and max(s1[i, cv2.CC_STAT_WIDTH], s1[i, cv2.CC_STAT_HEIGHT]) <= max_cells):
+                        furniture[l1 == i] = True
+                valid_hits = lidar_ok | furniture
+            except Exception:
+                pass
         # 유효 빈 공간
         valid_free = (self.free_count >= 3) & (hit_ratio < 0.20) & (~valid_hits)
         self.static_grid[valid_free] = CELL_FREE
