@@ -1,0 +1,28 @@
+# .NET
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# Node
+node_modules/
+
+# 서버 설정/비밀값, 로컬 DB
+appsettings.Local.json
+*.db
+*.sqlite
+.env
+
+# 로그
+*.log
+
+# netcheck 테스트 결과
+netcheck_watch*.csv
+report*.json
+
+# 파이썬 실행 부산물
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/

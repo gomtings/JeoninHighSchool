@@ -1,0 +1,8 @@
+# Keep this file ASCII-only: pip on Korean Windows reads it as cp949 and fails on UTF-8 Korean text.
+# Usage:  python -m venv .venv  /  .venv\Scripts\activate  /  pip install -r requirements.txt
+paho-mqtt>=2.0
+fastapi>=0.110
+uvicorn>=0.29
+httpx2
+pytest>=8
+psutil>=5.9
